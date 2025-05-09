@@ -1,0 +1,264 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+}
+.sidebar {
+  background: rgb(247, 231, 231);
+  color: rgb(3, 3, 3);
+  height: 100vh;
+}
+
+.sidebar h2 {
+  margin: 0;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 24px;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.sidebar li:hover {
+  background: rgb(250, 203, 203);
+}
+
+.content {
+  flex: 1;
+  background-color: white;
+}
+
+header {
+  position: sticky;
+  margin-top: 50px;
+  top: 50px; 
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: var(--bg-color-p0); 
+  width: 100%;
+  box-shadow: rgba(145, 140, 140, 0.1) 0px 4px 6px -1px,
+    rgba(63, 62, 62, 0.06) 0px 2px 4px -1px;
+    height: 40px;
+    z-index: 999;
+
+}
+
+header h1 {
+  font-size: 20px;
+}
+
+button {
+  background: #168529;
+  color: white;
+  border: none;
+  border-radius: 32px;
+  cursor: pointer;
+  
+}
+
+/* button:hover {
+  background: var(--bg-color-p0);
+} */
+#modalContent {
+  background-color: "white";
+  width: "650px";
+  height: "496px";
+  border-radius: "8px";
+  object-fit: "contain";
+}
+
+@media only screen and (min-width: 30em) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+ 
+  .sidebar {
+    width: 100%;
+    height: 40vh;
+  }
+  /* button {
+    font-size: 10px;
+  } */
+  header span {
+    font-size: 18px;
+  }
+  .modalContent {
+    background-color: "white";
+    width: "400px !important";
+    height: "296px !important";
+    border-radius: "8px";
+    object-fit: "contain";
+  }
+  .inventoryDetails {
+    height: 74px;
+    margin: 80px 20px 20px 20px;
+    font-size: 14px;
+    border-radius: 17px;
+}
+
+}
+.store {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 40px;
+}
+.focused{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-color-p1);
+  padding: 14px 0 18px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+}
+.storelist {
+  width: 34px;
+  height: 17px;
+  background-color: var(--bg-color-p0);
+  color: white;
+  border-radius: 20px;
+  padding: 10px 24px 17px;
+  text-decoration: none !important;
+  font-size: 18px;
+  text-align: center;
+}
+.focusedList{
+  width: 80px;
+  height: 17px;
+  background-color: var(--bg-color-p0);
+  color: white;
+  border-radius: 18px;
+  padding: 10px 24px;
+  text-decoration: none !important;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+.focusedtext{
+  text-align: center;
+  padding: 4px 0 0px 0;
+  font-size: 17px;
+  font-weight: bold;
+}
+.storetext {
+  text-align: center;
+  padding: 4px 0 10px 0;
+  font-size: 17px;
+  font-weight: bold;
+}
+.storeDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.divpad{
+  padding-left: 20px;
+}
+.flexc{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.userI{
+  font-size: 24px;
+  margin: 4px;
+  color: white;
+  font-weight: bold;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+.adminHText{
+  color: white;
+  margin: 14px;
+}
+.adminbtnAtt{
+  background: #61af18;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 20px;
+  margin-right: 10px;
+  padding: 7px;
+}
+.userIcon{
+  font-size: 24px;
+  margin: 4px 4px;
+  color: rgb(75, 75, 75);
+  font-weight: bold ;
+}
+.dflex-dir{
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.valueTarContent{
+  display: flex;
+  font-weight: bold;
+  margin-top: -20px;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0 0 10px 17px;
+  gap: 20px;
+}
+.valueTarTxt{
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+.dashStoTar{
+  display: flex;
+  font-weight: bold;
+  margin-top: -20px;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0 0 10px 17px;
+  gap: 20px;
+}
+.dashStoTarTxt{
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+.barChartContainer{
+  padding-top: 10px;
+  height: 220px;
+  width: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 12px;  
+  background: white;
+}
+.barChartCotent{
+  font-size: 15px;
+  padding: 8px 12px 140px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  font-weight: bold;
+}
+.dashCollection{
+  margin-top: 10px;
+  margin-bottom: 84px;
+}

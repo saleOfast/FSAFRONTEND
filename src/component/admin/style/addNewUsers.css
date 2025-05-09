@@ -1,0 +1,27 @@
+.userText{
+    font-weight: 600;
+    font-size: 15px;
+    margin: 10px 0;
+}
+.usersPlace{
+    width: 100%;
+    margin-bottom: 14px;
+}
+.selectContent{
+    width: 106%;
+    margin-bottom: 14px;
+    border-radius: 4px;
+}
+.selectText{
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 7px;
+}
+.userBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 90px;
+}

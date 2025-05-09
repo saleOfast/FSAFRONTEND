@@ -1,0 +1,9 @@
+:root {
+    --bg-color-p0: #6164A6;
+    --bg-color-p0a: #b5b7e4;
+    --bg-color-p1: #f0f2f7;
+    --bg-color-p2: #fcfdfd;
+    --text-color: #ffffff;
+    --bg-attendance-modal: #3d4075;
+    --bg-color-list: linear-gradient(to bottom, #f0f2f7, transparent);
+  }

@@ -1,0 +1,126 @@
+.ant-modal.attendance .ant-modal-content, .ant-modal.confirm .ant-modal-content {
+  background: var(--bg-attendance-modal);
+}
+
+.ant-modal.attendance .ant-modal-content .ant-modal-close {
+  color: #ffffff;
+}
+
+.modalContain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 8px;
+}
+
+.modalContain button {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.modalContain .in {
+  color: white;
+  font-size: 28px;
+}
+
+.in:hover {
+  background: none;
+}
+
+.modalContain .out {
+  color: white;
+  font-size: 28px;
+}
+
+.modalContain .out:hover {
+  background-color: rgb(236, 134, 87);
+}
+
+.checktime {
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+  flex-direction: column;
+  /* gap: 0px; */
+  margin: 20px 10px 0 20px;
+  /* color: white; */
+}
+.checktime {
+  display: flex;
+  flex-direction: column;
+}
+
+.checktime > div {
+  margin-bottom: 10px;
+}
+
+
+.ant-modal.confirm .title {
+  color: #ffffff;
+  font-size: 20px;
+  text-align: center;
+}
+
+.ant-modal.confirm .btn {
+  margin-top: 35px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.ant-modal.confirm .btn .yes, .ant-modal.confirm .btn .no {
+  padding: 0 20px;
+  font-weight: 500;
+}
+
+.ant-modal.confirm .btn .no {
+  color: #ffffff;
+  background: transparent;
+}
+.markAttContainer{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  padding: 0 0 20px 0;
+  font-size: 18px;
+  color: white;
+}
+.checkIcon{
+  color: #2DB83D;
+}
+.z-idx{
+  z-index: 999;
+}
+.adminMenubtnC{
+  padding-left: 143px;
+  position: absolute;
+  background: none;
+}
+.adminmenuContent{
+  /* max-height: 541px; */
+  overflow: scroll;
+  /* margin-bottom: 805px; */
+}
+.adminSideLink{
+  margin-top: 10px;
+}
+.adminMenuTxt{
+  font-size: 14px;
+  padding-right: 10px;
+}
+
+@media (min-width: 476px) {
+  .adminmenuContent{
+    height: 100vh;
+    max-height: none;
+    overflow: hidden;
+  }
+  .adminLogout{
+    padding-bottom: 60px;
+  }
+}

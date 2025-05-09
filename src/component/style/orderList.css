@@ -1,0 +1,245 @@
+.btnC {
+  background: rgb(255, 255, 255);
+  padding: 4px 8px;
+  color: black;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  border-radius: 7px;
+  margin-right: 10px;
+}
+
+.btnS {
+  background: rgb(76, 76, 201);
+  padding: 4px 12px;
+  color: white;
+  border-radius: 7px;
+}
+
+.take-order-list-main {
+  background: var(--bg-color-p2);
+  height: 100vh;
+}
+
+.take-order-list-main .orderSearch {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 20px;
+  font-size: 12px;
+  position: relative;
+}
+
+.take-order-list-main .orderSearch .anticon-search{  
+  position: absolute;
+  left: 32px;
+  top: 16px;
+  font-size: 20px;
+
+}
+
+.take-order-list-main .searchContainer {
+  width: 100%;
+  font-size: 12px;
+  margin-top: 0px;
+}
+.take-order-list {
+  overflow-y: auto;
+  padding-bottom: 300px;
+}
+
+.take-order-list .order-container {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  background: var(--bg-color-p1);
+  /* margin: 20px; */
+  border-radius: 14px;
+  padding: 10px 20px;
+  font-size: 14px;
+  width: 300px;
+}
+
+.take-order-list .order-container .order-headline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.take-order-list .order-container .order-headline .order-title {
+  font-size: 13px;
+}
+
+.take-order-list .order-mrp {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.take-order-list .order-input-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 8px;
+  gap: 15px;
+}
+
+.take-order-list .order-input-content .input-content-item {
+  text-align: center;
+}
+
+.take-order-list .order-input-content .input-content-item+.order-item-price-cont {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.take-order-list .order-input-content .input-content-item .order-item-price {
+  text-align: start;
+  margin-top: 7px;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--bg-color-p0);
+}
+
+.take-order-list .order-container .order-item-discount{
+  margin-top: 6px;
+}
+
+.take-order-list .quantity-selector {
+  display: flex;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.take-order-list .quantity-btn {
+  background-color: var(--bg-color-p0);
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.take-order-list .quantity-input {
+  width: 25%;
+  text-align: center;
+  font-size: 10px;
+  border: none;
+  border-radius: 0;
+ 
+}
+
+
+
+.take-order-list .order-focused-item{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 0px;
+}
+
+.take-orders-summary {
+  background-color: white;
+  position: sticky;
+  bottom: 58px;
+  right: 0;
+  left: 0;
+  padding-bottom: 10px;
+  padding: 10px 20px;
+  z-index: 1;
+}
+.saveUser {
+  padding: 10px 0px 30px 10px;
+  z-index: 1;
+}
+.orders-btn{
+  display: flex;
+  justify-content: flex-end;
+  align-items: start;
+  gap: 20px;
+}
+.take-orders-summary .visibility-discount-cont{
+  text-align: end;
+  font-size: 18px;
+}
+
+.take-orders-summary .visibility-discount-cont .ant-checkbox+span{  
+  width: 100%;
+}
+
+.take-orders-summary .visibility-discount-cont .ant-checkbox-wrapper{  
+  flex-direction: row-reverse;
+}
+
+.take-orders-summary .main-item {
+  display: flex;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.take-orders-summary .orders-btn {
+  padding-top: 8px;
+  display: flex;
+  justify-content: end;
+  align-items: center;  
+  gap: 20px;
+}
+
+.searchProduct {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchStoreType {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.schemeActive {
+  color: green;
+  font-weight: bold;
+
+}
+
+.schemeInactive {
+  color: red;
+  font-weight: bold;
+}
+
+.pdfLink {
+  text-decoration: underline;
+  color: red;
+}
+
+.schemeTh {
+  background-color: var(--bg-color-p1);
+  color: black;
+  font-size: 12px;
+}
+
+.schemeBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 170px;
+}
+
+.selectContainer {
+  width: 20px;
+}
+
+.optionList {
+  min-height: 20px;
+  background: red;
+}
+.discountColor{
+  color: green
+}

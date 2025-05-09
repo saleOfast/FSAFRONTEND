@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  font-family: roboto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+option {
+  width: 30px;
+  height: auto;
+  padding: '10px';
+  border-radius: '5px';
+  border: '1px solid #ccc';
+}

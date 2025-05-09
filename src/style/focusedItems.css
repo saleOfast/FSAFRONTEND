@@ -1,0 +1,26 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 6px;
+}
+
+th {
+  background-color: var(--bg-color-p1);
+  color: black;
+  font-size: 14px;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+.storeData td {
+  font-size: 13px;
+}

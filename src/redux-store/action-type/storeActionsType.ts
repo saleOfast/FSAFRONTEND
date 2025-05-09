@@ -1,0 +1,12 @@
+enum storeActionsType {
+    SET_STORE_CATEGORY = "SET_STORE_CATEGORY",
+    SET_STORE_BEAT = "SET_STORE_BEAT",
+    GET_STORE = "GET_STORE",
+    SET_STORE_FILTERS = "SET_STORE_FILTERS",
+    IS_STORE_LOADING = "IS_STORE_LOADING",
+    LOAD_MORE_STORE = "LOAD_MORE_STORE"
+}
+
+export {
+    storeActionsType
+}

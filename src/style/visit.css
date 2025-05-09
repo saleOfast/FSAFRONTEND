@@ -1,0 +1,143 @@
+.heading {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  position: sticky;
+  z-index: 999;
+  margin-top: 50px;
+  top: 50px;
+}
+.visitHeader {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 14px;
+}
+.visitSelect {
+  padding-right: 6px;
+  color: var(--bg-color-p0);
+  font-size: 12px;
+  font-weight: bold;
+}
+.visitDropdown {
+  width: 40px;
+  height: 10px;
+  background: #ddd;
+  font-size: 12px;
+  padding: 3px 1px;
+}
+.redbar {
+  width: 90%;
+  height: 18px;
+  background-color: var(--bg-color-p0);
+  margin: 22px 22px 10px;
+  border-radius: 20px;
+}
+.greenbar {
+  width: 30%;
+  height: 18px;
+  background-color: green;
+  margin: 22px 0px 10px;
+  border-radius: 20px;
+}
+.visit-list {
+  width: 320px;
+  background: var(--bg-color-list);
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  font-size: 14px;
+  padding: 14px 10px 14px;
+  border-radius: 8px;
+ 
+}
+.flexSpace {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.progData {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.dropbtn {
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 70px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  text-decoration: none;
+}
+
+.dropdown-content li {
+  padding: 10px;
+  text-align: left;
+}
+
+.dropdown-content li:hover {
+  background-color: #3498db;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  text-decoration: none;
+  list-style: none;
+}
+.adminVistSel{
+  width: 80px;
+  color: black;
+  background: #ddd;
+}
+.adminBeatSel{
+  width: 100px;
+  color: black;
+  background: #ddd;
+}
+.p-8{
+  padding: 8px;
+}
+.createVistBeat{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.createVBTxt{
+  background: var(--bg-color-p0);
+  padding: 4px 12px 6px;
+  border-radius: 18px;
+  color: white;
+  font-size: 12px;
+}
+.admCNameTxt{
+  margin-bottom: 7px;
+  font-weight: bold;
+  font-size: 18px;
+}
+.admVisitSName{
+  margin-bottom: 3px;
+  font-weight: bold;
+  font-size: 15px;
+}
+.adminVisDate{
+  font-weight: bold;
+  color: black;
+  font-size: 14px;
+}
+.adimnVisStatus{
+  font-weight: bold;
+  color: black;
+  font-size: 14px;
+}

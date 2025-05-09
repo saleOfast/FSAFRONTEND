@@ -1,0 +1,22 @@
+.add-scheme {
+    padding: 20px;
+}
+
+.add-scheme .btnS {
+    background: rgb(76, 76, 201);
+    padding: 0 15px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.add-scheme .btnC {
+    background: rgb(255, 255, 255);
+    padding: 0px 12px;
+    margin-right: 0;
+}
+
+.add-scheme .schemeBtn {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 170px;
+}

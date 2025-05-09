@@ -1,0 +1,436 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body.main_body {
+    position: relative;
+    padding-bottom: 70px;
+}
+.upper_header {
+    background: var(--bg-color-p1);
+    padding: 26px 0;
+    text-align: center;
+}
+
+.upper_header a {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.upper_header a img {
+    display: inline-block;
+    width: 100%;
+    max-width: 92px;
+}
+
+.lower_header {
+    padding: 10px 0;
+    text-align: center;
+    position: relative;
+}
+
+.lower_header h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+}
+
+.lower_header .icon_black {
+    position: absolute;
+    top: 19%;
+    left: 15px;
+    font-size: 46px;
+}
+
+.main_cls {
+    background: var(--bg-color-p1)
+}
+
+.order_summary_card {
+    background: #ffffff;
+    padding: 20px 20px;
+    margin: 0 0 10px
+}
+
+.order_summary_card h3 {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.order_summary_card .left_card_inside {
+    width: calc(100% - 130px);
+    display: inline-block;
+}
+
+.order_summary_card .left_card_inside h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+    color: #000000;
+    font-weight: bold;
+}
+
+.order_summary_card .left_card_inside span {
+    font-size: 14px;
+    color: #585858;
+    display: block;
+    margin: 0 0 5px;
+}
+
+.order_summary_card .left_card_inside .download_invoice {
+    display: flex;
+    color: #2DB83D;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+.order_summary_card .left_card_inside .download_invoice .anticon-download {
+    color: #2DB83D;
+    font-size: 16px;
+    margin: 0px;
+}
+
+.order_summary_card .left_card_inside span.green_class {
+    color: #2DB83D;
+    font-weight: 600;
+}
+
+.order_summary_card .left_card_inside span .download_icon {
+    font-size: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    color: #2DB83D;
+}
+
+.order_summary_card .right_card_inside {
+    width: 125px;
+    display: inline-block;
+}
+
+.order_summary_card .right_card_inside a {
+    text-decoration: underline;
+    color: var(--bg-color-p0);
+    font-size: 14px;
+}
+
+.order_summary_card .right_card_inside .linkable_class {
+    font-size: 14px;
+    color: var(--bg-color-p0);
+    display: block;
+}
+
+.order_summary_card .right_card_inside ul,
+.order_summary_card .right_card_inside ul li {
+    margin: 0;
+    padding: 0;
+    float: right
+}
+
+.order_summary_card .right_card_inside ul li {
+    margin: 0;
+    display: block;
+}
+
+.order_summary_card h4 {
+    margin: 12px 0 12px;
+    color: #000000;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.items_details {
+    width: 100%;
+    border-collapse: collapse;
+    border: 0;
+}
+
+.items_details tr,
+.items_details td {
+    border-collapse: collapse;
+    border: none;
+}
+
+.items_details tr td:nth-child(2) {
+    text-align: right;
+}
+
+.items_details p {
+    color: #000000;
+    font-size: 14px;
+    margin: 0 0 5px;
+}
+
+.items_details ul {
+    margin: 0 0 0px;
+    padding: 0;
+}
+
+.items_details ul li {
+    display: inline-block;
+    color: #585858;
+    font-size: 14px;
+}
+
+.bill_details {
+    background: #ffffff;
+    padding: 20px;
+    margin: 0 0 10px;
+}
+
+.bill_details h4 {
+    margin: 15px 0 20px;
+    color: #000000;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.bill_details_table,
+.order_details_table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 0;
+}
+
+.bill_details_table tr,
+.bill_details_table td,
+.order_details_table tr,
+.order_details_table td {
+    border-collapse: collapse;
+    border: none;
+}
+
+.bill_details .bill_details_table tr td:nth-child(2) {
+    text-align: right;
+}
+
+.bill_details .bill_details_table tr td p.black_color {
+    color: #000000;
+}
+
+.bill_details .bill_details_table tr td p.green_color {
+    color: #2DB83D;
+}
+
+.bill_details .bill_details_table tr td p {
+    font-size: 14px;
+    margin: 0 0 5px;
+}
+
+.order_details {
+    background: #ffffff;
+    padding: 20px 20px 56px 20px;
+    margin: 0 0 15px;
+}
+
+.order_details h4 {
+    margin: 15px 0 20px;
+    color: #000000;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.order_details_table tr:last-child td span {
+    margin: 0;
+}
+
+.order_details_table tr td p {
+    color: #585858;
+    margin: 0 0 5px;
+    font-size: 14px;
+}
+
+.order_details_table tr td span {
+    color: #000000;
+    font-size: 14px;
+    display: block;
+    margin: 0 0 0px;
+}
+
+
+
+.footerRespons ul,
+
+.footerRespons ul li {
+    padding: 0;
+    display: block;
+}
+.footerRespons ul li {
+    display: inline-block;
+    width: 20%;
+    text-align: center;
+   
+
+}
+footer ul li a .home_icon {
+    color: #ffffff;
+    font-size: 38px;
+}
+
+footer ul li.active-home a .home_icon {
+    color: var(--bg-color-p0);
+}
+
+footer ul li a {
+    display: inline-block;
+    color: #ffffff;
+    text-decoration: none;
+    background: rgb(7, 13, 121);
+}
+
+footer ul li.active-home a {
+    color: var(--bg-color-p0);
+    background: #ffffff;
+    padding: 7px 6.6px
+}
+
+footer ul li a span {
+    color: #ffffff;
+    display: block;
+}
+
+footer ul li.active-home a span {
+    color: var(--bg-color-p0);
+}
+
+footer ul li.active-visit a {
+    color: var(--bg-color-p0);
+    background: #ffffff;
+    padding: 7px 13px
+}
+
+footer ul li.active-visit a span {
+    color: var(--bg-color-p0);
+}
+
+footer ul li.active-order a {
+    color: var(--bg-color-p0);
+    background: #ffffff;
+    padding: 7px 7.5px
+}
+
+footer ul li.active-order a span {
+    color: var(--bg-color-p0);
+}
+
+footer ul li.active-store a {
+    color: var(--bg-color-p0);
+    background: #ffffff;
+    padding: 7px 8.8px
+}
+
+footer ul li.active-store a span {
+    color: var(--bg-color-p0);
+}
+
+.humb {
+    padding: 7px 8px;
+    background: inherit !important;
+}
+
+.hamburger .line {
+    width: 28px;
+    height: 3px;
+    background-color: #ecf0f1;
+    display: block;
+    margin: 4px auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.hamburger:hover {
+    cursor: pointer;
+}
+
+#hamburger-1.is-active .line:nth-child(2) {
+    opacity: 0;
+}
+
+#hamburger-1.is-active .line:nth-child(1) {
+    -webkit-transform: translateY(11px) rotate(45deg);
+    -ms-transform: translateY(11px) rotate(45deg);
+    -o-transform: translateY(11px) rotate(45deg);
+    transform: translateY(11px) rotate(45deg);
+}
+
+#hamburger-1.is-active .line:nth-child(3) {
+    -webkit-transform: translateY(-11px) rotate(-45deg);
+    -ms-transform: translateY(-11px) rotate(-45deg);
+    -o-transform: translateY(-11px) rotate(-45deg);
+    transform: translateY(-11px) rotate(-45deg);
+}
+
+.side_menu {
+    position: absolute;
+    background: var(--bg-color-p0);
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    right: 0;
+    z-index: 9;
+    transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transition: 0.3s ease-in-out;
+    -webkit-transition: 0.3s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+    z-index: -1;
+    display: block;
+}
+
+.side_menu.menu_active {
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transition: 0.3s ease-in-out;
+    -webkit-transition: 0.3s ease-in-out;
+    opacity: 1;
+    visibility: visible;
+    z-index: 9;
+    width: 300px;
+    padding: 20px 0;
+    display: block;
+}
+
+.side_menu ul {
+    margin: 0;
+    padding: 0;
+}
+
+.side_menu ul li {
+    display: block;
+    margin: 0 0 20px;
+    padding: 10px 30px;
+}
+
+.side_menu.menu_active ul li {
+    display: block;
+}
+
+.side_menu ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+}
+
+.side_menu ul li a .home_icon {
+    font-size: 38px;
+    color: #ffffff;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.side_menu ul li a span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.side_menu ul li.active {
+    background: #ffffff;
+}
+
+.side_menu ul li.active a,
+.side_menu ul li.active .home_icon {
+    color: var(--bg-color-p0);
+}

@@ -1,0 +1,334 @@
+.store-v1 {
+  padding-bottom: 40px;
+}
+
+.store-v1 .heading {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+}
+
+.storeHeader {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+  padding-top: 10px;
+  padding-left: 38px;
+}
+
+.storeSelect {
+  padding-right: 36px;
+  font-weight: bold;
+}
+
+.storeDropdown {
+  width: 40px;
+  height: 10px;
+  background: #ddd;
+  font-size: 12px;
+  padding: 3px 1px;
+}
+
+.redbar {
+  width: 90%;
+  height: 18px;
+  background-color: var(--bg-color-p0);
+  margin: 22px 22px 10px;
+  border-radius: 20px;
+}
+
+.greenbar {
+  width: 30%;
+  height: 18px;
+  background-color: green;
+  margin: 22px 0px 10px;
+  border-radius: 20px;
+}
+
+.store-list {
+  background: var(--bg-color-list);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  padding-right: 20px;
+  font-size: 14px;
+  padding: 14px 12px;
+  border-radius: 17px;
+  width: 318px;
+  /* flex-grow: 1; */
+}
+
+.flexSpace {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progData {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.dropbtn {
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 70px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  text-decoration: none;
+}
+
+.dropdown-content li {
+  padding: 10px;
+  text-align: left;
+}
+
+.dropdown-content li:hover {
+  background-color: #3498db;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  text-decoration: none;
+  list-style: none;
+}
+
+
+
+.border {
+  border-left: 1px solid #ddd;
+  padding-left: 22px;
+}
+
+.search {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 10px 0px;
+}
+
+.searchbox {
+  width: 270px;
+  height: 30px;
+  background: white;
+  border-radius: 20px;
+}
+
+.filterbox {
+  background: #d9d9d9;
+  padding: 10px 12px;
+  border-radius: 7px;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 12px;
+  font-size: 12px;
+}
+
+.filterbox .drpdown {
+  background: black;
+  padding: 0px 12px;
+  color: white;
+  border-radius: 12px;
+}
+
+.shoptitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.activeStore {
+  background: white;
+  color: green;
+  padding: 2px 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  flex-direction: row;
+  border: 1px solid green;
+}
+.inActiveStore{
+  background: white;
+  color: red;
+  padding: 1px 9px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  flex-direction: row;
+  border: 1px solid red;
+}
+.activeStore .blinker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: green;
+  color: green;
+}
+.inActiveStore .blinker-inActiveStore{
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: red;
+  color: red;
+}
+.addIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--bg-color-p0);
+  bottom: 100px;
+  right: 20px;
+  z-index: 999;
+}
+
+.filterContent {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.filtMenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.filter-sidebar {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #FEF4F4;
+  justify-content: center;
+  align-items: center;
+  padding-top: 16px;
+}
+
+.sidebar a {
+  padding: 10px 16px;
+  text-decoration: none;
+  font-size: 14px;
+  color: black;
+  display: block;
+  text-align: center;
+  background: #FEF4F4;
+
+}
+
+.sidebar a:hover {
+  background-color: rgb(247, 231, 231);
+  ;
+}
+
+.sidebar .active {
+  background-color: rgb(247, 231, 231);
+  ;
+}
+
+.content {
+  padding: 16px;
+  margin-bottom: 36px;
+}
+
+
+.actionTab {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: white;
+  height: 80px;
+}
+
+.store-v1 .search {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 20px;
+  padding: unset;
+  font-size: 12px;
+}
+.distrSelect{
+  width: 130px;
+  padding-left: 18px;
+}
+.distrLink{
+  text-decoration: none;
+  color: black;
+}
+.distrName{
+  font-weight: bold;
+}
+.distrAdd{
+  font-size: 13px;
+  padding-top: 8px;
+}
+.shopTxtSpace{
+  margin-bottom: 10px;
+  font-weight: normal;
+}
+.fw-bold{
+  font-weight: bold;
+}
+.viewAllLink{
+  color: var(--bg-color-p0);
+  text-decoration: underline;
+  font-weight: 600;
+}
+.stoFilCheck{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 13px;
+  padding-right: 40px;
+}
+.filterbg{
+ background: var(--bg-color-p1);
+}
+.actionFilTab{
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   padding-top: 14x;
+   background: white;
+}
+.storeBgC{
+  background: var(--bg-color-p2);
+}
+.storeConlist{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.storeIdTxt{
+  font-size: 14px;
+  margin-top: 8px;
+}
+.storeAddTxt{
+  font-size: 12px;
+  margin-top: 6px;
+  font-family: roboto;
+}

@@ -1,0 +1,120 @@
+.inventory-cont {
+  background: var(--bg-color-p1);
+}
+
+.selection-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-color-p2);
+  color: #fff;
+  padding: 14px;
+  gap: 50px;
+}
+
+.inventory-cont .brand,
+.category {
+  flex: 1;
+  text-align: center;
+}
+
+select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+}
+
+.inventory-cont .search {
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 10px 0px;
+  font-size: 12px;
+}
+
+.inventory-cont .search .anticon-search {
+  left: 40px;
+  top: 25px;
+  font-size: 16px;
+}
+
+.searchContainer {
+  width: 90%;
+  font-size: 12px;
+}
+
+.edit {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 30px;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.inventoryContent {
+  display: flex;
+  justify-content: space-evenly;
+  background: #fef4f4;
+  margin-top: 20px;
+  border-radius: 14px;
+  padding: 20px 0px;
+  font-size: 14px;
+  gap: 50px;
+}
+
+.title {
+  display: flex;
+  justify-content: space-around;
+}
+
+.cases {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.casesValue {
+  text-align: center;
+}
+
+.caseInput {
+  width: 30px;
+  height: 10px;
+  margin-top: 15px;
+}
+
+.mrpPrice {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  font-size: 12px;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+.category {
+  font-size: 12px;
+}
+
+#categorySelect {
+  font-size: 12px;
+  width: 115px;
+}
+
+#brandSelect {
+  font-size: 12px;
+  width: 115px;
+}
+
+.inventory-cont .inventory-btn-cont {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 10px 20px 20px;
+}
