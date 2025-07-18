@@ -3,6 +3,7 @@
 
 
 // const BASE_URL = 'http://localhost:8449/api/v1';
+
 const BASE_URL =  'https://mrapp.saleofast.com/api/v1';
 const RAZORPAY_KEY_ID = 'rzp_test_3IH6WrX7jqS91g';
 const RAZORPAY_KEY_SECRET = 'L2cU3hOSi3OBwaoNggCkpbrG';
