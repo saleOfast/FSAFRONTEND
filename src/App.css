@@ -32,7 +32,7 @@
 }
 
 .adminchartbg {
-    width: 100%;
+    /* width: 100%; */
     font-size: 15px;
     height: auto;
     background: white;
@@ -296,7 +296,8 @@
     width: 100%;
 }
 .mrTree{
-    margin-left: 0;
+    margin-right: 65px;
+    margin-bottom: 24px;
 }
 .mrBtmMob{
     margin-bottom: 70px;
@@ -392,7 +393,7 @@
         margin: 10px;
     }
     .mrTree{
-        margin-left: 70px;
+        margin-left: 0px;
     }
     .treeWidth{
         width: 30%;
@@ -403,7 +404,14 @@
     .treeSelect{
        display: flex;
        justify-content: flex-start;
-       gap: 10px;
+       /* gap: 20px; */
+       font-size: 12px !important;
+       text-align: left;
+        min-width: 700px;  
+        justify-content: flex-start !important;
+        text-align: left;
+        width: 200px;
+       
     }
     
     .selectTargetFil{
@@ -451,16 +459,28 @@
         margin-right: 40px;
     }
     .formWidth{
-        min-width: 700px;  
+        /* max-width: 800px;   */
+        justify-content: flex-start !important;
+        text-align: left;
+        width: 800px;
+        font-size: 12px;
+        display:block;
     }
     .deskMr-16{
         margin: 16px;
-    }
+        font-size: 12px;
+        
+        
+        }
     .formContents{
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: "16px 10px"
+        padding: "16px 10px";
+        text-align: left !important;
+        padding: 0 !important;
+        margin-bottom: 4px !important; 
+        
     }
     .gaugechart {
         width: 400px;
@@ -698,9 +718,9 @@
     align-items: center;
 }
 .dflex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
 }
 
 .delbtnYes {
@@ -1080,6 +1100,7 @@
   }
   .dflex{
     display: flex;
+    
   }
   .course-det{
     display: flex;
@@ -1103,7 +1124,7 @@
 }
   
   .typeCheckbox{
-    margin-top: -30px;
+    margin-top: 0px;
   }
   .custom-checkbox .ant-checkbox-inner {
     order: 2; /* Reversing the checkbox position */
@@ -1146,6 +1167,153 @@
 
 .sidebarColor{
     background: var(--bg-color-p0);
+    
+}
+
+
+.add-store-form-container * {
+  font-size: 12px !important;
+  text-align: left;
+}
+
+.add-store-form-container .ant-form-item {
+  display: block !important;
+  margin-bottom: 16px !important;
+}
+
+.add-store-form-container .ant-form-item {
+  margin-bottom: 16px !important; 
+}
+
+.add-store-form-container .ant-form-item-label {
+  text-align: left !important;
+  padding: 0 !important;
+  margin-bottom: 4px !important; 
+}
+
+/* Input Fields */
+.add-store-form-container .ant-input,
+.add-store-form-container .ant-select-selector {
+  height: 28px !important;
+  padding: 2px 11px !important;
+  width: 370px !important;
+  max-width: 230px !important;
+  min-width: 100%;
+}
+
+/* Dropdown Fixes */
+.add-store-form-container .ant-select {
+  width: 370px !important;
+  max-width: 230px !important;
+}
+
+.add-store-form-container .ant-select-selection-item {
+  line-height: 24px !important;
+}
+
+.add-store-form-container .ant-select-dropdown {
+  min-width: 250px !important;
+  position: absolute !important;
+}
+
+/* Button Styles */
+.add-store-form-container .ant-btn {
+  height: 28px !important;
+  padding: 0 12px !important;
+  font-size: 12px !important;
+}
+
+/* Selected value and search input font size */
+.add-store-form-container .ant-select-selector {
+  font-size: 12px !important;
+  height: 28px !important;
+  padding: 2px 8px !important;
+}
+
+/* Dropdown options font size */
+.add-store-form-container .ant-select-dropdown {
+  font-size: 12px !important;
+}
+
+/* Option height fix for better alignment */
+.add-store-form-container .ant-select-item-option {
+  min-height: 28px !important;
+  line-height: 26px !important;
+  padding: 4px 12px !important;
+}
+@media (max-width: 768px) {
+  .add-store-form-container .ant-input,
+  .add-store-form-container .ant-select-selector,
+  .add-store-form-container .ant-select {
+    width: 100% !important;        /* Full width on mobile */
+    max-width: none !important;    /* Remove restriction */
+  }
+   .customer-heading {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    font-size: 14px !important;
+    width: 100% !important;
+  }
+}
+
+
+.ant-typography{
+    font-size: 12px;
+    
+}
+
+@media (min-width: 768px) {
+  .add-store-form-container .ant-select,
+  .add-store-form-container .ant-select-selector {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .add-store-form-container .ant-input {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .add-store-form-container .form-field-wrapper {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .add-store-form-container .ant-select,
+  .add-store-form-container .ant-select-selector,
+  .add-store-form-container .ant-input {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+   .add-store-form-container .ant-row {
+    row-gap: 0px !important;
+    gap: 0px !important;         /* Also resets horizontal gap */
+    margin-bottom: 0 !important; /* Optional: extra cleanup */
+  }
+
+  /* Optional: Remove padding inside each column */
+  .add-store-form-container .ant-col {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Reduce form item spacing (Ant Design default is 24px) */
+  .add-store-form-container .ant-form-item {
+    margin-bottom: 12px !important;
+  }
+ .product-button-container{
+    margin-left: 110px;
+ }
+}
+
+.ant-input-affix-wrapper{
+    padding: 0%;
+}
+
+.custom-select .ant-form-item-label {
+  padding-right: 12px; 
 }
 
 @media (max-width: 476px) {

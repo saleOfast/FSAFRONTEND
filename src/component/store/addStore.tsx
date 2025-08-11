@@ -30,7 +30,7 @@ import { capitalizeSubstring } from "utils/capitalize";
 import { DiscountTypeEnum } from "enum/product";
 import { Country, State, City } from "country-state-city";
 import { getPaymentModeService } from "services/paymentService";
-
+import "../../App.css";
 let country_state_district = require("@coffeebeanslabs/country_state_district");
 // const IndianCitiesDatabase = require('indian-cities-database');
 // let { getCitiesOfDistrict } = require('indian-cities-database');
@@ -506,64 +506,88 @@ const AddStore = () => {
         <h1 className="page-title pr-18 ">
           {storeId
             ? "Update Doctor/Chemist/stockist"
-            : "Add Doctor/Chemist/stockist"}
+            : "Add Customer"}
         </h1>
       </header>
-      <div className="dflex-center deskMr-16">
+      <div className="dflex-center">
         <Form
           onFinish={handleSubmit(onSubmit)}
           autoComplete="off"
-          className="formWidth add-store-form-container"
+          className=" add-store-form-container ant-form-item-label 
+           ant-form-item ant-form-item-control ant-select-selector-item  ant-select-input 
+           ant-select-selection-placeholder ant-select-selector"
+          // layout="horizontal"
+          // labelCol={{ span: 6 }}
           layout="horizontal"
-          labelCol={{ span: 6 }}
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
           // wrapperCol={{ span: 14 }}
           style={{ maxWidth: "100%" }}
-          // disabled={componentDisabled}
+        // disabled={componentDisabled}
         >
-          <HookFormSelectField
-            control={control}
-            type="text"
-            name="storeType"
-            placeholder="Select Store Type(Picklist)"
-            label={"Store Type"}
-            showSearch
-            // value={}
-            callback={(v: any) => setstoreTypeData(v)}
-            optionData={storeCategoryOptionData}
-            filterOption={(inputValue: any, option: any) => {
-              return option.label
-                .toLowerCase()
-                .includes(inputValue.toLowerCase());
-            }}
-            required
-          />
+          <Row gutter={24}>
+            <Col span={24}>
+              <FormInputTitle className="customer-heading">Customer Onboarding Information</FormInputTitle>
 
-          {/* <IF condition={chemistData?.value !== 31} > */}
-          {/* {storeTypeData==32 && */}
-          <HookFormInputField
-            control={control}
-            type="text"
-            name="storeName"
-            placeholder="Enter Store Name"
-            label={"Store Name"}
-            required
-          />
-          {/* } */}
+              {/* Add all other "Bill to" fields using names like bill_addressLine2, bill_state, etc. */}
+            </Col>
+          </Row>
+          <Row gutter={[24, 16]} >
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormSelectField
+                control={control}
+                type="text"
+                name="storeType"
+                placeholder="Select Store Type(Picklist)"
+                label={"Customer Type"}
+                showSearch
+                callback={(v: any) => setstoreTypeData(v)}
+                optionData={storeCategoryOptionData}
+                filterOption={(inputValue: any, option: any) => {
+                  return option.label
+                    .toLowerCase()
+                    .includes(inputValue.toLowerCase());
+                }}
+                required
+                style={{ width: "100%", }}
+              />
+              {/* Add all other "Bill to" fields using names like bill_addressLine2, bill_state, etc. */}
 
-          {/* </IF> */}
+            </Col>
 
-          <HookFormInputField
-            control={control}
-            type="text"
-            name="uid"
-            placeholder="Enter GST/UID"
-            label={"GST/UID"}
-            required
-          />
+            <Col xs={24} sm={24} md={12} lg={12}>
 
-          {authState?.user?.role !== UserRole.SSM && (
-            <>
-              {" "}
+              <HookFormInputField
+                control={control}
+                type="text"
+                name="storeName"
+                placeholder="Enter Customer Name"
+                label={"Customer Name"}
+                required
+              // style={{ fontSize: "9px" }}
+              />
+              {/* Add all other "Ship to" fields using names like ship_addressLine2, ship_state, etc. */}
+            </Col>
+          </Row>
+          <Row gutter={[24, 16]}>
+            <Col xs={24} sm={24} md={12} lg={12}>
+
+
+              <HookFormInputField
+
+                control={control}
+                type="text"
+                name="uid"
+                placeholder="Enter GST/UID"
+                // style={{ fontSize: "9px" }}
+                label={"GST/UID"}
+                required
+              />
+              {/* Add all other "Bill to" fields using names like bill_addressLine2, bill_state, etc. */}
+
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={12}>
               <HookFormSelectField
                 control={control}
                 type="text"
@@ -585,7 +609,265 @@ const AddStore = () => {
                 }}
                 required
               />
-              {storeTypeData !== 40 && (
+
+              {/* Add all other "Ship to" fields using names like ship_addressLine2, ship_state, etc. */}
+            </Col>
+          </Row>
+          <Row gutter={[24, 16]} >
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormSelectField
+                control={control}
+                type="text"
+                name="status"
+                placeholder="Select Status (Picklist)"
+                label={"Status"}
+                showSearch
+                // callback={(v: any) => setstoreTypeData(v)}
+                optionData={[
+                  { label: "Active", value: "active" },
+                  { label: "Inactive", value: "inactive" },
+                  { label: "Blacklisted", value: "blacklisted" }
+                ]}
+                // filterOption={(inputValue: any, option: any) => {
+                //   return option.label.toLowerCase().includes(inputValue.toLowerCase());
+                // }}
+                required
+              />
+
+              {/* Add all other "Bill to" fields using names like bill_addressLine2, bill_state, etc. */}
+
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={12}>
+
+              <HookFormInputField
+                control={control}
+                type="Default"
+                name="Created By"
+                placeholder="Enter Created By"
+                label={"Created By"}
+                required
+              // style={{ fontSize: "9px" }}
+              />
+              {/* Add all other "Ship to" fields using names like ship_addressLine2, ship_state, etc. */}
+            </Col>
+          </Row>
+          <Row gutter={[24, 16]} >
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormInputField
+                control={control}
+                type="Default"
+                name="Created On"
+                placeholder="Enter Created On"
+                label={"Created On"}
+                required
+
+              />
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={12}>
+
+              <HookFormSelectField
+                control={control}
+                type="text"
+                name="Customer Category"
+                placeholder="Select Customer Category (Picklist)"
+                label={"Customer Category"}
+                showSearch
+                callback={(v: any) => setstoreTypeData(v)}
+                optionData={[
+                  { label: "Platinum", value: "Platinum" },
+                  { label: "Gold", value: "Gold" },
+                  { label: "Silver", value: "Silver" }
+                ]}
+                filterOption={(inputValue: any, option: any) => {
+                  return option.label.toLowerCase().includes(inputValue.toLowerCase());
+                }}
+                required
+              />
+
+              {/* Add all other "Ship to" fields using names like ship_addressLine2, ship_state, etc. */}
+            </Col>
+          </Row>
+          <Row gutter={[24, 16]} >
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormSelectField
+                control={control}
+                type="text"
+                name="preferredProducts" // 👈 field name meaningful rakho
+                placeholder="Select Preferred Products (Picklist)"
+                label={"Preferred Products"}
+                showSearch
+                callback={(v: any) => setstoreTypeData(v)}
+                optionData={[
+                  { label: "Milk", value: "milk_tofu" },
+                  { label: "Tofu", value: "tofu" },
+                  { label: "Curd", value: "curd" }
+                ]}
+                filterOption={(inputValue: any, option: any) => {
+                  return option.label.toLowerCase().includes(inputValue.toLowerCase());
+                }}
+                required
+              />
+
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormInputField
+                control={control}
+                type="text"
+                name="PAN Number"
+                placeholder="Enter PAN Number"
+                label={"PAN Number"}
+                required
+
+              />
+
+              {/* Add all other "Ship to" fields using names like ship_addressLine2, ship_state, etc. */}
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col span={24}>
+              <FormInputTitle>Customer Financial Detail</FormInputTitle>
+
+              {/* Add all other "Bill to" fields using names like bill_addressLine2, bill_state, etc. */}
+            </Col>
+          </Row>
+          <Row gutter={[24, 16]} >
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormSelectField
+                control={control}
+                type="text"
+                name="paymentTerms"
+                placeholder="Select No. of Days/Payment Mode"
+                label={"Payment Terms"}
+                showSearch
+                allowClear
+                optionData={paymentModeData?.map((data: any) => ({
+                  label:
+                    data?.name?.toLowerCase() == "cod"
+                      ? data?.name
+                      : `${data?.name} Days`,
+                  value: data?.name,
+                }))}
+                filterOption={(inputValue: any, option: any) => {
+                  return option.label
+                    .toLowerCase()
+                    .includes(inputValue.toLowerCase());
+                }}
+              />
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={12}>
+
+              <HookFormSelectField
+                control={control}
+                type="text"
+                name="paymentMethod" // 👈 Meaningful and unique name
+                placeholder="Select Payment Method (Picklist)"
+                label={"Payment Mode"}
+                showSearch
+                callback={(v: any) => setstoreTypeData(v)}
+                optionData={[
+                  { label: "Cash", value: "cash" },
+                  { label: "UPI", value: "upi" },
+                  { label: "Bank", value: "bank" }
+                ]}
+                filterOption={(inputValue: any, option: any) => {
+                  return option.label.toLowerCase().includes(inputValue.toLowerCase());
+                }}
+                required
+              />
+
+
+              {/* Add all other "Ship to" fields using names like ship_addressLine2, ship_state, etc. */}
+            </Col>
+          </Row>
+
+          {/* <HookFormSelectField
+            control={control}
+            type="text"
+            name="storeType"
+            placeholder="Select Store Type(Picklist)"
+            label={"Customer Type"}
+            showSearch
+            // value={}
+            callback={(v: any) => setstoreTypeData(v)}
+            optionData={storeCategoryOptionData}
+            filterOption={(inputValue: any, option: any) => {
+              return option.label
+                .toLowerCase()
+                .includes(inputValue.toLowerCase());
+            }}
+            required
+
+          /> */}
+          {/* <HookFormInputField
+            control={control}
+            type="text"
+            name="storeName"
+            placeholder="Enter Store Name"
+            label={"Customer Name"}
+            required
+          // style={{ fontSize: "9px" }}
+          /> */}
+
+
+
+
+          {/* <IF condition={chemistData?.value !== 31} > */}
+          {/* {storeTypeData==32 && */}
+          {/* <HookFormInputField
+            control={control}
+            type="text"
+            name="storeName"
+            placeholder="Enter Store Name"
+            label={"Customer Name"}
+            required
+            // style={{ fontSize: "9px" }}
+          /> */}
+          {/* } */}
+
+          {/* </IF> */}
+
+          {/* <HookFormInputField
+
+            control={control}
+            type="text"
+            name="uid"
+            placeholder="Enter GST/UID"
+            // style={{ fontSize: "9px" }}
+            label={"GST/UID"}
+
+            required
+
+          /> */}
+
+          {authState?.user?.role !== UserRole.SSM && (
+            <>
+              {" "}
+              {/* <HookFormSelectField
+                control={control}
+                type="text"
+                name="emp_id"
+                placeholder="Select Sales Executive"
+                label={"Assign to SSM"}
+                showSearch
+                allowClear
+                optionData={userData
+                  ?.filter((data: any) => data?.role === UserRole.SSM)
+                  ?.map((data: any) => ({
+                    label: `${capitalizeSubstring(data?.name)} (${data?.role})`,
+                    value: data?.emp_id,
+                  }))}
+                filterOption={(inputValue: any, option: any) => {
+                  return option.label
+                    .toLowerCase()
+                    .includes(inputValue.toLowerCase());
+                }}
+                required
+              /> */}
+              {/* {storeTypeData !== 40 && (
                 <HookFormSelectField
                   control={control}
                   type="text"
@@ -597,9 +879,8 @@ const AddStore = () => {
                   optionData={userData
                     ?.filter((data: any) => data?.role === UserRole.RETAILER)
                     ?.map((data: any) => ({
-                      label: `${capitalizeSubstring(data?.name)} (${
-                        data?.role
-                      })`,
+                      label: `${capitalizeSubstring(data?.name)} (${data?.role
+                        })`,
                       value: data?.emp_id,
                     }))}
                   filterOption={(inputValue: any, option: any) => {
@@ -607,124 +888,173 @@ const AddStore = () => {
                       .toLowerCase()
                       .includes(inputValue.toLowerCase());
                   }}
-                  // required
+                  required
+
                 />
-              )}
+              )} */}
             </>
           )}
+          <Row gutter={[24, 16]}>
+            {/* Bill to Address */}
+            <Col xs={24} md={12}>
+              <div>
+                <FormInputTitle>Bill to Address</FormInputTitle>
 
-          <FormInputTitle>Outlet Address</FormInputTitle>
-          <HookFormInputField
-            control={control}
-            type="text"
-            name="addressLine1"
-            placeholder="Enter Address Line 1"
-            label={"Address Line 1"}
-            required
-          />
-          <HookFormInputField
-            control={control}
-            type="text"
-            name="addressLine2"
-            placeholder="Enter Address Line 2"
-            label={"Address Line 2"}
-          />
-          <HookFormSelectField
-            control={control}
-            type="text"
-            name="state"
-            placeholder="Select State(Picklist)"
-            label={"State"}
-            showSearch
-            optionData={states.map((data: any) => ({
-              label: data?.name,
-              value: data?.name,
-            }))}
-            filterOption={(inputValue: any, option: any) => {
-              return option.label
-                .toLowerCase()
-                .includes(inputValue.toLowerCase());
-            }}
-            required
-            callback={getStateSelect}
-          />
-          <HookFormSelectField
-            control={control}
-            type="text"
-            name="district"
-            placeholder="Select District"
-            label={"District"}
-            showSearch
-            optionData={district.map((data: any) => ({
-              label: data?.name,
-              value: data?.name,
-            }))}
-            filterOption={(inputValue: any, option: any) => {
-              return option.label
-                .toLowerCase()
-                .includes(inputValue.toLowerCase());
-            }}
-            required
-            callback={getDistrictSelect}
-          />
-          <HookFormInputField
-            control={control}
-            type="text"
-            name="townCity"
-            placeholder="Enter Town/City"
-            label={"Town/City"}
-            defaultValue={defaultCity}
-            //  required
-          />
-          {/* {otherCity === "Others" ?
-           <HookFormInputField
-           control={control}
-           type="text"
-           name="townCity"
-           placeholder="Enter Town/City"
-           label={"Town/City"}
-           defaultValue={defaultCity}
-           required
-         />:
-           <HookFormSelectField
-            control={control}
-            type="text"
-            name="townCity"
-            placeholder="Enter Town/City"
-            label={"Town/City"}
-            showSearch
-            optionData={ 
-              city?.map((data: any) => ({
-                label: data?.name,
-                value: data?.name
-              })) || []
-            }
-            required
-            filterOption={(inputValue: any, option: any) => {
-              return option.label.toLowerCase().includes(inputValue.toLowerCase())
-            }}
-            callback={getOtherSelect}
-          />} */}
-          <HookFormInputField
-            control={control}
-            type="text"
-            name="country"
-            placeholder="Enter country"
-            label={"country"}
-            required
-          />
-          <HookFormInputField
-            control={control}
-            type="text"
-            name="pinCode"
-            placeholder="Enter Pincode"
-            label={"Pincode"}
-            required
-          />
+                <HookFormInputField
+                  control={control}
+                  name="bill_addressLine1"
+                  label="Address Line 1"
+                  placeholder="Enter Address Line 1"
+                  required
+                />
+                <HookFormInputField
+                  control={control}
+                  name="bill_addressLine2"
+                  label="Address Line 2"
+                  placeholder="Enter Address Line 2"
+                  required
+                />
+                <HookFormSelectField
+                  control={control}
+                  type="text"
+                  name="bill_state"
+                  label="State"
+                  placeholder="Select State"
+                  showSearch
+                  optionData={states.map((data: any) => ({
+                    label: data.name,
+                    value: data.name,
+                  }))}
+                  filterOption={(inputValue: any, option: any) =>
+                    option.label.toLowerCase().includes(inputValue.toLowerCase())
+                  }
+                  required
+                  callback={getStateSelect}
+                />
+                <HookFormSelectField
+                  control={control}
+                  type="text"
+                  name="bill_district"
+                  label="District"
+                  placeholder="Select District"
+                  showSearch
+                  optionData={district.map((data: any) => ({
+                    label: data.name,
+                    value: data.name,
+                  }))}
+                  filterOption={(inputValue: any, option: any) =>
+                    option.label.toLowerCase().includes(inputValue.toLowerCase())
+                  }
+                  required
+                  callback={getDistrictSelect}
+                />
+                <HookFormInputField
+                  control={control}
+                  name="bill_city"
+                  label="Town/City"
+                  placeholder="Enter Town/City"
+                  required
+                />
+                <HookFormInputField
+                  control={control}
+                  name="bill_country"
+                  label="Country"
+                  placeholder="Enter Country"
+                  required
+                />
+                <HookFormInputField
+                  control={control}
+                  name="bill_pincode"
+                  label="Pincode"
+                  placeholder="Enter Pincode"
+                  required
+                />
+              </div>
+            </Col>
 
-          <span style={{ display: "flex", gap: "10px" }}>
+            {/* Ship to Address */}
+            <Col xs={24} md={12}>
+              <div>
+                <FormInputTitle>Ship to Address</FormInputTitle>
+
+                <HookFormInputField
+                  control={control}
+                  name="ship_addressLine1"
+                  label="Address Line 1"
+                  placeholder="Enter Address Line 1"
+                  required
+                />
+                <HookFormInputField
+                  control={control}
+                  name="ship_addressLine2"
+                  label="Address Line 2"
+                  placeholder="Enter Address Line 2"
+                  required
+                />
+                <HookFormSelectField
+                  control={control}
+                  type="text"
+                  name="ship_state"
+                  label="State"
+                  placeholder="Select State"
+                  showSearch
+                  optionData={states.map((data: any) => ({
+                    label: data.name,
+                    value: data.name,
+                  }))}
+                  filterOption={(inputValue: any, option: any) =>
+                    option.label.toLowerCase().includes(inputValue.toLowerCase())
+                  }
+                  required
+                  callback={getStateSelect}
+                />
+                <HookFormSelectField
+                  control={control}
+                  type="text"
+                  name="ship_district"
+                  label="District"
+                  placeholder="Select District"
+                  showSearch
+                  optionData={district.map((data: any) => ({
+                    label: data.name,
+                    value: data.name,
+                  }))}
+                  filterOption={(inputValue: any, option: any) =>
+                    option.label.toLowerCase().includes(inputValue.toLowerCase())
+                  }
+                  required
+                  callback={getDistrictSelect}
+                />
+                <HookFormInputField
+                  control={control}
+                  name="ship_city"
+                  label="Town/City"
+                  placeholder="Enter Town/City"
+                  required
+                />
+                <HookFormInputField
+                  control={control}
+                  name="ship_country"
+                  label="Country"
+                  placeholder="Enter Country"
+                  required
+                />
+                <HookFormInputField
+                  control={control}
+                  name="ship_pincode"
+                  label="Pincode"
+                  placeholder="Enter Pincode"
+                  required
+                />
+              </div>
+            </Col>
+          </Row>
+
+
+
+          <span >
             <div
-              style={{ flexDirection: "column", gap: "5px" }}
+              // style={{ flexDirection: "column", gap: "5px" }}
               className="dflex"
             >
               <Button
@@ -760,6 +1090,7 @@ const AddStore = () => {
                       <span>
                         <span style={{ fontWeight: 500 }}>Latitude:</span>{" "}
                         {convertToDMS(watch()?.lat, true)}
+
                       </span>
                       <span>
                         <span style={{ fontWeight: 500 }}>Longitude:</span>{" "}
@@ -807,64 +1138,175 @@ const AddStore = () => {
               </>
             )}
           </span>
-          <FormInputTitle>Contact Details</FormInputTitle>
+          <Row gutter={24}>
+            <Col span={24}>
+              <FormInputTitle>Contact Details</FormInputTitle>
+            </Col>
+          </Row>
 
-          <HookFormInputField
+          <Row gutter={[24, 16]}>
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormInputField
+                control={control}
+                name="bill_addressLine1"
+                label="Pincode"
+                placeholder="Enter Pincode"
+                required
+              />
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={12}>
+
+              <HookFormInputField
+                control={control}
+                type="text"
+                name="ownerName"
+                placeholder="Enter Owner Name"
+                label={"Owner Name"}
+                required
+              />
+
+              {/* Add all other "Ship to" fields using names like ship_addressLine2, ship_state, etc. */}
+            </Col>
+
+          </Row>
+          {/* <HookFormInputField
             control={control}
             type="text"
             name="ownerName"
             placeholder="Enter Owner Name"
             label={"Owner Name"}
             required
-          />
-            <HookFormInputField
+          /> */}
+          <Row gutter={[24, 16]}>
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormInputField
+                control={control}
+                type="text"
+                name="qualification"
+                placeholder="Enter qualification"
+                label={"Qualification"}
+              // required
+              />
+              {/* Add all other "Bill to" fields using names like bill_addressLine2, bill_state, etc. */}
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormInputField
+                control={control}
+                type="text"
+                name="speciality"
+                placeholder="Enter speciality"
+                label={"Speciality"}
+              // required
+              />
+
+              {/* Add all other "Ship to" fields using names like ship_addressLine2, ship_state, etc. */}
+            </Col>
+
+          </Row>
+          {/* <HookFormInputField
             control={control}
             type="text"
             name="qualification"
             placeholder="Enter qualification"
             label={"Qualification"}
-            // required
-          />
-            <HookFormInputField
+          // required
+          /> */}
+          {/* <HookFormInputField
             control={control}
             type="text"
             name="speciality"
             placeholder="Enter speciality"
             label={"Speciality"}
-            // required
-          />
-          <HookFormInputField
+          // required
+          /> */}
+          <Row gutter={[24, 16]}>
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormInputField
+                control={control}
+                type="tel"
+                name="mobileNumber"
+                placeholder="Enter Phone Number"
+                label={"Phone Number"}
+                required
+              />
+              {/* Add all other "Bill to" fields using names like bill_addressLine2, bill_state, etc. */}
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormInputField
+                control={control}
+                type="tel"
+                name="alterMobile"
+                placeholder="Enter Alternate Phone Number"
+                label={"Alternate Phone No"}
+              />
+
+              {/* Add all other "Ship to" fields using names like ship_addressLine2, ship_state, etc. */}
+            </Col>
+
+          </Row>
+          {/* <HookFormInputField
             control={control}
             type="tel"
             name="mobileNumber"
             placeholder="Enter Phone Number"
             label={"Phone Number"}
             required
-          />
-          <HookFormInputField
+          /> */}
+          {/* <HookFormInputField
             control={control}
             type="tel"
             name="alterMobile"
             placeholder="Enter Alternate Phone Number"
-            label={"Alternate Phone No."}
-          />
-        
-           <HookFormInputField
+            label={"Alternate Phone No"}
+          /> */}
+
+          <Row gutter={[24, 16]}>
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormInputField
+                control={control}
+                type="email"
+                name="email"
+                placeholder="Enter Email"
+                label={"Email"}
+              // required
+              />
+              {/* Add all other "Bill to" fields using names like bill_addressLine2, bill_state, etc. */}
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormInputField
+                control={control}
+                type="date"
+                name="DOB"
+                placeholder="Enter date of birth"
+                label={"Date of birth"}
+              // required
+              />
+
+              {/* Add all other "Ship to" fields using names like ship_addressLine2, ship_state, etc. */}
+            </Col>
+
+          </Row>
+          {/* <HookFormInputField
             control={control}
             type="email"
             name="email"
             placeholder="Enter Email"
             label={"Email"}
-            // required
-          />
-          <HookFormInputField
+          // required
+          /> */}
+          {/* <HookFormInputField
             control={control}
             type="date"
             name="DOB"
             placeholder="Enter date of birth"
             label={"Date of birth"}
-            // required
-          />
+          // required
+          /> */}
+
           {(storeTypeData == 40 || storeTypeData == 34) && (
             <HookFormInputField
               control={control}
@@ -873,7 +1315,7 @@ const AddStore = () => {
               name="registrationNo"
               placeholder="Enter Registration Number"
               label={"Registration number"}
-              // required
+            // required
             />
           )}
 
@@ -884,7 +1326,7 @@ const AddStore = () => {
               name="clinicname"
               placeholder="Enter Clinic Name"
               label={"Clinic Name"}
-              // required
+            // required
             />
           )}
 
@@ -895,13 +1337,13 @@ const AddStore = () => {
               name="patientVolume"
               placeholder="Enter Patient Volume"
               label={"Patient Volume"}
-              // required
+            // required
             />
           )}
 
           <FormInputTitle>Opening hours</FormInputTitle>
           <Row className="mt-4">
-            <Col span={12} className="pr-12">
+            <Col xs={24} sm={24} md={12} lg={12} className="pr-12">
               <HookFormSelectField
                 control={control}
                 type="text"
@@ -912,7 +1354,7 @@ const AddStore = () => {
                 required
               />
             </Col>
-            <Col span={12} className="pl-12">
+            <Col xs={24} sm={24} md={12} lg={12} className="pr-12">
               <HookFormSelectField
                 control={control}
                 type="text"
@@ -925,7 +1367,7 @@ const AddStore = () => {
           </Row>
           <FormInputTitle>Closing hours</FormInputTitle>
           <Row className="mt-4">
-            <Col span={12} className="pl-12">
+            <Col xs={24} sm={24} md={12} lg={12} className="pr-12">
               <HookFormSelectField
                 control={control}
                 type="text"
@@ -936,7 +1378,7 @@ const AddStore = () => {
                 required
               />
             </Col>
-            <Col span={12} className="pl-12">
+            <Col xs={24} sm={24} md={12} lg={12} className="pr-12">
               <HookFormSelectField
                 control={control}
                 type="text"
@@ -947,7 +1389,58 @@ const AddStore = () => {
               />
             </Col>
           </Row>
-          <HookFormSelectField
+          <Row gutter={[24, 16]}>
+            <Col xs={24} sm={24} md={12} lg={12}>
+              {/* <HookFormSelectField
+                control={control}
+                type="text"
+                name="paymentMode"
+                placeholder="Select No. of Days/Payment Mode"
+                label={"Payment Mode"}
+                showSearch
+                allowClear
+                optionData={paymentModeData?.map((data: any) => ({
+                  label:
+                    data?.name?.toLowerCase() == "cod"
+                      ? data?.name
+                      : `${data?.name} Days`,
+                  value: data?.name,
+                }))}
+                filterOption={(inputValue: any, option: any) => {
+                  return option.label
+                    .toLowerCase()
+                    .includes(inputValue.toLowerCase());
+                }}
+              /> */}
+              {/* Add all other "Bill to" fields using names like bill_addressLine2, bill_state, etc. */}
+              <HookFormSelectField
+                control={control}
+                type="text"
+                name="isPremiumStore"
+                placeholder="Premium store"
+                label={"Premium store"}
+                optionData={premiumStoreOptionData}
+                required
+                callback={premiumHandler}
+              />
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <HookFormSelectField
+                control={control}
+                type="text"
+                name="isActive"
+                placeholder="Store status"
+                label={"Store status"}
+                optionData={storeStatusOptionData}
+                required
+              />
+
+              {/* Add all other "Ship to" fields using names like ship_addressLine2, ship_state, etc. */}
+            </Col>
+
+          </Row>
+          {/* <HookFormSelectField
             control={control}
             type="text"
             name="paymentMode"
@@ -967,8 +1460,8 @@ const AddStore = () => {
                 .toLowerCase()
                 .includes(inputValue.toLowerCase());
             }}
-          />
-          <HookFormSelectField
+          /> */}
+          {/* <HookFormSelectField
             control={control}
             type="text"
             name="isActive"
@@ -976,8 +1469,30 @@ const AddStore = () => {
             label={"Store status"}
             optionData={storeStatusOptionData}
             required
-          />
-          <HookFormSelectField
+          /> */}
+          <Row gutter={24}>
+            <Col xs={24} sm={24} md={12} lg={12}>
+              {/* <HookFormSelectField
+                control={control}
+                type="text"
+                name="isPremiumStore"
+                placeholder="Premium store"
+                label={"Premium store"}
+                optionData={premiumStoreOptionData}
+                required
+                callback={premiumHandler}
+              /> */}
+              {/* Add all other "Bill to" fields using names like bill_addressLine2, bill_state, etc. */}
+            </Col>
+
+            <Col xs={24} sm={24} md={12} lg={12}>
+
+
+              {/* Add all other "Ship to" fields using names like ship_addressLine2, ship_state, etc. */}
+            </Col>
+
+          </Row>
+          {/* <HookFormSelectField
             control={control}
             type="text"
             name="isPremiumStore"
@@ -986,7 +1501,7 @@ const AddStore = () => {
             optionData={premiumStoreOptionData}
             required
             callback={premiumHandler}
-          />
+          /> */}
           {(storeDetails?.isPremiumStore || isPremiumStore) && (
             <Fragment>
               <FormInputTitle>Premium Flat Discount</FormInputTitle>
@@ -1051,106 +1566,19 @@ const AddStore = () => {
               </Row>
             </Fragment>
           )}
-          {/* <FormInputTitle>Order Value Discount(%)</FormInputTitle>
-          <Row className="mt-4">
-            <Col span={8} className="pl-12">
-              <HookFormSelectField
-                control={control}
-                type="text"
-                name="orderDiscountRange1"
-                placeholder="Select Order Discount Range"
-                label={""}
-                optionData={orderValueOptionData1}
-              />
-            </Col>
-            <Col span={8} className="pl-12">
-              <HookFormInputField
-                control={control}
-                type="number"
-                name="orderValueRange1"
-                placeholder="Enter Discount(%)"
-              />
-            </Col>
-            <Col span={8} className="pl-12">
-              <HookFormSelectField
-                control={control}
-                type="text"
-                name="isActiveOrderValueRange1"
-                placeholder="Is Active"
-                optionData={premiumStoreOptionData}
-              />
-            </Col>
-          </Row>
-          <Row className="mt-4">
-            <Col span={8} className="pl-12">
-              <HookFormSelectField
-                control={control}
-                type="text"
-                name="orderDiscountRange2"
-                placeholder="Select Order Discount Rangee"
-                label={""}
-                optionData={orderValueOptionData2}
-              />
-            </Col>
-            <Col span={8} className="pl-12">
-              <HookFormInputField
-                control={control}
-                type="number"
-                name="orderValueRange2"
-                placeholder="Enter Discount(%)"
-              />
-            </Col>
-            <Col span={8} className="pl-12">
-              <HookFormSelectField
-                control={control}
-                type="text"
-                name="isActiveOrderValueRange2"
-                placeholder="Is Active"
-                optionData={premiumStoreOptionData}
-              />
-            </Col>
-          </Row>
-          <Row className="mt-4">
-            <Col span={8} className="pl-12">
-              <HookFormSelectField
-                control={control}
-                type="text"
-                name="orderDiscountRange3"
-                placeholder="Select Order Discount Range"
-                label={""}
-                optionData={orderValueOptionData3}
-              />
-            </Col>
-            <Col span={8} className="pl-12">
-              <HookFormInputField
-                control={control}
-                type="number"
-                name="orderValueRange3"
-                placeholder="Enter Discount(%)"
-              />
-            </Col>
-            <Col span={8} className="pl-12">
-              <HookFormSelectField
-                control={control}
-                type="text"
-                name="isActiveOrderValueRange3"
-                placeholder="Is Active"
-                optionData={premiumStoreOptionData}
-              />
-            </Col>
-
-          </Row> */}
+          
           <div className="button-container" style={{ marginBottom: "50px" }}>
             <Button onClick={handleCancel} htmlType="button">
               Cancel
             </Button>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" >
               Save
             </Button>
           </div>
         </Form>
       </div>
     </div>
+
   );
 };
 

@@ -32,7 +32,7 @@ const SidebarWrapperAdmin = styled.div<{ isOpen: boolean }>`
   left: ${({ isOpen }: any) => (isOpen ? "0" : "-280px")};
   height: 100%;
   width: 250px;
-  background-color: rgb(7, 13, 121);
+  background-color: white;
   padding-top: 16px;
   transition: left 0.3s ease-in-out;
   box-shadow: ${({ isOpen }) =>
@@ -77,7 +77,7 @@ const SidebarLink = styled.a`
   text-decoration: none;
   font-size: 0.9em;
   &:hover {
-    background-color: #3082ff;
+    background-color: #E7EBEF;
     border-radius: 12px;
   }
 `;
@@ -94,8 +94,8 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
     {
       key: "sub0",
       icon: <ShoppingCartOutlined />,
-      label: <span style={{ color: "white!important" }}>Order</span>,
-      style: { background: "none", color: "white!important" },
+      label: <span style={{ color: "black" }}>Order</span>,
+      style: { background: "none", color: "black" },
       children: [
         {
           key: "1",
@@ -120,8 +120,8 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
     {
       key: "sub1",
       icon: <GroupOutlined />,
-      label: <span style={{ color: "white!important" }}>Configuration</span>,
-      style: { background: "none", color: "white!important" },
+      label: <span style={{ color: "black" }}>Configuration</span>,
+      style: { background: "none", color: "black" },
       children: [
         {
           key: "0",
@@ -237,7 +237,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               key: "10b",
               label: (
                 <Link to="/config/dar/activity-related-to" onClick={toggleSidebar}>
-                   Activity Related To
+                  Activity Related To
                 </Link>
               ),
             },
@@ -253,7 +253,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               key: "10d",
               label: (
                 <Link to="/config/dar/status" onClick={toggleSidebar}>
-                   DAR Status
+                  DAR Status
                 </Link>
               ),
             },
@@ -276,33 +276,33 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             </Link>
           ),
         },
-        
+
         ...(authState?.user?.role === UserRole.SUPER_ADMIN
           ? [
-              {
-                key: "7",
-                label: <span className="white-text">Super Admin</span>,
-                style: { background: "none" },
-                children: [
-                  {
-                    key: "7a",
-                    label: (
-                      <Link to="/config/feature" onClick={toggleSidebar}>
-                        Feature
-                      </Link>
-                    ),
-                  },
-                  {
-                    key: "7b",
-                    label: (
-                      <Link to="/config/role" onClick={toggleSidebar}>
-                        Role
-                      </Link>
-                    ),
-                  },
-                ],
-              },
-            ]
+            {
+              key: "7",
+              label: <span className="white-text">Super Admin</span>,
+              style: { background: "none" },
+              children: [
+                {
+                  key: "7a",
+                  label: (
+                    <Link to="/config/feature" onClick={toggleSidebar}>
+                      Feature
+                    </Link>
+                  ),
+                },
+                {
+                  key: "7b",
+                  label: (
+                    <Link to="/config/role" onClick={toggleSidebar}>
+                      Role
+                    </Link>
+                  ),
+                },
+              ],
+            },
+          ]
           : []),
       ],
     },
@@ -311,174 +311,174 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
     {
       key: "sub2",
       icon: <AppstoreOutlined />,
-      label: <span style={{ color: "white!important" }}>Reports</span>,
-      style: { background: "none", color: "white!important" },
+      label: <span style={{ color: "black" }}>Reports</span>,
+      style: { background: "none", color: "black" },
       children: [
         ...(authState?.user?.role === UserRole.RETAILER
           ? [
-              {
-                key: "1r",
-                label: (
-                  <Link to="/report/sku-revenue" onClick={toggleSidebar}>
-                    SKU Revenue
-                  </Link>
-                ),
-              },
-              {
-                key: "2r",
-                label: (
-                  <Link to="/report/pending-collection" onClick={toggleSidebar}>
-                    Pending Payment
-                  </Link>
-                ),
-              },
-              {
-                key: "3r",
-                label: (
-                  <Link to="/report/monthly-progress" onClick={toggleSidebar}>
-                    Monthly Order
-                  </Link>
-                ),
-              },
-              {
-                key: "4r",
-                label: (
-                  <Link to="/report/inventories" onClick={toggleSidebar}>
-                    Inventory
-                  </Link>
-                ),
-              },
-            ]
+            {
+              key: "1r",
+              label: (
+                <Link to="/report/sku-revenue" onClick={toggleSidebar}>
+                  SKU Revenue
+                </Link>
+              ),
+            },
+            {
+              key: "2r",
+              label: (
+                <Link to="/report/pending-collection" onClick={toggleSidebar}>
+                  Pending Payment
+                </Link>
+              ),
+            },
+            {
+              key: "3r",
+              label: (
+                <Link to="/report/monthly-progress" onClick={toggleSidebar}>
+                  Monthly Order
+                </Link>
+              ),
+            },
+            {
+              key: "4r",
+              label: (
+                <Link to="/report/inventories" onClick={toggleSidebar}>
+                  Inventory
+                </Link>
+              ),
+            },
+          ]
           : [
-              {
-                key: "1",
-                label: (
-                  <Link to="/report/attendance" onClick={toggleSidebar}>
-                    Attendance
-                  </Link>
-                ),
-              },
-              {
-                key: "2",
-                label: (
-                  <Link to="/report/day-tracking" onClick={toggleSidebar}>
-                    Day Tracking
-                  </Link>
-                ),
-              },
-              {
-                key: "2",
-                label: (
-                  <Link to="/report/mr-analysis" onClick={toggleSidebar}>
-                    MR Analysis
-                  </Link>
-                ),
-              },
-              {
-                key: "4",
-                label: "Progress",
-                children: [
-                  {
-                    key: "4a",
-                    label: (
-                      <Link
-                        to="/report/monthly-progress"
-                        onClick={toggleSidebar}
-                      >
-                        Monthly
-                      </Link>
-                    ),
-                  },
-                ],
-              },
-              ...(authState?.user?.role !== UserRole.SSM
-                ? [
+            {
+              key: "1",
+              label: (
+                <Link to="/report/attendance" onClick={toggleSidebar}>
+                  Attendance
+                </Link>
+              ),
+            },
+            {
+              key: "2",
+              label: (
+                <Link to="/report/day-tracking" onClick={toggleSidebar}>
+                  Day Tracking
+                </Link>
+              ),
+            },
+            {
+              key: "2",
+              label: (
+                <Link to="/report/mr-analysis" onClick={toggleSidebar}>
+                  MR Analysis
+                </Link>
+              ),
+            },
+            {
+              key: "4",
+              label: "Progress",
+              children: [
+                {
+                  key: "4a",
+                  label: (
+                    <Link
+                      to="/report/monthly-progress"
+                      onClick={toggleSidebar}
+                    >
+                      Monthly
+                    </Link>
+                  ),
+                },
+              ],
+            },
+            ...(authState?.user?.role !== UserRole.SSM
+              ? [
+                {
+                  key: "5",
+                  label: "Revenue",
+                  children: [
                     {
-                      key: "5",
-                      label: "Revenue",
-                      children: [
-                        {
-                          key: "5a",
-                          label: (
-                            <Link
-                              to="/report/store-revenue"
-                              onClick={toggleSidebar}
-                            >
-                              Pharma Store
-                            </Link>
-                          ),
-                        },
-                        {
-                          key: "5b",
-                          label: (
-                            <Link
-                              to="/report/sku-revenue"
-                              onClick={toggleSidebar}
-                            >
-                              SKU
-                            </Link>
-                          ),
-                        },
-                      ],
+                      key: "5a",
+                      label: (
+                        <Link
+                          to="/report/store-revenue"
+                          onClick={toggleSidebar}
+                        >
+                          Pharma Store
+                        </Link>
+                      ),
                     },
-                  ]
-                : []),
-              {
-                key: "6",
-                label: "Pending",
-                children: [
-                  {
-                    key: "6a",
-                    label: (
-                      <Link
-                        to="/report/pending-collection"
-                        onClick={toggleSidebar}
-                      >
-                        Collection
-                      </Link>
-                    ),
-                  },
-                  {
-                    key: "6b",
-                    label: (
-                      <Link
-                        to="/report/pending-approval"
-                        onClick={toggleSidebar}
-                      >
-                        Approval
-                      </Link>
-                    ),
-                  },
-                ],
-              },
-              {
-                key: "7",
-                label: (
-                  <Link
-                    to="/report/employee-performance"
-                    onClick={toggleSidebar}
-                  >
-                    Performance
-                  </Link>
-                ),
-              },
-              {
-                key: "8",
-                label: (
-                  <Link to="/report/unbilled-store" onClick={toggleSidebar}>
-                    Unbilled Store
-                  </Link>
-                ),
-              },
-              {
-                key: "9",
-                label: (
-                  <Link to="/report/monthly-no-order" onClick={toggleSidebar}>
-                    No Order Report
-                  </Link>
-                ),
-              },
-            ]),
+                    {
+                      key: "5b",
+                      label: (
+                        <Link
+                          to="/report/sku-revenue"
+                          onClick={toggleSidebar}
+                        >
+                          SKU
+                        </Link>
+                      ),
+                    },
+                  ],
+                },
+              ]
+              : []),
+            {
+              key: "6",
+              label: "Pending",
+              children: [
+                {
+                  key: "6a",
+                  label: (
+                    <Link
+                      to="/report/pending-collection"
+                      onClick={toggleSidebar}
+                    >
+                      Collection
+                    </Link>
+                  ),
+                },
+                {
+                  key: "6b",
+                  label: (
+                    <Link
+                      to="/report/pending-approval"
+                      onClick={toggleSidebar}
+                    >
+                      Approval
+                    </Link>
+                  ),
+                },
+              ],
+            },
+            {
+              key: "7",
+              label: (
+                <Link
+                  to="/report/employee-performance"
+                  onClick={toggleSidebar}
+                >
+                  Performance
+                </Link>
+              ),
+            },
+            {
+              key: "8",
+              label: (
+                <Link to="/report/unbilled-store" onClick={toggleSidebar}>
+                  Unbilled Store
+                </Link>
+              ),
+            },
+            {
+              key: "9",
+              label: (
+                <Link to="/report/monthly-no-order" onClick={toggleSidebar}>
+                  No Order Report
+                </Link>
+              ),
+            },
+          ]),
       ],
     },
   ];
@@ -487,8 +487,8 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
     {
       key: "sub4",
       icon: <SolutionOutlined />,
-      label: <span style={{ color: "white!important" }}>HR Process</span>,
-      style: { background: "none", color: "white!important" },
+      label: <span style={{ color: "black" }}>HR Process</span>,
+      style: { background: "none", color: "black" },
       children: [
         {
           key: "00",
@@ -514,14 +514,14 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             </Link>
           ),
         },
-         ...(authState?.user?.role !== UserRole.SSM ?[ {
+        ...(authState?.user?.role !== UserRole.SSM ? [{
           key: "2",
           label: (
             <Link to="/hr/expense" onClick={toggleSidebar}>
               Expense Approval
             </Link>
           ),
-        }]:[]),
+        }] : []),
         {
           key: "3",
           label: (
@@ -530,14 +530,14 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             </Link>
           ),
         },
-        ...(authState?.user?.role !== UserRole.SSM ?[ {
+        ...(authState?.user?.role !== UserRole.SSM ? [{
           key: "4",
           label: (
             <Link to="/hr/leave-approval" onClick={toggleSidebar}>
               Leave Approval
             </Link>
           ),
-        }]:[]),
+        }] : []),
 
         // { key: '4', label: <Link to="/expense-apply" onClick={toggleSidebar}>Mark Attendance</Link> },
         {
@@ -567,7 +567,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
       <SidebarWrapperAdmin isOpen={isOpen}>
         <Fragment>
           <Sidebar>
-            <span style={{ marginLeft: "20px", fontSize: "20px" }}>Menu</span>
+            {/* <span style={{ marginLeft: "20px", fontSize: "20px", color:"black" }}>Menu</span> */}
             <span>
               <button onClick={toggleSidebar} className="adminclosebtn">
                 {" "}
@@ -583,6 +583,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               flexDirection: "column",
               justifyContent: "space-around",
               height: "86%",
+              borderRight: "1px solid #dddddd"
             }}
           >
             {authState?.user?.role === UserRole.SSM && (
@@ -602,16 +603,17 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             <Link
               to={
                 authState?.user?.role === UserRole.SSM ||
-                authState?.user?.role === UserRole.CHANNEL
+                  authState?.user?.role === UserRole.CHANNEL
                   ? "/dashboard"
                   : authState?.user?.role === UserRole.RETAILER
-                  ? "/retailor/dashboard"
-                  : "/admin/dashboard"
+                    ? "/retailor/dashboard"
+                    : "/admin/dashboard"
               }
               className="linkto"
               onClick={toggleSidebar}
             >
               <SidebarLink
+                style={{ color: "black" }}
                 className={pathname.includes("/dashboard") ? "active" : ""}
               >
                 <DashboardOutlined className="adminMenuTxt" />
@@ -627,9 +629,10 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                   onClick={toggleSidebar}
                 >
                   <SidebarLink
+                    style={{ color: "black" }}
                     className={
                       pathname.includes("/beat") ||
-                      pathname.includes("/create-beat")
+                        pathname.includes("/create-beat")
                         ? "active"
                         : ""
                     }
@@ -651,9 +654,10 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                   onClick={toggleSidebar}
                 >
                   <SidebarLink
+                    style={{ color: "black" }}
                     className={
                       pathname.includes("/visit") ||
-                      pathname.includes("/create-visit")
+                        pathname.includes("/create-visit")
                         ? "active"
                         : ""
                     }
@@ -666,16 +670,18 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             {authState?.user?.role !== UserRole.RETAILER && (
               <Link to="/stores" className="linkto" onClick={toggleSidebar}>
                 <SidebarLink
+                  style={{ color: "black" }}
                   className={pathname.includes("/stores") ? "active" : ""}
                 >
                   <InsertRowAboveOutlined className="adminMenuTxt" />
-                  Doctor/Chemist/Stockist
+                  Customer
                 </SidebarLink>
               </Link>
             )}
             {authState?.user?.role === UserRole.CHANNEL ? (
               <Link to="/order" className="linkto" onClick={toggleSidebar}>
                 <SidebarLink
+                  style={{ color: "black" }}
                   className={pathname.includes("/order") ? "active" : ""}
                 >
                   <ShoppingCartOutlined className="adminMenuTxt" />
@@ -711,9 +717,10 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               onClick={toggleSidebar}
             >
               <SidebarLink
+                style={{ color: "black" }}
                 className={
                   pathname.includes("/collection") ||
-                  pathname.includes("/payment")
+                    pathname.includes("/payment")
                     ? "active"
                     : ""
                 }
@@ -731,9 +738,10 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                 onClick={toggleSidebar}
               >
                 <SidebarLink
+                  style={{ color: "black" }}
                   className={
                     pathname.includes("/target-data-table") ||
-                    pathname.includes("/target-achievement")
+                      pathname.includes("/target-achievement")
                       ? "active"
                       : ""
                   }
@@ -752,39 +760,41 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               >
 
                 <SidebarLink
+                  style={{ color: "black" }}
                   className={
                     pathname.includes("/e-detailing") ||
-                    pathname.includes("/e-detailing")
+                      pathname.includes("/e-detailing")
                       ? "active" : ""
                   }
                 >
-                 
-                  <FileAddOutlined className="adminMenuTxt"/>
+
+                  <FileAddOutlined className="adminMenuTxt" />
                   E-Detailing
                 </SidebarLink>
               </Link>
             )}
-            
+
             {(authState?.user?.role === UserRole.ADMIN ||
               authState?.user?.role === UserRole.SUPER_ADMIN) && (
-              <Link
-                to="/admin/users"
-                className="linkto"
-                onClick={toggleSidebar}
-              >
-                <SidebarLink
-                  className={
-                    pathname.includes("/users") ||
-                    pathname.includes("/add-new-users")
-                      ? "active"
-                      : ""
-                  }
+                <Link
+                  to="/admin/users"
+                  className="linkto"
+                  onClick={toggleSidebar}
                 >
-                  <BuildOutlined className="adminMenuTxt" />
-                  Users
-                </SidebarLink>
-              </Link>
-            )}
+                  <SidebarLink
+                    style={{ color: "black" }}
+                    className={
+                      pathname.includes("/users") ||
+                        pathname.includes("/add-new-users")
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <BuildOutlined className="adminMenuTxt" />
+                    Users
+                  </SidebarLink>
+                </Link>
+              )}
 
             {/* {authState?.user?.role === UserRole.ADMIN &&
               <> <Link to="/admin/brand" className="linkto" onClick={toggleSidebar}>
@@ -806,10 +816,11 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               onClick={toggleSidebar}
             >
               <SidebarLink
+                style={{ color: "black" }}
                 className={pathname.includes("/product") ? "active" : ""}
               >
                 <MedicineBoxOutlined className="adminMenuTxt" />
-                Medicine
+                Product
               </SidebarLink>
             </Link>
             {/* {authState?.user?.role === UserRole.ADMIN &&
@@ -842,9 +853,10 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               onClick={toggleSidebar}
             >
               <SidebarLink
+                style={{ color: "black" }}
                 className={
                   pathname.includes("/scheme") ||
-                  pathname.includes("/add-new-scheme")
+                    pathname.includes("/add-new-scheme")
                     ? "active"
                     : ""
                 }
@@ -874,36 +886,36 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             )}
             {(authState?.user?.role === UserRole.ADMIN ||
               authState?.user?.role === UserRole.SUPER_ADMIN) && (
-              <SidebarLink
-                className={
-                  pathname.includes("/brand") ||
-                  pathname.includes("/category") ||
-                  pathname.includes("/add-new-category") ||
-                  pathname.includes("/store-category") ||
-                  pathname.includes("/add-update-category")
-                    ? "active"
-                    : pathname.includes("/config")
-                    ? "active"
-                    : ""
-                }
-                style={{ zIndex: 9999999 }}
-              >
-                <Menu
-                  onClick={onClicks}
-                  style={{
-                    width: "200px",
-                    background: "none",
-                    color: "white",
-                    padding: 0,
-                  }}
-                  mode="vertical"
-                  items={categoryItems}
-                />
-              </SidebarLink>
-            )}
+                <SidebarLink
+                  className={
+                    pathname.includes("/brand") ||
+                      pathname.includes("/category") ||
+                      pathname.includes("/add-new-category") ||
+                      pathname.includes("/store-category") ||
+                      pathname.includes("/add-update-category")
+                      ? "active"
+                      : pathname.includes("/config")
+                        ? "active"
+                        : ""
+                  }
+                  style={{ zIndex: 9999999 }}
+                >
+                  <Menu
+                    onClick={onClicks}
+                    style={{
+                      width: "200px",
+                      background: "none",
+                      color: "white",
+                      padding: 0,
+                    }}
+                    mode="vertical"
+                    items={categoryItems}
+                  />
+                </SidebarLink>
+              )}
             <div className="border-line" style={{ paddingTop: "8px" }}></div>
             <div className="detail-content">
-              <span className="quickLink">Quick Links</span>
+              <span className="quickLink" style={{ color: "black" }}>Quick Links</span>
               <div className="setting-content">
                 <Link
                   to={
@@ -973,7 +985,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                     <span className="lead-icon">
                       <PlusOutlined />
                     </span>
-                    <span className="lead-txt title">Create new visit</span>
+                    <span className="lead-txt title" >Create new visit</span>
                   </div>
                 </Link>
               </div>
@@ -981,7 +993,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
           </div>
         </Fragment>
       </SidebarWrapperAdmin>
-      <Overlay isOpen={isOpen} onClick={toggleSidebar} style={{  marginTop: '60px'}}/>
+      <Overlay isOpen={isOpen} onClick={toggleSidebar} style={{ marginTop: '60px' }} />
       <style>
         {`
         @media only screen and (max-width: 30em) {
@@ -1091,7 +1103,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
     display: flex;
     justify-content: space-around;
     border-radius: .7rem;
-    background-color: white;
+    background-color: #8488BF;
     align-items: center;
     flex-wrap: wrap;
     margin-bottom: 7px;
@@ -1109,16 +1121,16 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
 
 }
         .border-line {
-    border-bottom: #ddd .07rem solid;
-    padding-top: 1rem;
+          border-bottom: #ddd .07rem solid;
+          padding-top: 1rem;
 }
         .active{
-        background: #3082FF;
+        background: #E7EBEF;
         border-radius: 12px;
-        color: white!important;
+        
         }
   .detail-content {
-    color: #505152;
+    color: white;
     cursor: pointer;
 }
     .create-lead {
@@ -1126,7 +1138,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-color: white;
+    background-color: #8488BF;
     border-radius: .7rem;
     padding: .5rem;
     flex-wrap: nowrap;
@@ -1138,14 +1150,15 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
     font-size: x-large;
     width: 2.5rem;
     height: 2.5rem;
-    background: #3082FF;
+    background: white;
     border-radius: 50%;
-    color: white;
+    color: #8488BF;
 }
     .lead-txt {
     font-size: small;
     padding-top: .2rem;
     font-weight: 500;
+    color: white;
 }
     .lead-link {
     display: flex;

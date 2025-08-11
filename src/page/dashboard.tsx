@@ -215,7 +215,7 @@ export const Dashboard = () => {
             settoggle(e);
           }}
         /> */}
-        <header style={{ justifyContent: "space-between" }}>
+        <header style={{ justifyContent: "space-between", color:"#8488BF"}} >
           <h4 className="adminHText">  <h4 className="adminHText">{capitalizeFirstLetter(getDashboardLabel(authState?.user?.role))}</h4></h4>
          {/* {authState?.user?.role !== UserRole.CHANNEL && <button
             onClick={() => {

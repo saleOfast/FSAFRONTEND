@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 import "style/dashboard.css";
-import { CaretDownOutlined, CaretUpOutlined, PauseCircleFilled, UserOutlined } from "@ant-design/icons";
+import { CaretDownFilled, CaretDownOutlined, CaretUpOutlined, PauseCircleFilled, UserOutlined } from "@ant-design/icons";
 import GaugeChart from "react-gauge-chart";
 import { capitalizeFirstLetter } from "utils/capitalize";
 import PendingApprovalTable from "./pendingApprovalTable";
@@ -12,7 +12,7 @@ import { useAuth } from "context/AuthContext";
 import { getAdminDashboardRevenueService, getAdminDashboardService, updateApprovalSpecialDiscountService } from "services/dashboardService";
 import { setLoaderAction } from "redux-store/action/appActions";
 import { useDispatch } from "react-redux";
-import { Cascader, message } from "antd";
+import { Cascader, message, Progress, Row, Col, Button, Card } from "antd";
 import RevenueChart from "./revenueChart";
 import FullPageLoaderWithState from "component/FullPageLoaderWithState";
 import { SpecialDiscountStatus } from "enum/order";
@@ -23,6 +23,8 @@ import { formattedAmount, getDashboardLabel } from "utils/common";
 import Pending from "./LeastPending";
 import LeastPending from "./LeastPending";
 import MostPending from "./MostPending";
+// import { LineChart } from '@mui/x-charts/LineChart';
+
 interface Option {
   value: string;
   label: string;
@@ -31,10 +33,11 @@ interface Option {
 
 export const AdminDashboard = () => {
   const { authState } = useAuth();
+
   const [isLoading, setIsLoading] = useState(true);
 
   const [dashboardData, setDashboardData] = useState<any>({});
-  
+
   const [revenueChartData, setRevenueChartData] = useState<any>({});
   const dispatch = useDispatch();
   const [isApprovedStore, setIsApprovedStore] = useState<any>({})
@@ -53,8 +56,6 @@ export const AdminDashboard = () => {
       setOrderId(parsedValue?.orderId);
       setIsApprovedRejected(parsedValue);
     }
-
-
   };
 
   const callbackRejectedRequest = (e: any) => {
@@ -96,8 +97,6 @@ export const AdminDashboard = () => {
       try {
         dispatch(setLoaderAction(true));
         const res = await getAdminDashboardService(timePeriod);
-        
-
         if (res?.data?.status === 200) {
           setDashboardData(res?.data?.data)
           setIsLoading(false)
@@ -273,7 +272,8 @@ export const AdminDashboard = () => {
     },
   ];
 
- 
+
+
   return (
     <Fragment>
       <div className="dashboard-container mb-40" >
@@ -286,18 +286,209 @@ export const AdminDashboard = () => {
             setToggleDelete(e);
           }} />
         <FullPageLoaderWithState isLoading={isLoading} />
-        <header style={{ backgroundColor: "#070D79", justifyContent: "space-between" }}>
-          <h4 className="adminHText">
-            {capitalizeFirstLetter(getDashboardLabel(authState?.user?.role))}
-          </h4>
-        </header>
+        {/* <header style={{ backgroundColor: "white", justifyContent: "space-between" }}> */}
+        <h4 className="adminHText">
+          {capitalizeFirstLetter(getDashboardLabel(authState?.user?.role))}
+        </h4>
+        {/* </header> */}
         {dashboardData &&
-          <div className="content adminContent " style={{ padding: "10px", background: "#dee1e6" }}>
-            <div style={{ marginBottom: "10px" }}>
-              <Cascader defaultValue={['Year', String(currentYear)]} options={options} onChange={filterHandler} placeholder="Please select" />
+          <div className="content adminContent " style={{ padding: "10px", marginTop: "10px" }}>
+            <div style={{ marginBottom: "15px", }}>
+              <Cascader style={{ boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.15)", fontWeight: "500", fontSize: "8px", fontFamily: "Montserrat, sans-serif", color: "#3F3F3F" }} defaultValue={['Year', String(currentYear)]} options={options} onChange={filterHandler} placeholder="Please select" />
             </div>
             <main>
-              <div className="chartDirection" style={{ marginBottom: "10px" }}>
+
+              <div>
+                <style>
+                  {`
+                      @media (max-width: 768px) {
+                        .responsive-target-cards {
+                          flex-direction: column !important;
+                          padding: 10px !important;
+                          border-radius: 20px !important;
+                          margin-left: 0 !important;
+                          margin-right: 0 !important;
+                          border: 1px solid #e0e0e0 !important;
+                          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+
+                        }
+
+                        .responsive-target-cards > .ant-col {
+                          padding-left: 0 !important;
+                          padding-right: 0 !important;
+                          margin-bottom: 0 !important;
+                        }
+
+                        .ant-row {
+                          row-gap: 0px !important;
+                          border-radius: 20px !important;
+                          
+                        }
+
+                        .smallDiv {
+                          padding: 2px !important;
+                          border-radius: 0px !important;
+                          height: 70px !important;
+                          margin-bottom: 0 !important;
+                          border: none !important;
+                          box-shadow: none !important;
+                          padding-left: 9px !important;
+
+                        
+                        }
+
+                        .smallDiv img {
+                          width: 36px !important;
+                          height: 36px !important;
+                          margin-top: 10px !important;
+                        }
+
+                        .smallDiv > div {
+                          margin-top: 10px !important;
+                        }
+
+                        .ant-col-xs-12{
+                        padding-bottom: 16px !important;
+                        }
+
+                        .target {
+                          position: relative !important;
+                          left: 110px !important;
+                          top: -10px;
+                        }
+                        .Achieved{
+                            position: relative !important;
+                            left: 9px !important;
+                          }
+                      }
+                    `}
+                </style>
+
+
+                <div className="responsive-target-cards ant-row ant-col-xs-12" style={{ marginBottom: "20px" }}>
+                  <Row gutter={[16, 16]} style={{ fontFamily: "Arial, sans-serif" }}>
+                    {/* Card 1 - Sales Target */}
+                    <Col xs={24} sm={24} md={8}>
+                      <div style={{
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "20px",
+                        padding: "16px",
+                        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                        backgroundColor: "white",
+                        display: "flex",
+                        height: "90px",
+
+                      }} className="smallDiv">
+                        <img
+                          style={{ backgroundColor: "#8488BF", borderRadius: "10px", padding: "6px", marginRight: "12px", marginTop: "20px" }}
+                          src="/icon.png"
+                          alt="Sales Icon"
+                          width="50px"
+                          height="50px"
+                        />
+                        <div style={{ flex: 1, marginTop: "20px" }}>
+                          <div style={{ fontWeight: "600", font: "Inter", fontSize: "15px", color: "#565656", marginRight: "5px", marginTop: "5px" }}>Sales Target</div>
+                          <div style={{ width: "88%", font: "Inter", fontSize: "14px", fontWeight: "600" }}>
+                            <Progress percent={74} strokeColor="#FE4C11" trailColor="#F2AEA2" strokeWidth={5} />
+                          </div>
+                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", color: "#7D7D7D", fontFamily: "Montserrat, sans-serif", fontWeight: "500" }}>
+                            <span style={{
+                              marginBottom: "20px", position: "relative",
+                              top: "-10px",
+                              left: "190px"
+                            }} className="target">Target <RupeeSymbol />400</span>
+                            <span style={{
+                              fontSize: "8px", marginBottom: "50px", fontStyle: "bold", fontWeight: "600", font: "Inter",
+                              marginRight: "5px", color: "#000000"
+                            }} className="Achieved">Achieved ₹10.6K</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Col>
+
+                    {/* Card 2 - Stores Target */}
+                    <Col xs={24} sm={24} md={8}>
+                      <div style={{
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "20px",
+                        padding: "16px",
+                        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                        backgroundColor: "white",
+                        display: "flex",
+                        height: "90px",
+
+                      }} className="smallDiv">
+                        <img
+                          style={{ backgroundColor: "#8488BF", borderRadius: "10px", padding: "6px", marginRight: "12px", marginTop: "20px" }}
+                          src="/icon3.png"
+                          alt="Store Icon"
+                          width="50px"
+                          height="50px"
+                        />
+                        <div style={{ flex: 1, marginTop: "20px" }}>
+                          <div style={{ fontWeight: "600", fontSize: "15px", color: "#565656", marginTop: "5px" }}>Stores Target</div>
+                          <div style={{ width: "88%", font: "Inter", fontSize: "14px", fontWeight: "600" }}>
+                            <Progress percent={50} strokeColor="#FE4C11" trailColor="#F2AEA2" strokeWidth={5} />
+                          </div>
+                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", color: "#7D7D7D", fontWeight: "500", fontFamily: "Montserrat, sans-serif" }}>
+                            <span style={{
+                              marginBottom: "20px", position: "relative",
+                              top: "-10px",
+                              left: "190px"
+                            }} className="target">Target 4</span>
+                            <span style={{
+                              fontSize: "8px", marginBottom: "50px", fontStyle: "bold", fontWeight: "600", font: "Inter",
+                              marginRight: "30px", color: "#000000"
+                            }} className="Achieved">Achieved 2</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Col>
+
+                    {/* Card 3 - Collection Target */}
+
+                    <Col xs={24} sm={24} md={8}>
+                      <div style={{
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "20px",
+                        padding: "16px",
+                        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                        backgroundColor: "white",
+                        display: "flex",
+                        height: "90px",
+
+                      }} className="smallDiv">
+                        <img
+                          style={{ backgroundColor: "#8488BF", borderRadius: "10px", padding: "6px", marginRight: "12px", marginTop: "20px" }}
+                          src="/icon1.png"
+                          alt="Collection Icon"
+                          width="50px"
+                          height="50px"
+                        />
+                        <div style={{ flex: 1, marginTop: "20px" }}>
+                          <div style={{ fontWeight: "600", fontSize: "15px", color: "#565656", marginTop: "5px" }}>Collection Target</div>
+                          <div style={{ width: "88%", font: "Inter", fontSize: "14px", fontWeight: "600" }}>
+                            <Progress percent={0} strokeColor="#FE4C11" trailColor="#F2AEA2" strokeWidth={5} />
+                          </div>
+                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", color: "#7D7D7D", fontWeight: "500", fontFamily: "Montserrat, sans-serif" }}>
+                            <span style={{
+                              marginBottom: "20px", position: "relative",
+                              top: "-10px",
+                              left: "190px"
+                            }} className="target">Target <RupeeSymbol />4.0K</span>
+                            <span style={{
+                              fontSize: "8px", marginBottom: "50px", fontStyle: "bold", fontWeight: "600", font: "Inter",
+                              marginRight: "24px", color: "#000000"
+                            }} className="Achieved">Achieved ₹0</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              </div>
+
+              {/* <div className="chartDirection" style={{ marginBottom: "10px" }}>
                 <div className='chartbg' style={{ marginTop: "0", background: "white" }}>
                   <div className="chartContainer">
                     <span>Achieved</span>
@@ -316,6 +507,7 @@ export const AdminDashboard = () => {
                     needleBaseColor="black"
                     className="gaugechart fontb"
                   />
+                  
                   <div className="valueTarContent">
                     <span>0</span>
                     <span>Sales Target</span>
@@ -379,38 +571,9 @@ export const AdminDashboard = () => {
                     </div>
                   </div>
                 </div>
-                {/* <div className="barChartContainer" style={{ background: "white", width: "345px" }}>
-                  <ResponsiveContainer
-                    aspect={1}
-                    className="dashgraph chartbg" style={{ background: "white" }} >
-                    <BarChart
-                      width={0}
-                      height={0}
-                      data={pdata}
-                      margin={{
-                        top: 1,
-                        right: 0,
-                        left: 10,
-                        bottom: 10,
-                      }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" interval={"preserveStartEnd"} />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="ordered" fill="#61af18" />
-                      <Bar dataKey="collected" fill="#e28652" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                  <div className="barChartCotent">
-                    <span>Ordered VS</span>
-                    <span>Collection</span>
-                  </div>
-                </div> */}
-              </div>
+              </div> */}
 
-              <div className="chartDirectionAdmin">
+              {/* <div className="chartDirectionAdmin">
                 <div className="dflex-dir" style={{ marginBottom: "10px" }}>
                   <div
                     className='adminchartbg'
@@ -469,13 +632,244 @@ export const AdminDashboard = () => {
                   </div>
                 </div>}
               </div>
+
+
+
+              
               <div className="admintablebg" style={{ marginTop: "12px" }}>
                 <div className="tabletitle">Revenue</div>
                 <RevenueChart
                   revenueCurrentWeekResults={revenueChartData?.RevenueCurrentWeekResults}
                   RevenueLastWeekResults={revenueChartData?.RevenueLastWeekResults}
                 />
-              </div>
+              </div> */}
+
+              <style>
+                {`
+                  @media (max-width: 768px) {
+                      .ant-card .ant-card-body{
+                        padding: 8px;
+                        border-radius: 20px;
+                      }
+
+                      .prior{
+                        position: relative;
+                        right: 110px !important; 
+                      }
+                    }
+        `}
+              </style>
+              <Row gutter={[16, 16]}>
+                <Col xs={24} lg={12}>
+                  <div>
+                    <span style={{
+                      color: "#171725",
+                      fontFamily: "Inter",
+                      fontSize: "24px",
+                      margin: "20px 0 10px 10px",
+                      fontWeight: "600"
+                    }}>
+                      Sales Target
+                    </span>
+
+
+                    <Row gutter={[8, 8]} style={{ marginTop: "30px", marginBottom: "30px", marginLeft: "15px" }} justify="start">
+                      <Col xs={8}>
+                        <Button block style={{
+                          backgroundColor: "#8488BF",
+                          color: "white",
+                          borderRadius: "8px",
+                          fontWeight: "400"
+                        }}>Daily</Button>
+                      </Col>
+                      <Col xs={8}>
+                        <Button block style={{
+                          backgroundColor: "#8488BF",
+                          color: "white",
+                          borderRadius: "8px",
+                          fontWeight: "400"
+                        }}>Monthly</Button>
+                      </Col>
+                      <Col xs={8}>
+                        <Button block style={{
+                          backgroundColor: "#8488BF",
+                          color: "white",
+                          borderRadius: "8px",
+                          fontWeight: "400"
+                        }}>Yearly</Button>
+                      </Col>
+                    </Row>
+
+
+                    <Row gutter={[16, 16]} style={{ marginTop: "20px", marginLeft: "15px" }}>
+                      <Col xs={12} >
+                        <Card style={{ backgroundColor: "#EFF5FF", borderRadius: "8px" }} className="new">
+                          <div style={{ display: "flex", justifyContent: "space-between" }}>
+                            <span style={{ fontSize: "16px", fontWeight: "600" }}>Sales</span>
+                            <span style={{ fontSize: "16px", color: "#D53D3D", fontWeight: "600" }}>-98.63%</span>
+                          </div>
+                          <h2 style={{ marginTop: "7px", fontSize: "32px", fontWeight: "600" }}>₹10.6K</h2>
+                          <div style={{ marginTop: "5px", color: "#92929D", fontSize: "13px" }}>
+                            Compared to (₹21340 last year)
+                          </div>
+                        </Card>
+                      </Col>
+
+                      <Col xs={12}>
+                        <Card style={{ backgroundColor: "#EFF5FF", borderRadius: "8px" }} className="new">
+                          <div style={{ display: "flex", justifyContent: "space-between" }}>
+                            <span style={{ fontSize: "16px", fontWeight: "600" }}>New Stores</span>
+                            <span style={{ fontSize: "16px", color: "#D53D3D", fontWeight: "600" }}>-97.01%</span>
+                          </div>
+                          <h2 style={{ marginTop: "7px", fontSize: "32px", fontWeight: "600" }}>2</h2>
+                          <div style={{ marginTop: "5px", color: "#92929D", fontSize: "13px" }}>
+                            Compared to (₹19000 last year)
+                          </div>
+                        </Card>
+                      </Col>
+
+                      <Col xs={12} >
+                        <Card style={{ backgroundColor: "#EFF5FF", borderRadius: "8px" }} className="new">
+                          <div style={{ display: "flex", justifyContent: "space-between" }}>
+                            <span style={{ fontSize: "16px", fontWeight: "600" }}>Orders</span>
+                            <span style={{ fontSize: "16px", color: "#D53D3D", fontWeight: "600" }}>-96.01%</span>
+                          </div>
+                          <h2 style={{ marginTop: "7px", fontSize: "32px", fontWeight: "600" }}>8</h2>
+                          <div style={{ marginTop: "5px", color: "#92929D", fontSize: "13px" }}>
+                            Compared to (₹21340 last year)
+                          </div>
+                        </Card>
+                      </Col>
+
+                      <Col xs={12} >
+                        <Card style={{ backgroundColor: "#EFF5FF", borderRadius: "8px" }} className="new">
+                          <div style={{ display: "flex", justifyContent: "space-between" }}>
+                            <span style={{ fontSize: "16px", fontWeight: "600" }}>Collections</span>
+                            <span style={{ fontSize: "16px", color: "#3DD598", fontWeight: "600" }}>+0.5%</span>
+                          </div>
+                          <h2 style={{ marginTop: "7px", fontSize: "32px", fontWeight: "600" }}>₹20921</h2>
+                          <div style={{ marginTop: "5px", color: "#92929D", fontSize: "13px" }}>
+                            Compared to (₹19000 last year)
+                          </div>
+                        </Card>
+                      </Col>
+                    </Row>
+                  </div>
+                </Col>
+
+                <Col xs={24} lg={12}>
+                  <span style={{
+                    marginBottom: '16px',
+                    color: "#171725",
+                    fontFamily: "Inter",
+                    fontSize: "24px",
+                    fontWeight: "600",
+                    marginTop: "-20px",
+                    marginLeft: "15px"
+                  }}>Revenue</span>
+                  <div style={{ marginTop: "15px", paddingBottom: "20px" }}>
+                    {/* <span style={{marginLeft:"10px", fontSize:"14px", fontWeight:"400", width:"177.84", font:"Inter",color:"#44444F" }}>Last Week</span>
+                  <span style={{marginLeft:"300px", fontSize:"14px", fontWeight:"400", width:"177.84", font:"Inter",color:"#44444F"}}>Prior Week</span> */}
+                    <div>
+                      <div style={{
+                        backgroundColor: '#fff',
+                        padding: '24px',
+                        borderRadius: '12px',
+                        // boxShadow: '0 2px 10px rgba(243, 239, 239, 1)',
+                        fontFamily: 'Inter, sans-serif',
+                        // width: '650px',
+                        height: "400px"
+                      }}>
+
+                        <div style={{ display: 'flex', gap: '24px', marginBottom: '60px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <div style={{
+                              width: '10px',
+                              height: '10px',
+                              borderRadius: '50%',
+                              backgroundColor: '#1C1C50',
+                              marginRight: '6px',
+                            }}></div>
+                            <span style={{ fontSize: '14px' }}>Last Week</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', marginLeft: "185px" }} className="prior">
+                            <div style={{
+                              width: '10px',
+                              height: '10px',
+                              borderRadius: '50%',
+                              backgroundColor: '#82b6ff',
+                              marginRight: '6px'
+                            }}></div>
+                            <span style={{ fontSize: '14px' }} >Prior Week</span>
+                          </div>
+                        </div>
+                        <div style={{
+                          position: 'relative',
+                          height: '260px',
+                          borderRadius: '10px',
+                          background: '#fff',
+                          overflow: 'hidden',
+                          border: '1px solid #f0f0f0'
+                        }}>
+                          {[0, 1, 2, 3, 4, 5].map((_, i) => (
+                            <div
+                              key={i}
+                              style={{
+                                position: 'absolute',
+                                top: `${i * 20}%`,
+                                width: '100%',
+                                height: '1px',
+                                backgroundColor: '#eee'
+                              }}
+                            />
+                          ))}
+                          <div style={{ position: 'absolute', top: '0', left: '0', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontSize: '12px', color: '#999', paddingLeft: '4px' }}>
+                            {[1000, 800, 600, 400, 200, 0].map((val) => <div key={val}>{val}</div>)}
+                          </div>
+                          <div style={{ position: 'absolute', bottom: '4px', left: '48px', right: '0', display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#999', padding: '0 16px' }}>
+                            {['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'].map((m) => <div key={m}>{m}</div>)}
+                          </div>
+                          <svg viewBox="0 0 600 200" style={{ position: 'absolute', top: '40px', left: '48px', right: '0' }}>
+
+                            <path
+                              d="M0,100 C100,50 200,60 300,80 C400,100 500,90 600,110"
+                              stroke="#82b6ff"
+                              strokeWidth="3"
+                              fill="none"
+                            />
+                            <path
+                              d="M0,110 C100,80 200,90 300,100 C400,90 500,100 600,120"
+                              stroke="#1C1C50"
+                              strokeWidth="3"
+                              fill="none"
+                            />
+                            <line x1="300" y1="0" x2="300" y2="160" stroke="#82b6ff" strokeWidth="2" />
+                            <circle cx="300" cy="80" r="6" fill="#1C1C50" />
+                          </svg>
+                          <div style={{
+                            position: 'absolute',
+                            top: '20px',
+                            left: 'calc(50% - 40px)',
+                            backgroundColor: '#fff',
+                            padding: '6px 12px',
+                            borderRadius: '10px',
+                            boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                            fontSize: '14px',
+                            textAlign: 'center',
+                            fontWeight: '600',
+                            width: '80px'
+                          }}>
+                            $27632<br />
+                            <span style={{ fontWeight: 'normal', fontSize: '12px' }}>August</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+
+
               <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: isMobile ? "0" : "20px", justifyContent: "space-between", width: "100%" }}>
                 <div className="admintablebg" style={{ width: isMobile ? "auto" : "100%" }}>
                   <div className="tabletitle">Pending Approvals</div>
@@ -507,27 +901,27 @@ export const AdminDashboard = () => {
 
                 <div className="admintablebg" style={{ width: isMobile ? "auto" : "100%" }}>
                   <div className="tabletitle">Top 5 SKU</div>
-                  <SkuTable topSKU={dashboardData?.sku?.topSKU} isSalesColumn={true}/>
+                  <SkuTable topSKU={dashboardData?.sku?.topSKU} isSalesColumn={true} />
                 </div>
                 <div className="admintablebg" style={{ width: isMobile ? "auto" : "100%" }}>
                   <div className="tabletitle">Bottom 5 SKU</div>
-                  <SkuTable topSKU={dashboardData?.sku?.bottomSKU} isSalesColumn={true}/>
+                  <SkuTable topSKU={dashboardData?.sku?.bottomSKU} isSalesColumn={true} />
                 </div>
-           
+
               </div>
               <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: isMobile ? "0" : "20px", justifyContent: "space-between", width: "100%" }}>
 
-            <div className="admintablebg" style={{ width: isMobile ? "auto" : "100%" }}>
-            <div className="tabletitle">Least Pending Amount</div>
-            <LeastPending />
-            </div>
-           <div className="admintablebg" style={{ width: isMobile ? "auto" : "100%" }}>
-          <div className="tabletitle">Most Pending Amount</div>
-          <MostPending/>
-         </div>
+                <div className="admintablebg" style={{ width: isMobile ? "auto" : "100%" }}>
+                  <div className="tabletitle">Least Pending Amount</div>
+                  <LeastPending />
+                </div>
+                <div className="admintablebg" style={{ width: isMobile ? "auto" : "100%" }}>
+                  <div className="tabletitle">Most Pending Amount</div>
+                  <MostPending />
+                </div>
 
-         </div>
-              
+              </div>
+
               {/* <div className="admintablebg">
                 <div className="tabletitle">Top 5 SKUs</div>
                 <SkuTable topSKU={dashboardData?.topSKU} />

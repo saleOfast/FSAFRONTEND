@@ -190,6 +190,7 @@ button {
 .adminHText{
   color: white;
   margin: 14px;
+
 }
 .adminbtnAtt{
   background: #61af18;
@@ -262,3 +263,9 @@ button {
   margin-top: 10px;
   margin-bottom: 84px;
 }
+
+.ant-progress-line {
+  width:"200px"
+}
+
+
