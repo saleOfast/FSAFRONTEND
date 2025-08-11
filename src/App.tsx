@@ -110,12 +110,25 @@ function App() {
           closeModal={(e: any) => {
             setToggleLogout(e);
           }} />
+  <style>
+    {`
+       @media (max-width: 768px){
+  .aligncenter {
+    display: none !important;
+  }
+   .left{
+      text-align:left !important;
+      margin-left: 16px !important;
+   }
+}
 
+    `}
+  </style>
         <div className={noPaths.includes(pathname) ? "" : "dashboardContainer"}>
           {pathname === "/403" || pathname !== "/" &&
             <div style={{
               display: "flex", justifyContent: "space-between", width: "100%", height: "50px", position: "fixed", zIndex: "99", alignItems: "center",
-              backgroundColor: `#FFFFFF`,
+              backgroundColor: `#8488BF`,
               // backgroundImage: noPaths.includes(pathname) ? "" : `url("https://mrapp.saleofast.com/images/headerblur.png")`,
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -127,23 +140,33 @@ function App() {
             }}
 
             >
-              <div style={{ marginLeft: "3%", }}
+              <div style={{ marginLeft: "3%" }} className="aligncenter"
               >
                 <Link to={authState?.user?.role === UserRole.SSM ? "/home" : authState?.user?.role === UserRole.RETAILER ? "/retailor/dashboard" : "/admin/dashboard"}>
                   {noPaths.includes(pathname) ? "" : <img src="https://mrapp.saleofast.com/images/saleofast_logo.png" width={120} alt="LOGO"/>}
                 </Link>
+                
+              </div>
+              {/* <div style={{display:"flex"}}>
+                  <h1 style={{marginLeft:"30px", textAlign:"left"}}>ADMIN</h1>
+              </div> */}
+              <div style={{display: "flex", width: "100%"}} >
+                  <label style={{marginLeft: "90px", textAlign: "left", color:"#FFFFFF", fontSize:"20px", fontWeight:"700", fontStyle:"bold", width:"288px"}}className="left">Admin Dashboard</label>
               </div>
               <div style={{ marginRight: "0%" }}>
-                <div className="aligncenter" style={{ marginRight: "10px" }}>
+                  
+                
+                <div className="aligncenter" style={{ marginRight: "10px", width:"150px"}}>
+                  
                   {authState?.user?.role &&
                     <Link to="#" className="linkto" onClick={(e) => { e.preventDefault() }} >
                       <Dropdown menu={{ items }} trigger={['click']} >
                         <Space>
-                          <span style={{ color: "black" }}>
+                          <span style={{ color: "white" }}>
                             Hi,{" "}
                             {capitalizeFirstLetter(authState?.user?.role === UserRole.ADMIN ? authState.user?.name.split(' ')[0] : authState.user?.name.split(' ')[0] + "")}
                           </span>
-                          <DownOutlined style={{ color: "black" }} />
+                          <DownOutlined style={{ color: "white" }} />
                           {authState?.user?.image ?
                             <img
                               src={authState?.user?.image}
