@@ -243,7 +243,7 @@ export default function LeaveApplication() {
     };
     return (
         <div className='btmMarginMob'>
-            <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
+            <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
                 <ArrowLeftOutlined onClick={previousPage} className="back-button" />
                 <h1 className="page-title pr-18">Apply Leave</h1>
             </header>

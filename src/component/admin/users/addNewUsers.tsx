@@ -174,11 +174,11 @@ export default function AddNewUsers() {
   }
   return (
     <div>
-      <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
+      <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">{empId ? "Update User" : "Add New User"}</h1>
       </header>
-      <main className="deskMr-16 formContents ant-typography ant-row ant-form-item ant-form-item-label ">
+      <main className="deskMr-16 formContents ant-typography ant-row ant-form-item ant-form-item-label ant-input-affix-wrapper ant-input ">
         <Form
           onFinish={handleSubmit(onSubmit)}
           autoComplete="off"

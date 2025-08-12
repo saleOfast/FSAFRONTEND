@@ -217,7 +217,7 @@ const exportToExcel = async (reportName:string) => {
       case UserRole.RETAILER: // Assuming there is a manager role
         return "Retailer Dashboard";  
       default:
-        return "Dashboard"; // Fallback in case of unknown role or undefined
+        return "Admin Dashboard"; // Fallback in case of unknown role or undefined
     }
   };
 

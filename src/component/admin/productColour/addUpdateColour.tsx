@@ -89,7 +89,7 @@ export default function AddUpdateColour() {
   return (
     <div>
       <FullPageLoaderWithState isLoading={isLoading} />
-      <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
+      <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">{colourId ? "Update Colour " : "Add New Colour "}</h1>
       </header>

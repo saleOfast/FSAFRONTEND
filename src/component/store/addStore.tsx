@@ -500,7 +500,7 @@ const AddStore = () => {
     <div>
       <header
         className="heading heading-container"
-        style={{ backgroundColor: "#070D79" }}
+        style={{ backgroundColor: "#8488BF" }}
       >
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18 ">
@@ -522,7 +522,7 @@ const AddStore = () => {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           // wrapperCol={{ span: 14 }}
-          style={{ maxWidth: "100%" }}
+          style={{ width: "100%" }}
         // disabled={componentDisabled}
         >
           <Row gutter={24}>

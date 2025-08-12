@@ -41,7 +41,7 @@ const MylearningAssessment = () => {
 
   return (
     <div className="store-v1">
-      <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
+      <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">My Assessment</h1>
       </header>

@@ -290,7 +290,7 @@ export default function AddNewProduct() {
     };
     return (
         <div>
-            <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
+            <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
                 <ArrowLeftOutlined onClick={previousPage} className="back-button" />
                 <h1 className="page-title pr-18">{productId ? "Update Medicine" : "Add New Medicine"}</h1>
             </header>

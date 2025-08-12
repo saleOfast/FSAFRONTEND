@@ -25,6 +25,8 @@ import { getStoresByEmpIdService } from 'services/usersSerivce'
 import { DiscountTypeEnum } from 'enum/product'
 import { IOrderItem } from 'types/Product'
 import { getStoreByIdService } from 'services/storeService'
+import { DatePicker, Row, Col } from 'antd';
+
 
 // type FormInstance<T> = GetRef<typeof Form<T>>;
 
@@ -140,7 +142,7 @@ type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 
 export default function OrderForm() {
   const navigate = useNavigate();
-    const location = useLocation();
+  const location = useLocation();
   const [productData, setOrderItems] = useState<any>([]);
   const { authState } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -176,9 +178,9 @@ export default function OrderForm() {
 
   const [dataSource, setDataSource] = useState<any[]>([]);
 
- 
-    let initialData = useMemo(async () => {
-      if (!params?.orderId) {
+
+  let initialData = useMemo(async () => {
+    if (!params?.orderId) {
       const data: any = [
         {
           key: 0,
@@ -208,9 +210,9 @@ export default function OrderForm() {
       data.push(totalRow);
       return setDataSource(data);
     }
-    }, [sizeData]);
+  }, [sizeData]);
   let [selectedStore, setSelectedStore] = useState<any>();
-  
+
   async function getOrderSummaryData() {
     try {
       if (params?.orderId) {
@@ -437,8 +439,8 @@ export default function OrderForm() {
       )
     );
   };
-  
- const [discountData, setDiscountData] = useState<any>()
+
+  const [discountData, setDiscountData] = useState<any>()
   const handleDiscountChange = (value: any, key: any) => {
     // console.log({value})
     setDiscountData(value)
@@ -498,20 +500,20 @@ export default function OrderForm() {
 
   const memoizedDataSource = useMemo(() => {
     if (dataSource.length === 0) return [];
-  
+
     const updatedDataSource = dataSource.slice(0, -1).map((item) => ({
       ...item,
-      product:productData.find((data: any) => data?.productId === item.productId),
+      product: productData.find((data: any) => data?.productId === item.productId),
       total: Number(item.quantity || 0), // Use `quantity`
-      price: (productData.find((p:any) => p.productId === item.productId)?.rlp || 0) * Number(item.quantity || 0),
+      price: (productData.find((p: any) => p.productId === item.productId)?.rlp || 0) * Number(item.quantity || 0),
     }));
-  
+
     return updatedDataSource;
   }, [dataSource, productData]);
-  
+
   const totalRow = useMemo(() => {
     if (memoizedDataSource.length === 0) return dataSource[dataSource.length - 1] || {};
-  
+
     return {
       ...dataSource[dataSource.length - 1], // Preserve last row structure
       total: memoizedDataSource.reduce((sum, row) => sum + row.total, 0),
@@ -521,23 +523,23 @@ export default function OrderForm() {
       ),
     };
   }, [memoizedDataSource, dataSource]);
-  
+
   useEffect(() => {
     const newDataSource = [...memoizedDataSource, totalRow];
-  
+
     if (JSON.stringify(newDataSource) !== JSON.stringify(prevDataSourceRef.current)) {
       prevDataSourceRef.current = newDataSource;
       setDataSource(newDataSource);
     }
   }, [totalRow, memoizedDataSource]);
-  
-  
+
+
   // const memoizedDataSource = useMemo(() => {
   //   if (dataSource.length === 0) return [];
-  
+
   //   return dataSource.map((item, index) => {
   //     if (index === dataSource.length - 1) return item; // Keep last row unchanged
-  
+
   //     return {
   //       ...item,
   //       total: Number(item.total || 0), // Use `quantity` instead of `sizeData`
@@ -545,29 +547,29 @@ export default function OrderForm() {
   //     };
   //   });
   // }, [dataSource, productData]); // Dependencies ensure recomputation only when needed
-  
+
   // useEffect(() => {
   //   if (JSON.stringify(memoizedDataSource) !== JSON.stringify(prevDataSourceRef.current)) {
   //     prevDataSourceRef.current = memoizedDataSource;
   //     setDataSource(memoizedDataSource);
   //   }
   // }, [memoizedDataSource]); // Only runs when `memoizedDataSource` changes
-  
-  
-  
+
+
+
   // useEffect(() => {
   //   if (!dataSource.length) return;
-  
+
   //   const updatedDataSource = dataSource.map((item, index) => {
   //     if (index === dataSource.length - 1) return item; // Skip last row modification
-  
+
   //     const total = sizeData.reduce((sum: any, size: any) => sum + Number(item[size.name] || 0), 0);
   //     const product = productData.find((data: any) => data?.productId === item.productId);
   //     const price = product ? Number(product.rlp) * Number(total) : 0;
-  
+
   //     return { ...item, total, price };
   //   });
-  
+
   //   // Compute total values for last row
   //   const totalRow = {
   //     key: "total-row",
@@ -579,19 +581,19 @@ export default function OrderForm() {
   //     discount: updatedDataSource.reduce((sum: any, row: any) => sum + (Number(row.discount || 0) * Number(row.total || 0)), 0),
   //     action: "",
   //   };
-  
+
   //   if (dataSource.length > 1) {
   //     updatedDataSource[dataSource.length - 1] = totalRow;
   //   } else {
   //     updatedDataSource.push(totalRow);
   //   }
-  
+
   //   if (JSON.stringify(updatedDataSource) !== JSON.stringify(prevDataSourceRef.current)) {
   //     prevDataSourceRef.current = updatedDataSource;
   //     setDataSource(updatedDataSource);
   //   }
   // }, [dataSource, sizeData, productData, discountData, selectedStore]);
-  
+
   // useEffect(() => {
   //   const updatedDataSource = dataSource.map((item) => {
   //     const total = sizeData.reduce((sum: any, size: any) => {
@@ -625,10 +627,10 @@ export default function OrderForm() {
   //   const updatedDataSource = dataSource.map((item) => {
   //     const product = productData.find((data: any) => data?.productId === item.productId);
   //     const price = product ? Number(product.rlp) * Number(item.total || 0) : 0; // Use `total` directly
-  
+
   //     return { ...item, price, product };
   //   });
-  
+
   //   // Update total row separately
   //   const totalRow = {
   //     ...dataSource[dataSource?.length - 1],
@@ -639,15 +641,15 @@ export default function OrderForm() {
   //       0
   //     ),
   //   };
-  
+
   //   updatedDataSource[dataSource?.length - 1] = totalRow;
-  
+
   //   if (JSON.stringify(updatedDataSource) !== JSON.stringify(prevDataSourceRef.current)) {
   //     prevDataSourceRef.current = updatedDataSource;
   //     setDataSource(updatedDataSource);
   //   }
   // }, [dataSource, productData, discountData, selectedStore]);
-  
+
   const handleDelete = (key: React.Key) => {
     const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
@@ -669,6 +671,21 @@ export default function OrderForm() {
         return <span style={{ color: "blue" }}>{index + 1}</span>
       },
     },
+    {
+      title: 'Product ID',
+      dataIndex: 'product Id',
+      key: 'product Id',
+      width: 130
+
+    },
+    {
+      title: 'Product Name',
+      dataIndex: 'product name',
+      key: 'product name',
+      width: 130
+
+    },
+
     {
       title: 'Medicine',
       dataIndex: 'product',
@@ -721,7 +738,7 @@ export default function OrderForm() {
         );
       },
     },
-    
+
     {
       title: "Quantity",
       dataIndex: "quantity",
@@ -742,7 +759,7 @@ export default function OrderForm() {
         );
       },
     },
-    
+
     {
       title: 'Unit Price',
       dataIndex: 'price',
@@ -757,6 +774,43 @@ export default function OrderForm() {
         return text; // Normal render for other rows
       },
     },
+
+
+    {
+      title: 'Quantity Ordered',
+      dataIndex: 'Quantity',
+      key: 'Quantity',
+      width: 180
+
+    },
+    {
+      title: 'Unit of Measure(UOM)',
+      dataIndex: 'unit',
+      key: 'unit',
+      width: 200
+
+    },
+    {
+      title: 'Rate per Unit',
+      dataIndex: 'Rate',
+      key: 'Rate',
+      width: 130
+
+    },
+    {
+      title: 'Discount',
+      dataIndex: 'Discount',
+      key: 'Discount',
+      width: 110
+
+    },
+    {
+      title: 'Tax %',
+      dataIndex: 'tax',
+      key: 'tax',
+      width: 110
+
+    },
     {
       title: 'Total Price',
       dataIndex: 'totalPrice',
@@ -769,7 +823,8 @@ export default function OrderForm() {
         return record.price;
       },
     },
-    
+
+
     // {
     //   title: 'Total Price',
     //   dataIndex: 'price',
@@ -985,7 +1040,7 @@ export default function OrderForm() {
       netTotal = netTotal - visibilityDiscount;
     }
     let pieceDiscount: number = 0;
-    if(dataSource?.length > 0){
+    if (dataSource?.length > 0) {
       const data = dataSource[dataSource.length - 1];
       pieceDiscount = data?.discount;
       netTotal = netTotal - pieceDiscount;
@@ -1116,9 +1171,9 @@ export default function OrderForm() {
   const catDataFilter: Category[] = [...allListCat, ...productCategoryData];
   const catOptions: CascaderOption[] = mapCategoriesToCascaderOptions(catDataFilter);
 
-  const selectTypeData:any = [
-...( authState?.user?.role === UserRole.RETAILER ?   [{ label: "Retailor Order", value: VisitTypeEnum.RETAILER_ORDER }]: [{ label: "Visit Order", value: VisitTypeEnum.PHYSICAL }, { label: "Phone Order", value: VisitTypeEnum.TELEVISIT }])
-  ] 
+  const selectTypeData: any = [
+    ...(authState?.user?.role === UserRole.RETAILER ? [{ label: "Retailor Order", value: VisitTypeEnum.RETAILER_ORDER }] : [{ label: "Visit Order", value: VisitTypeEnum.PHYSICAL }, { label: "Phone Order", value: VisitTypeEnum.TELEVISIT }])
+  ]
   const [storeData, setStoreData] = useState<any[]>([]);
   const orderStoreList = [
     ...(storeData?.map((i: any) => ({
@@ -1126,7 +1181,7 @@ export default function OrderForm() {
       value: i?.storeid,
     })) || []),
   ];
-  
+
   const callTypeList = [...selectTypeData?.map((i: any) => ({ label: i?.label, value: i?.value }))]
   // const {authState} = useAuth()
   // const [isLoading, setIsLoading] = useState(false);
@@ -1143,13 +1198,42 @@ export default function OrderForm() {
         setIsLoading(false);
       }
     }
-  
+
     getStoresData();
   }, [])
 
+  const orderSourceOptions = [
+  { label: "App", value: "app" },
+  { label: "Phone", value: "phone" },
+  { label: "In-person", value: "inperson" },
+  { label: "WhatsApp", value: "whatsapp" },
+];
+
+const orderStatusOptions = [
+  { label: "Pending", value: "pending" },
+  { label: "Approved", value: "approved" },
+  { label: "Dispatched", value: "dispatched" },
+  { label: "Delivered", value: "delivered" },
+  { label: "Cancelled", value: "cancelled" },
+];
+const deliveryTimeSlotOptions = [
+  { label: "Morning", value: "morning" },
+  { label: "Evening", value: "evening" },
+];
+const paymentMethodOptions = [
+  { label: "Cash", value: "cash" },
+  { label: "Credit", value: "credit" },
+  { label: "Online", value: "online" },
+  { label: "COD", value: "cod" },
+];
+const paymentStatusOptions = [
+  { label: "Paid", value: "paid" },
+  { label: "Unpaid", value: "unpaid" },
+  { label: "Partially Paid", value: "partially_paid" },
+];
   return (
     <div>
-      <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
+      <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">ORDER FORM</h1>
       </header>
@@ -1159,112 +1243,67 @@ export default function OrderForm() {
                 </div>
             </Link>} */}
 
-            <main className='content' style={{ marginBottom: "120px" }}>
-            <div className="selection-line " style={{marginBottom:"10px"}}>
-          <div className="brand" style={{ paddingLeft: "10px" }}>
-            <label style={{ color: "black", fontSize: "16px", marginRight: "6px" }}>Brand:</label>
-            <Select
-              id="brandSelect"
-              defaultValue="All"
-              className='selectFiltBtn'
-              onChange={handleBrandChange}
-              options={optionsBrand}
-              placeholder="Select Brand"
-              showSearch // Enables search
-              optionFilterProp="label" // Search based on the label of the options
-              filterOption={(input:any, option:any) =>
-                option?.label?.toLowerCase()?.includes(input?.toLowerCase()) // Custom filter logic
-              }
-            />
-          </div>
-          <div className="category"  >
-            <label style={{ color: "black", fontSize: "16px", marginRight: "6px" }}>Category:</label>
-            <TreeSelect
-              showSearch
-              className="selectFiltBtn"
-              // value={value}
-              defaultValue={"All"}
-              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-              placeholder="Select Category"
-              allowClear
-              treeDefaultExpandAll
-              onChange={handleCategoryChange}
-              treeData={catOptions}
-            />
-            {/* <Select
-              id="brandSelect"
-              defaultValue="Category"
-              className='selectFiltBtn'
-              onChange={handleCategoryChange}
-              options={optionsCategory}
-            /> */}
-          </div>
 
-        </div>
+<main className="content" style={{ marginBottom: "120px" }}>
+  
+<Row gutter={[16, 16]}>
+  {[
+    { label: "Brand", component: <Select options={optionsBrand} placeholder="Select Brand" /> },
+    { label: "Category", component: <TreeSelect treeData={catOptions} placeholder="Select Category" /> },
+    { label: "Chemist", component: <Select options={orderStoreList} placeholder="Select Chemist" /> },
+    { label: "Order Type", component: <Select options={callTypeList} placeholder="Select Order Type" /> },
+    { label: "Order ID", component: <Input placeholder="Enter Order ID" /> },
+    { label: "Customer ID/Name", component: <Input placeholder="Enter Customer ID/Name" /> },
+    { label: "Order Source", component: <Select options={orderSourceOptions} placeholder="Select Order Source" /> },
+    { label: "Order Date", component: <DatePicker style={{ width: "100%" }} /> },
+    { label: "Delivery Date", component: <DatePicker style={{ width: "100%" }} /> },
+    { label: "Order Status", component: <Select options={orderStatusOptions} placeholder="Select Status" /> },
+    { label: "Delivery Time Slot", component: <Select options={deliveryTimeSlotOptions} placeholder="Select Time Slot" /> },
+    { label: "Delivery Address", component: <Input placeholder="Enter Address" /> },
+    { label: "Salesperson ID", component: <Input placeholder="Enter Salesperson ID" /> },
+    { label: "Payment Method", component: <Select options={paymentMethodOptions} placeholder="Select Payment Method" /> },
+    { label: "Payment Status", component: <Select options={paymentStatusOptions} placeholder="Select Payment Status" /> },
+    { label: "Order Notes", component: <Input.TextArea rows={1} placeholder="Enter Notes" /> }
+  ].map((field, index) => (
+    <Col key={index} xs={12} md={6}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        <label style={{ fontWeight: 500 }}>{field.label}:</label>
+        {React.cloneElement(field.component, { style: { width: "100%" } })}
+      </div>
+    </Col>
+  ))}
+</Row>
 
-        { isOrderForm == "true" && <div className="selection-line" style={{ marginBottom: "10px" }}>
-          <div className="brand">
-          <label style={{ color: "black", fontSize: "16px", marginRight: "6px" }}>Chemist:</label>
+  {/* Table */}
+  <div style={{ position: "relative", marginTop: 20 }}>
+    <Table
+      components={{
+        body: {
+          row: EditableRow,
+          cell: EditableCell,
+        },
+      }}
+      scroll={{ x: "100%" }}
+      rowClassName={rowClassName}
+      bordered
+      dataSource={dataSource}
+      columns={columns as ColumnTypes}
+      pagination={false}
+    />
+  </div>
 
-            <Select
-              value={selectedStore}
-              className="selectFiltBtn"
-              onChange={(value: any) => handleStoreChange(value)}
-              options={orderStoreList}
-              placeholder="Select Chemist"
-              showSearch // Enables search
-              optionFilterProp="label" // Search based on the label of the options
-              filterOption={(input:any, option:any) =>
-                option?.label?.toLowerCase()?.includes(input?.toLowerCase()) // Custom filter logic
-              }
-            >
-              {storeData?.map((d: any) => (
-                <Select.Option key={d.storeId} value={d.storeId}>
-                  {d.storeName}
-                </Select.Option>
-              ))}
-            </Select>
-          </div>
+  <Button
+    onClick={handleAdd}
+    type="primary"
+    style={{ marginTop: 16, right: 20, position: "absolute" }}
+  >
+    Add a row
+  </Button>
+</main>
 
-          <div className="category">
-          <label style={{ color: "black", fontSize: "16px", marginRight: "6px" }}>Order Type:</label>
 
-            <Select
-              value={selectedVisitType}
-              className="selectFiltBtn"
-              onChange={handleVisitTypeChange}
-              options={callTypeList}
-              placeholder="Select Order Type"
-              aria-required
-            />
 
-          </div>
-        </div>}
 
-        <div style={{ position: 'relative' }}>
-
-          <Table
-            components={{
-              body: {
-                row: EditableRow,
-                cell: EditableCell,
-              },
-            }}
-            scroll={{ x: "100%" }}
-            rowClassName={rowClassName}
-            bordered
-            dataSource={dataSource
-            }
-            columns={columns as ColumnTypes}
-            pagination={false}
-          />
-        </div>
-        <Button
-          onClick={handleAdd} type="primary" style={{ marginTop: 16, right: 20, position: "absolute" }}>
-          Add a row
-        </Button>
-
-      </main>
       <Button
         onClick={() => handleCreateOrder(OrderStatus.ORDERPLACED)} type="primary" style={{ marginTop: 16, right: 20, position: "absolute" }}>
         Place Order
@@ -1287,7 +1326,7 @@ export default function OrderForm() {
             <div>-₹{calculatedData.totalSkuDiscount}</div>
           </div>
         }
-         {
+        {
           +calculatedData.pieceDiscount > 0 &&
           <div className="main-item discountColor">
             <div>Total Piece Discount</div>
@@ -1339,7 +1378,31 @@ export default function OrderForm() {
                 .table-row-total {
                     background-color: #f0f0f0 !important; /* Sets the background color to yellow */
                    }
+                    .selection-line {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Desktop - 4 columns */
+  gap: 10px;
+  align-items: center;
+}
+
+.selection-line label {
+  color: black;
+  font-size: 16px;
+  margin-right: 6px;
+}
+
+.brand, .category, .chemist, .order-type {
+  padding-left: 10px;
+}
+
+@media (max-width: 768px) {
+  .selection-line {
+    grid-template-columns: repeat(2, 1fr); /* Mobile - 2 columns */
+  }
+}
+
                 `}
+
       </style>
     </div>
 

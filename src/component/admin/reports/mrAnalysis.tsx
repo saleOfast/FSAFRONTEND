@@ -101,7 +101,7 @@ export const MrAnalysis = () => {
     <div>
       <header
         className="heading heading-container"
-        style={{ backgroundColor: "#070D79" }}
+        style={{ backgroundColor: "#8488BF" }}
       >
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">MR Analysis Report</h1>

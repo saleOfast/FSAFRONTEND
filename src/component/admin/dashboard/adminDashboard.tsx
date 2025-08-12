@@ -271,7 +271,29 @@ export const AdminDashboard = () => {
       }),
     },
   ];
-
+  const cardData = [
+    {
+      title: "Sales Target",
+      icon: "/icon.png",
+      target: <><RupeeSymbol />400</>,
+      achieved: "₹10.6K",
+      percent: 74,
+    },
+    {
+      title: "Stores Target",
+      icon: "/icon3.png",
+      target: "4",
+      achieved: "2",
+      percent: 50,
+    },
+    {
+      title: "Collection Target",
+      icon: "/icon1.png",
+      target: <><RupeeSymbol />4.0K</>,
+      achieved: "₹0",
+      percent: 0,
+    },
+  ];
 
 
   return (
@@ -286,11 +308,11 @@ export const AdminDashboard = () => {
             setToggleDelete(e);
           }} />
         <FullPageLoaderWithState isLoading={isLoading} />
-        {/* <header style={{ backgroundColor: "white", justifyContent: "space-between" }}> */}
-        <h4 className="adminHText">
-          {capitalizeFirstLetter(getDashboardLabel(authState?.user?.role))}
-        </h4>
-        {/* </header> */}
+        <header style={{ backgroundColor: "#8488BF", justifyContent: "space-between" }}>
+          <h4 className="adminHText">
+            {capitalizeFirstLetter(getDashboardLabel(authState?.user?.role))}
+          </h4>
+        </header>
         {dashboardData &&
           <div className="content adminContent " style={{ padding: "10px", marginTop: "10px" }}>
             <div style={{ marginBottom: "15px", }}>
@@ -367,123 +389,84 @@ export const AdminDashboard = () => {
 
                 <div className="responsive-target-cards ant-row ant-col-xs-12" style={{ marginBottom: "20px" }}>
                   <Row gutter={[16, 16]} style={{ fontFamily: "Arial, sans-serif" }}>
-                    {/* Card 1 - Sales Target */}
-                    <Col xs={24} sm={24} md={8}>
-                      <div style={{
-                        border: "1px solid #e0e0e0",
-                        borderRadius: "20px",
-                        padding: "16px",
-                        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                        backgroundColor: "white",
-                        display: "flex",
-                        height: "90px",
-
-                      }} className="smallDiv">
-                        <img
-                          style={{ backgroundColor: "#8488BF", borderRadius: "10px", padding: "6px", marginRight: "12px", marginTop: "20px" }}
-                          src="/icon.png"
-                          alt="Sales Icon"
-                          width="50px"
-                          height="50px"
-                        />
-                        <div style={{ flex: 1, marginTop: "20px" }}>
-                          <div style={{ fontWeight: "600", font: "Inter", fontSize: "15px", color: "#565656", marginRight: "5px", marginTop: "5px" }}>Sales Target</div>
-                          <div style={{ width: "88%", font: "Inter", fontSize: "14px", fontWeight: "600" }}>
-                            <Progress percent={74} strokeColor="#FE4C11" trailColor="#F2AEA2" strokeWidth={5} />
-                          </div>
-                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", color: "#7D7D7D", fontFamily: "Montserrat, sans-serif", fontWeight: "500" }}>
-                            <span style={{
-                              marginBottom: "20px", position: "relative",
-                              top: "-10px",
-                              left: "190px"
-                            }} className="target">Target <RupeeSymbol />400</span>
-                            <span style={{
-                              fontSize: "8px", marginBottom: "50px", fontStyle: "bold", fontWeight: "600", font: "Inter",
-                              marginRight: "5px", color: "#000000"
-                            }} className="Achieved">Achieved ₹10.6K</span>
-                          </div>
-                        </div>
-                      </div>
-                    </Col>
-
-                    {/* Card 2 - Stores Target */}
-                    <Col xs={24} sm={24} md={8}>
-                      <div style={{
-                        border: "1px solid #e0e0e0",
-                        borderRadius: "20px",
-                        padding: "16px",
-                        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                        backgroundColor: "white",
-                        display: "flex",
-                        height: "90px",
-
-                      }} className="smallDiv">
-                        <img
-                          style={{ backgroundColor: "#8488BF", borderRadius: "10px", padding: "6px", marginRight: "12px", marginTop: "20px" }}
-                          src="/icon3.png"
-                          alt="Store Icon"
-                          width="50px"
-                          height="50px"
-                        />
-                        <div style={{ flex: 1, marginTop: "20px" }}>
-                          <div style={{ fontWeight: "600", fontSize: "15px", color: "#565656", marginTop: "5px" }}>Stores Target</div>
-                          <div style={{ width: "88%", font: "Inter", fontSize: "14px", fontWeight: "600" }}>
-                            <Progress percent={50} strokeColor="#FE4C11" trailColor="#F2AEA2" strokeWidth={5} />
-                          </div>
-                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", color: "#7D7D7D", fontWeight: "500", fontFamily: "Montserrat, sans-serif" }}>
-                            <span style={{
-                              marginBottom: "20px", position: "relative",
-                              top: "-10px",
-                              left: "190px"
-                            }} className="target">Target 4</span>
-                            <span style={{
-                              fontSize: "8px", marginBottom: "50px", fontStyle: "bold", fontWeight: "600", font: "Inter",
-                              marginRight: "30px", color: "#000000"
-                            }} className="Achieved">Achieved 2</span>
-                          </div>
-                        </div>
-                      </div>
-                    </Col>
-
-                    {/* Card 3 - Collection Target */}
-
-                    <Col xs={24} sm={24} md={8}>
-                      <div style={{
-                        border: "1px solid #e0e0e0",
-                        borderRadius: "20px",
-                        padding: "16px",
-                        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                        backgroundColor: "white",
-                        display: "flex",
-                        height: "90px",
-
-                      }} className="smallDiv">
-                        <img
-                          style={{ backgroundColor: "#8488BF", borderRadius: "10px", padding: "6px", marginRight: "12px", marginTop: "20px" }}
-                          src="/icon1.png"
-                          alt="Collection Icon"
-                          width="50px"
-                          height="50px"
-                        />
-                        <div style={{ flex: 1, marginTop: "20px" }}>
-                          <div style={{ fontWeight: "600", fontSize: "15px", color: "#565656", marginTop: "5px" }}>Collection Target</div>
-                          <div style={{ width: "88%", font: "Inter", fontSize: "14px", fontWeight: "600" }}>
-                            <Progress percent={0} strokeColor="#FE4C11" trailColor="#F2AEA2" strokeWidth={5} />
-                          </div>
-                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", color: "#7D7D7D", fontWeight: "500", fontFamily: "Montserrat, sans-serif" }}>
-                            <span style={{
-                              marginBottom: "20px", position: "relative",
-                              top: "-10px",
-                              left: "190px"
-                            }} className="target">Target <RupeeSymbol />4.0K</span>
-                            <span style={{
-                              fontSize: "8px", marginBottom: "50px", fontStyle: "bold", fontWeight: "600", font: "Inter",
-                              marginRight: "24px", color: "#000000"
-                            }} className="Achieved">Achieved ₹0</span>
+                    {cardData.map((card, index) => (
+                      <Col key={index} xs={24} sm={24} md={8}>
+                        <div
+                          style={{
+                            border: "1px solid #e0e0e0",
+                            borderRadius: "20px",
+                            padding: "16px",
+                            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                            backgroundColor: "white",
+                            display: "flex",
+                            height: "90px",
+                          }}
+                          className="smallDiv"
+                        >
+                          <img
+                            style={{
+                              backgroundColor: "#8488BF",
+                              borderRadius: "10px",
+                              padding: "6px",
+                              marginRight: "12px",
+                              marginTop: "20px",
+                            }}
+                            src={card.icon}
+                            alt={`${card.title} Icon`}
+                            width="50px"
+                            height="50px"
+                          />
+                          <div style={{ flex: 1, marginTop: "20px" }}>
+                            <div style={{ fontWeight: "600", fontSize: "15px", color: "#565656", marginTop: "5px" }}>
+                              {card.title}
+                            </div>
+                            <div style={{ width: "88%", font: "Inter", fontSize: "14px", fontWeight: "600" }}>
+                              <Progress
+                                percent={card.percent}
+                                strokeColor="#FE4C11"
+                                trailColor="#F2AEA2"
+                                strokeWidth={5}
+                              />
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                fontSize: "13px",
+                                color: "#7D7D7D",
+                                fontWeight: "500",
+                                fontFamily: "Montserrat, sans-serif",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  marginBottom: "20px",
+                                  position: "relative",
+                                  top: "-10px",
+                                  left: "190px",
+                                }}
+                                className="target"
+                              >
+                                Target {card.target}
+                              </span>
+                              <span
+                                style={{
+                                  fontSize: "8px",
+                                  marginBottom: "50px",
+                                  fontWeight: "600",
+                                  font: "Inter",
+                                  marginRight: "30px",
+                                  color: "#000000",
+                                }}
+                                className="Achieved"
+                              >
+                                Achieved {card.achieved}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </Col>
+                      </Col>
+                    ))}
                   </Row>
                 </div>
               </div>

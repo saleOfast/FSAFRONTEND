@@ -99,7 +99,7 @@ export default function AddNewScheme() {
 
   return (
     <div>
-      <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
+      <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">{schemeId ? "Update Marketing Material":"Upload Marketing Material PDF"}</h1>
       </header>

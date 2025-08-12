@@ -282,7 +282,7 @@ const handleExecutiveChange = (value: any) => {
   
     return (
         <div>
-            <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
+            <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
                 <ArrowLeftOutlined onClick={previousPage} className="back-button" />
                 <h1 className="page-title pr-18">Attendance Report</h1>
             </header>

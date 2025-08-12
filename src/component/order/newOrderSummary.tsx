@@ -5,7 +5,7 @@ import previousPage from "utils/previousPage";
 export default function NewOrderSummary() {
   return (
     <>
-      <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
+      <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">Order Summary</h1>
       </header>
