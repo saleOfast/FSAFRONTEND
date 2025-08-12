@@ -142,7 +142,7 @@ function AppRoutes() {
         },
         { path: "/new-stores", element: <AuthGuard page={<NewStores />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/stores", element: <AuthGuard page={<Stores />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.CHANNEL, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
-        { path: "/stores/store-details", element: <AuthGuard page={<StoreDetails />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.CHANNEL, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
+        { path: "/stores/store-details", element: <AuthGuard page={<DoctorDetails/>} role={[UserRole.ADMIN, UserRole.SSM, UserRole.CHANNEL, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/stores/add-store", element: <AuthGuard page={<AddStore />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/visit/inventory/:storeId", element: <AuthGuard page={<Inventory />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/visit/inventory", element: <AuthGuard page={<Inventory />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },

@@ -398,7 +398,7 @@ export const AdminDashboard = () => {
                               left: "190px"
                             }} className="target">Target <RupeeSymbol />400</span>
                             <span style={{
-                              fontSize: "8px", marginBottom: "50px", fontStyle: "bold", fontWeight: "600", font: "Inter",
+                              fontSize: "8px",marginTop:'5px', marginBottom: "50px", fontStyle: "bold", fontWeight: "600", font: "Inter",
                               marginRight: "5px", color: "#000000"
                             }} className="Achieved">Achieved ₹10.6K</span>
                           </div>
@@ -437,7 +437,7 @@ export const AdminDashboard = () => {
                               left: "190px"
                             }} className="target">Target 4</span>
                             <span style={{
-                              fontSize: "8px", marginBottom: "50px", fontStyle: "bold", fontWeight: "600", font: "Inter",
+                              fontSize: "8px",marginTop:'5px', marginBottom: "50px", fontStyle: "bold", fontWeight: "600", font: "Inter",
                               marginRight: "30px", color: "#000000"
                             }} className="Achieved">Achieved 2</span>
                           </div>
@@ -477,7 +477,7 @@ export const AdminDashboard = () => {
                               left: "190px"
                             }} className="target">Target <RupeeSymbol />4.0K</span>
                             <span style={{
-                              fontSize: "8px", marginBottom: "50px", fontStyle: "bold", fontWeight: "600", font: "Inter",
+                              fontSize: "8px",marginTop:'5px', marginBottom: "50px", fontStyle: "bold", fontWeight: "600", font: "Inter",
                               marginRight: "24px", color: "#000000"
                             }} className="Achieved">Achieved ₹0</span>
                           </div>

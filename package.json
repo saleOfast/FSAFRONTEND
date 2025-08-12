@@ -5,6 +5,7 @@
   "homepage": "https://mrapp.saleofast.com/",
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
+    "@canvasjs/charts": "^3.13.5",
     "@canvasjs/react-charts": "^1.0.2",
     "@coffeebeanslabs/country_state_district": "^1.0.1",
     "@hookform/resolvers": "^3.3.2",

@@ -144,7 +144,7 @@ function Store() {
     setIsMobile(isMobileDevice());
   }, []);
   return (
-    <div className="store-v1 storeBgC">
+    <div className="store-v1 storeBgC ">
       <header className="heading heading-container" style={{ backgroundColor: "#070D79" }} >
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">Doctor/Chemist/Stockist</h1>
@@ -259,49 +259,12 @@ function Store() {
             store_data.length > 0 &&
             store_data.map((item, index) => {
               return (
+                <>
+               <Link to={`/stores/store-details?store_id=${item?.storeId}`} className="no-underline">
                 <div className="store-list" key={index}>
                   <div className="shoptitle">
-                    <Link
-                      to={
-                        item?.storeCat?.categoryName
-                          ?.toLowerCase()
-                          ?.includes("doctor")
-                          ? `/stores/doctor-details?store_id=${item?.storeId}`
-                          : item?.storeCat?.categoryName
-                              ?.toLowerCase()
-                              ?.includes("chemist")
-                          ? `/stores/chemist-details?store_id=${item?.storeId}`
-                          : item?.storeCat?.categoryName
-                              ?.toLowerCase()
-                              ?.includes("stockist") // New condition for stockiest
-                          ? `/stores/stockiest-details?store_id=${item?.storeId}`
-                          : `/stores/store-details?store_id=${item?.storeId}`
-                      }
-                      className="linktoB"
-                    >
+                   
                       <div className="fontb">{item?.storeName}</div>
-                    </Link>
-
-                    <Link
-                      to={
-                        item?.storeCat?.categoryName
-                          ?.toLowerCase()
-                          ?.includes("doctor")
-                          ? `/stores/doctor-details?store_id=${item?.storeId}`
-                          : item?.storeCat?.categoryName
-                              ?.toLowerCase()
-                              ?.includes("chemist")
-                          ? `/stores/chemist-details?store_id=${item?.storeId}`
-                          : item?.storeCat?.categoryName
-                              ?.toLowerCase()
-                              ?.includes("stockist") // New condition for stockiest
-                          ? `/stores/stockiest-details?store_id=${item?.storeId}`
-                          : `/stores/store-details?store_id=${item?.storeId}`
-                      }
-                      className="linktoB"
-                    >
-                      {/* <div className="fontb">{item?.storeName}</div> */}
-                    </Link>
                     {authState?.user?.role !== UserRole.CHANNEL && (
                       <span>
                         <Link
@@ -313,24 +276,7 @@ function Store() {
                       </span>
                     )}
                   </div>
-                  <Link
-                   to={
-                    item?.storeCat?.categoryName
-                      ?.toLowerCase()
-                      ?.includes("doctor")
-                      ? `/stores/doctor-details?store_id=${item?.storeId}`
-                      : item?.storeCat?.categoryName
-                          ?.toLowerCase()
-                          ?.includes("chemist")
-                      ? `/stores/chemist-details?store_id=${item?.storeId}`
-                      : item?.storeCat?.categoryName
-                          ?.toLowerCase()
-                          ?.includes("stockist") // New condition for stockiest
-                      ? `/stores/stockiest-details?store_id=${item?.storeId}`
-                      : `/stores/store-details?store_id=${item?.storeId}`
-                  }
-                    className="linktoB"
-                  >
+              
                     <div className="storeConlist">
                       <div>
                         <div className="storeIdTxt">
@@ -354,8 +300,10 @@ function Store() {
                         </div>
                       )}
                     </div>
-                  </Link>
+                  
                 </div>
+               </Link>
+                </>
               );
             })}
         </div>
