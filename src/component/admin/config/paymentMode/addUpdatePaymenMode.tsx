@@ -89,7 +89,7 @@ export default function AddUpdatePaymentMode() {
   return (
     <div>
       <FullPageLoaderWithState isLoading={isLoading} />
-      <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
+      <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">{paymentModeId ? "Update Payment Mode " : "Add New Payment Mode"}</h1>
       </header>

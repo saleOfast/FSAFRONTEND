@@ -319,10 +319,11 @@
 }
 
 .add-store-form-container {
-    max-width: 600px;
+    max-width: 800px;
     padding: 20px;
     background: var(--bg-color-p2);
 }
+
 .add-store-form-container .button-container {
     display: flex;
     justify-content: flex-end;

@@ -172,7 +172,7 @@ export default function DarStatus() {
 
   return (
     <div>
-      <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
+      <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">Dar Status</h1>
       </header>

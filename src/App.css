@@ -462,7 +462,7 @@
         /* max-width: 800px;   */
         justify-content: flex-start !important;
         text-align: left;
-        width: 800px;
+        width: 1250px;
         font-size: 12px;
         display:block;
     }
@@ -1170,7 +1170,6 @@
     
 }
 
-
 .add-store-form-container * {
   font-size: 12px !important;
   text-align: left;
@@ -1315,6 +1314,7 @@
 .custom-select .ant-form-item-label {
   padding-right: 12px; 
 }
+
 
 @media (max-width: 476px) {
     .btmMarginMob {

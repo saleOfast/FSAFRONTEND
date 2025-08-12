@@ -567,7 +567,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
       <SidebarWrapperAdmin isOpen={isOpen}>
         <Fragment>
           <Sidebar>
-            {/* <span style={{ marginLeft: "20px", fontSize: "20px", color:"black" }}>Menu</span> */}
+            <span style={{ marginLeft: "20px", fontSize: "20px", color:"black" }}>Menu</span>
             <span>
               <button onClick={toggleSidebar} className="adminclosebtn">
                 {" "}

@@ -84,7 +84,7 @@ export default function AddAndUpdateStoreCategory() {
   return (
     <div>
 			<FullPageLoaderWithState isLoading={isLoading} />
-      <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
+      <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
         <ArrowLeftOutlined onClick={previousPage} className="back-button"/>
           <h1 className="page-title pr-18">{categoryId ? "Update Customer Category" : "Add New Customer Category" }</h1>
         </header>

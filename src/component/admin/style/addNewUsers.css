@@ -25,3 +25,12 @@
     margin-top: 20px;
     margin-bottom: 90px;
 }
+.ant-input-affix-wrapper >input.ant-input {
+    /* padding: 0; */
+    font-size: inherit;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    background: transparent;
+    color: inherit;
+}
