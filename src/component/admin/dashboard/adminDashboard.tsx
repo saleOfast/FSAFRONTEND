@@ -455,7 +455,7 @@ export const AdminDashboard = () => {
                                   marginBottom: "50px",
                                   fontWeight: "600",
                                   font: "Inter",
-                                  marginRight: "30px",
+                                  marginRight: "20px",
                                   color: "#000000",
                                 }}
                                 className="Achieved"
