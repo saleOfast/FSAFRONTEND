@@ -244,7 +244,7 @@ export default function AddNewUsers() {
                 required
               />
             </Col>
-            <Col xs={24} sm={24} md={12} lg={12} className="ant-input">
+            <Col xs={24} sm={24} md={12} lg={12} className="ant-input ">
               {!empId && <HookFormInputField
                 control={control}
                 type="password"

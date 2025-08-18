@@ -675,140 +675,140 @@ export default function OrderForm() {
       title: 'Product ID',
       dataIndex: 'product Id',
       key: 'product Id',
-      width: 130
+      width: 90
 
     },
     {
       title: 'Product Name',
       dataIndex: 'product name',
       key: 'product name',
-      width: 130
+      width: 110
 
     },
 
-    {
-      title: 'Medicine',
-      dataIndex: 'product',
-      key: 'product',
-      width: 160,
-      render: (text: any, record: any, index: number) => {
-        if (index === dataSource?.length - 1) {
-          return {
-            children: <span>{record.product}</span>,
-          };
-        }
-        return (
-          <Select
-            value={record.productId}
-            onChange={(value) => productHandler(value, record.key)}
-            style={{ width: "100%" }}
-          >
-            {productData?.map((product: any) => (
-              <Select.Option key={product.productId} value={product.productId}>
-                {product.productName}
-              </Select.Option>
-            ))}
-          </Select>
-        );
-      },
-    },
-    {
-      title: 'Dose/Size',
-      dataIndex: 'colour',
-      key: 'colour',
-      width: 140,
-      render: (text: any, record: any, index: number) => {
-        if (index === dataSource?.length - 1) {
-          return {
-            children: <span>{record.name}</span>, // Render blank for total row
-          };
-        }
-        return (
-          <Select
-            value={record.name}
-            onChange={(value) => handleColourChange(value, record.key)}
-            style={{ width: "100%" }}
-          >
-            {sizeData?.map((e: any) => (
-              <Select.Option key={e.sizeId} value={e.sizeId}>
-                {e.name}
-              </Select.Option>
-            ))}
-          </Select>
-        );
-      },
-    },
+    // {
+    //   title: 'Medicine',
+    //   dataIndex: 'product',
+    //   key: 'product',
+    //   width: 160,
+    //   render: (text: any, record: any, index: number) => {
+    //     if (index === dataSource?.length - 1) {
+    //       return {
+    //         children: <span>{record.product}</span>,
+    //       };
+    //     }
+    //     return (
+    //       <Select
+    //         value={record.productId}
+    //         onChange={(value) => productHandler(value, record.key)}
+    //         style={{ width: "100%" }}
+    //       >
+    //         {productData?.map((product: any) => (
+    //           <Select.Option key={product.productId} value={product.productId}>
+    //             {product.productName}
+    //           </Select.Option>
+    //         ))}
+    //       </Select>
+    //     );
+    //   },
+    // },
+    // {
+    //   title: 'Dose/Size',
+    //   dataIndex: 'colour',
+    //   key: 'colour',
+    //   width: 140,
+    //   render: (text: any, record: any, index: number) => {
+    //     if (index === dataSource?.length - 1) {
+    //       return {
+    //         children: <span>{record.name}</span>, // Render blank for total row
+    //       };
+    //     }
+    //     return (
+    //       <Select
+    //         value={record.name}
+    //         onChange={(value) => handleColourChange(value, record.key)}
+    //         style={{ width: "100%" }}
+    //       >
+    //         {sizeData?.map((e: any) => (
+    //           <Select.Option key={e.sizeId} value={e.sizeId}>
+    //             {e.name}
+    //           </Select.Option>
+    //         ))}
+    //       </Select>  
+    //     );
+    //   },
+    // },
 
-    {
-      title: "Quantity",
-      dataIndex: "quantity",
-      key: "quantity",
-      width: 90,
-      editable: true,
-      render: (text: any, record: any, index: number) => {
-        if (index === dataSource?.length - 1) {
-          return {
-            children: <span style={{ fontWeight: 600 }}>{record?.total}</span>, // Render total row
-          };
-        }
-        return (
-          <Input
-            value={text}
-            onChange={(e) => handleQuantityChange(e.target.value, record.key)}
-          />
-        );
-      },
-    },
+    // {
+    //   title: "Quantity",
+    //   dataIndex: "quantity",
+    //   key: "quantity",
+    //   width: 90,
+    //   editable: true,
+    //   render: (text: any, record: any, index: number) => {
+    //     if (index === dataSource?.length - 1) {
+    //       return {
+    //         children: <span style={{ fontWeight: 600 }}>{record?.total}</span>, // Render total row
+    //       };
+    //     }
+    //     return (
+    //       <Input
+    //         value={text}
+    //         onChange={(e) => handleQuantityChange(e.target.value, record.key)}
+    //       />
+    //     );
+    //   },
+    // },
 
-    {
-      title: 'Unit Price',
-      dataIndex: 'price',
-      key: 'price',
-      width: 110,
-      render: (text: any, record: any, index: number) => {
-        if (index === dataSource?.length - 1) {
-          return {
-            children: <span style={{ fontWeight: 600 }}>{text}</span>, // Render price total value
-          };
-        }
-        return text; // Normal render for other rows
-      },
-    },
+    // {
+    //   title: 'Unit Price',
+    //   dataIndex: 'price',
+    //   key: 'price',
+    //   width: 110,
+    //   render: (text: any, record: any, index: number) => {
+    //     if (index === dataSource?.length - 1) {
+    //       return {
+    //         children: <span style={{ fontWeight: 600 }}>{text}</span>, // Render price total value
+    //       };
+    //     }
+    //     return text; // Normal render for other rows
+    //   },
+    // },
 
 
     {
       title: 'Quantity Ordered',
       dataIndex: 'Quantity',
       key: 'Quantity',
-      width: 180
+      width: 120
 
     },
     {
       title: 'Unit of Measure(UOM)',
       dataIndex: 'unit',
       key: 'unit',
-      width: 200
+      width: 150
 
     },
     {
       title: 'Rate per Unit',
       dataIndex: 'Rate',
       key: 'Rate',
-      width: 130
+      width: 110
 
     },
     {
       title: 'Discount',
       dataIndex: 'Discount',
       key: 'Discount',
-      width: 110
+      width: 90
 
     },
     {
-      title: 'Tax %',
+      title: 'Tax%',
       dataIndex: 'tax',
       key: 'tax',
-      width: 110
+      width: 90
 
     },
     {
@@ -1250,7 +1250,7 @@ const paymentStatusOptions = [
   {[
     { label: "Brand", component: <Select options={optionsBrand} placeholder="Select Brand" /> },
     { label: "Category", component: <TreeSelect treeData={catOptions} placeholder="Select Category" /> },
-    { label: "Chemist", component: <Select options={orderStoreList} placeholder="Select Chemist" /> },
+    // { label: "Chemist", component: <Select options={orderStoreList} placeholder="Select Chemist" /> },
     { label: "Order Type", component: <Select options={callTypeList} placeholder="Select Order Type" /> },
     { label: "Order ID", component: <Input placeholder="Enter Order ID" /> },
     { label: "Customer ID/Name", component: <Input placeholder="Enter Customer ID/Name" /> },
@@ -1265,14 +1265,16 @@ const paymentStatusOptions = [
     { label: "Payment Status", component: <Select options={paymentStatusOptions} placeholder="Select Payment Status" /> },
     { label: "Order Notes", component: <Input.TextArea rows={1} placeholder="Enter Notes" /> }
   ].map((field, index) => (
-    <Col key={index} xs={12} md={6}>
+    <Col key={index} xs={12} md={8}>
       <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
         <label style={{ fontWeight: 500 }}>{field.label}:</label>
-        {React.cloneElement(field.component, { style: { width: "100%" } })}
+        {React.cloneElement(field.component, { style: { width: "92%" } })}
       </div>
     </Col>
   ))}
 </Row>
+
+
 
   {/* Table */}
   <div style={{ position: "relative", marginTop: 20 }}>
@@ -1379,27 +1381,27 @@ const paymentStatusOptions = [
                     background-color: #f0f0f0 !important; /* Sets the background color to yellow */
                    }
                     .selection-line {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Desktop - 4 columns */
-  gap: 10px;
-  align-items: center;
-}
+                display: grid;
+                grid-template-columns: repeat(4, 1fr); /* Desktop - 4 columns */
+                gap: 10px;
+                align-items: center;
+              }
 
-.selection-line label {
-  color: black;
-  font-size: 16px;
-  margin-right: 6px;
-}
+              .selection-line label {
+                color: black;
+                font-size: 16px;
+                margin-right: 6px;
+              }
 
-.brand, .category, .chemist, .order-type {
-  padding-left: 10px;
-}
+              .brand, .category, .chemist, .order-type {
+                padding-left: 10px;
+              }
 
-@media (max-width: 768px) {
-  .selection-line {
-    grid-template-columns: repeat(2, 1fr); /* Mobile - 2 columns */
-  }
-}
+              @media (max-width: 768px) {
+                .selection-line {
+                  grid-template-columns: repeat(2, 1fr); /* Mobile - 2 columns */
+                }
+              }
 
                 `}
 
