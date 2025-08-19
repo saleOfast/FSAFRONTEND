@@ -119,16 +119,10 @@ import AddAndUpdateOtherBrand from 'component/admin/brand/addAndUpdateOtherBrand
 
 import Holidays from 'component/hrProcess/holidays';
 import Edetails from 'page/visits/eDetails';
-<<<<<<< HEAD
 import {MrAnalysis} from 'component/admin/reports/mrAnalysis';
 import PurchaseOrder from 'component/admin/purchaseOrder/purchaseOrder';
 import InventoryDashboard from 'component/admin/InventoryDashboard/InventoryDashboard';
-=======
-import { MrAnalysis } from 'component/admin/reports/mrAnalysis';
 import Warehouse from 'page/warehouse';
-
-
->>>>>>> 992e3473d7fe36ebb76855dd8a99c12763477529
 
 function AppRoutes() {
     const route = useRoutes([
@@ -154,10 +148,7 @@ function AppRoutes() {
         { path: "/visit/inventory/:storeId", element: <AuthGuard page={<Inventory />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/visit/inventory", element: <AuthGuard page={<Inventory />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
 
-<<<<<<< HEAD
         
-=======
->>>>>>> 992e3473d7fe36ebb76855dd8a99c12763477529
         { path: "/visit", element: <AuthGuard page={<Visit />} />, },
         {
             path: "/visit-details/:storeId/:visitId", element: <AuthGuard page={<VisitDetails />} />,
