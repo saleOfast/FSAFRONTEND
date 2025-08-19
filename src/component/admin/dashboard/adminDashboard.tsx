@@ -287,7 +287,7 @@ export const AdminDashboard = () => {
       percent: 50,
     },
     {
-      title: "Collection Target",
+      title: "Collections Target",
       icon: "/icon1.png",
       target: <><RupeeSymbol />4.0K</>,
       achieved: "₹0",
@@ -298,6 +298,7 @@ export const AdminDashboard = () => {
 
   return (
     <Fragment>
+
       <div className="dashboard-container mb-40" >
         <RejectedComment
           isApprovedRejected={isApprovedRejected}
@@ -455,7 +456,7 @@ export const AdminDashboard = () => {
                                   marginBottom: "50px",
                                   fontWeight: "600",
                                   font: "Inter",
-                                  marginRight: "20px",
+                                  marginRight: "30px",
                                   color: "#000000",
                                 }}
                                 className="Achieved"
