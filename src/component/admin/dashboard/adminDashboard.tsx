@@ -387,7 +387,7 @@ export const AdminDashboard = () => {
                 </style>
 
 
-                {/* <div className="responsive-target-cards ant-row ant-col-xs-12" style={{ marginBottom: "20px" }}>
+                <div className="responsive-target-cards ant-row ant-col-xs-12" style={{ marginBottom: "20px" }}>
                   <Row gutter={[16, 16]} style={{ fontFamily: "Arial, sans-serif" }}>
                     {cardData.map((card, index) => (
                       <Col key={index} xs={24} sm={24} md={8}>
@@ -455,7 +455,7 @@ export const AdminDashboard = () => {
                                   marginBottom: "50px",
                                   fontWeight: "600",
                                   font: "Inter",
-                                  marginRight: "20px",
+                                  marginRight: "30px",
                                   color: "#000000",
                                 }}
                                 className="Achieved"
@@ -468,7 +468,7 @@ export const AdminDashboard = () => {
                       </Col>
                     ))}
                   </Row>
-                </div> */}
+                </div>
               </div>
 
               {/* <div className="chartDirection" style={{ marginBottom: "10px" }}>
