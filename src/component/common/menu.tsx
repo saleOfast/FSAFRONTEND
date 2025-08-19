@@ -567,7 +567,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
       <SidebarWrapperAdmin isOpen={isOpen}>
         <Fragment>
           <Sidebar>
-            <span style={{ marginLeft: "20px", fontSize: "20px", color:"black" }}>Menu</span>
+            <span style={{ marginLeft: "20px", fontSize: "20px", color: "black" }}>Menu</span>
             <span>
               <button onClick={toggleSidebar} className="adminclosebtn">
                 {" "}
@@ -731,6 +731,28 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                   : "Collection"}
               </SidebarLink>
             </Link>
+            {/* warehouse */}
+            {authState?.user?.role !== UserRole.CHANNEL && (
+              <Link
+                to="/warehouse"
+                className="linkto"
+                onClick={toggleSidebar}
+              >
+                <SidebarLink
+                  style={{ color: "black" }}
+                  className={
+                    pathname.includes("/warehouse") ||
+                      pathname.includes("/warehouse")
+                      ? "active"
+                      : ""
+                  }
+                >
+                  <AimOutlined className="adminMenuTxt" />
+                  WareHouse
+                </SidebarLink>
+              </Link>
+            )}
+
             {authState?.user?.role !== UserRole.CHANNEL && (
               <Link
                 to="/target-data-table"

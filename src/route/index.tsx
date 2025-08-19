@@ -119,7 +119,8 @@ import AddAndUpdateOtherBrand from 'component/admin/brand/addAndUpdateOtherBrand
 
 import Holidays from 'component/hrProcess/holidays';
 import Edetails from 'page/visits/eDetails';
-import {MrAnalysis} from 'component/admin/reports/mrAnalysis';
+import { MrAnalysis } from 'component/admin/reports/mrAnalysis';
+import Warehouse from 'page/warehouse';
 
 
 
@@ -129,9 +130,9 @@ function AppRoutes() {
         { path: "/auth/forgot-password", element: <ForgotPassword />, },
         { path: "/auth/confirm-password", element: <ConfirmPassword />, },
         { path: "/auth/verify-mail", element: <SentVerificationMail />, },
-        { path: "/dashboard", element: <AuthGuard page={<Dashboard />} role={[UserRole.SSM, UserRole.CHANNEL, UserRole.SUPER_ADMIN]} />},
-        { path: "/retailor/dashboard", element: <AuthGuard page={<RetailorDashboard />} role={[UserRole.RETAILER, UserRole.SUPER_ADMIN]} />},
-        { path: "/home", element: <AuthGuard page={<Home />} role={[UserRole.SSM, UserRole.CHANNEL, UserRole.SUPER_ADMIN]} />},
+        { path: "/dashboard", element: <AuthGuard page={<Dashboard />} role={[UserRole.SSM, UserRole.CHANNEL, UserRole.SUPER_ADMIN]} /> },
+        { path: "/retailor/dashboard", element: <AuthGuard page={<RetailorDashboard />} role={[UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
+        { path: "/home", element: <AuthGuard page={<Home />} role={[UserRole.SSM, UserRole.CHANNEL, UserRole.SUPER_ADMIN]} /> },
 
         {
             path: "/profile", element: <AuthGuard page={<Profile />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.CHANNEL, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />,
@@ -146,10 +147,10 @@ function AppRoutes() {
         { path: "/stores/add-store", element: <AuthGuard page={<AddStore />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/visit/inventory/:storeId", element: <AuthGuard page={<Inventory />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/visit/inventory", element: <AuthGuard page={<Inventory />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
-        
+
         { path: "/visit", element: <AuthGuard page={<Visit />} />, },
         {
-            path: "/visit-details/:storeId/:visitId", element: <AuthGuard page={<VisitDetails />}  />,
+            path: "/visit-details/:storeId/:visitId", element: <AuthGuard page={<VisitDetails />} />,
             children: [
                 { path: "", element: <PastOrdersDetails /> },
                 { path: "inventory", element: <InventoryTable /> },
@@ -162,23 +163,24 @@ function AppRoutes() {
         { path: "/order/order-list/:storeId/:visitId", element: <AuthGuard page={<OrderList />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/order/order-list/:storeId/:visitId/:orderId", element: <AuthGuard page={<OrderList />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/order/order-list/", element: <AuthGuard page={<OrderList />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.CHANNEL, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
-       
-        { path: "/order/order-summary/:orderId", element: <AuthGuard page={<OrderSummary />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.CHANNEL, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN,  UserRole.CHANNEL]} /> },
+
+        { path: "/order/order-summary/:orderId", element: <AuthGuard page={<OrderSummary />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.CHANNEL, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.CHANNEL]} /> },
         { path: "/schemes", element: <AuthGuard page={<Schemes />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.CHANNEL]} />, },
         { path: "/visit/collect-payment", element: <AuthGuard page={<CollectPayment />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/focused-items", element: <AuthGuard page={<FocusedItems />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.CHANNEL]} /> },
         { path: "/order/checkout/:storeId/:visitId/:orderId", element: <AuthGuard page={<Checkout />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/collection", element: <AuthGuard page={<Collection />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.CHANNEL]} /> },
-        { path: "/collection/:storeId", element: <AuthGuard page={<Collection />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN,  UserRole.CHANNEL]} /> },
-        { path: "/payment", element: <AuthGuard page={<Collection />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN,  UserRole.CHANNEL]} /> },
+        { path: "/collection/:storeId", element: <AuthGuard page={<Collection />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.CHANNEL]} /> },
+        { path: "/payment", element: <AuthGuard page={<Collection />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.CHANNEL]} /> },
         { path: "/payment/:storeId", element: <AuthGuard page={<Collection />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/target-data-table", element: <AuthGuard page={<TargetDataTable />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.SSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
+        { path: "/warehouse", element: <AuthGuard page={<Warehouse />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.SSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/e-detailing", element: <AuthGuard page={<Edetails />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.SSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/target-achievement", element: <AuthGuard page={<TargetVsAchivement />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.CHANNEL]} /> },
         { path: "/admin/create-visit", element: <AuthGuard page={<CreateVisit />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/admin/create-beat", element: <AuthGuard page={<CreateBeat />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/admin/distributor/add", element: <AuthGuard page={<AddDistributor />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
-        { path: "/new-order-summary", element: <AuthGuard page={<CreateDistributor />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN,  UserRole.CHANNEL]} /> },
+        { path: "/new-order-summary", element: <AuthGuard page={<CreateDistributor />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.CHANNEL]} /> },
         { path: "/unbilled-stores", element: <AuthGuard page={<UnbilledStores />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/menu", element: <AuthGuard page={<SideMenu />} role={[UserRole.SSM, UserRole.SUPER_ADMIN]} /> },
         { path: "/order/past-orders", element: <AuthGuard page={<PastOrderListing />} /> },
@@ -190,9 +192,9 @@ function AppRoutes() {
         { path: "/admin/product/add-new-product", element: <AuthGuard page={<AddNewProduct />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/admin/product", element: <AuthGuard page={<AdminProduct />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.SSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.CHANNEL]} /> },
         { path: "/admin/brand", element: <AuthGuard page={<Brand />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
-        { path: "/admin/competitorbrand", element: <AuthGuard page={<Competitorbrand/>} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
+        { path: "/admin/competitorbrand", element: <AuthGuard page={<Competitorbrand />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/admin/new-otherbrand", element: <AuthGuard page={<AddAndUpdateOtherBrand />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
-        
+
         { path: "/admin/new-brand", element: <AuthGuard page={<AddNewBrand />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/admin/category", element: <AuthGuard page={<Category />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/admin/add-new-category", element: <AuthGuard page={<AddNewCategory />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
@@ -211,81 +213,81 @@ function AppRoutes() {
         { path: "/admin/lms/my-learning-assessment", element: <AuthGuard page={<MylearningAssessment />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/admin/lms/create-quiz", element: <AuthGuard page={<Createquiz />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/target-chart", element: <AuthGuard page={<TargetChart />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
-    
+
         { path: "/Pending-approval", element: <AuthGuard page={<PendingApprovalAll />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.MANAGER]} /> },
-    // Reports
-       { path: "/report/attendance", element: <AuthGuard page={<AttendanceReport />} /> },
-       { path: "/report/day-tracking", element: <AuthGuard page={<DayTrackingReport />} /> },
-       { path: "/report/mr-analysis", element: <AuthGuard page={<MrAnalysis/>} /> },
-       { path: "/report/pending-collection", element: <AuthGuard page={<PendingCollectionReport />} /> },
-       { path: "/report/pending-approval", element: <AuthGuard page={<PendingApprovalReport />} /> },
-       { path: "/report/store-revenue", element: <AuthGuard page={<StoreRevenueReport />} /> },
-       { path: "/report/sku-revenue", element: <AuthGuard page={<SkuRevenueReport />} /> },
-       { path: "/report/monthly-progress", element: <AuthGuard page={<MonthlyProgressReport />} /> },
-       { path: "/report/unbilled-store", element: <AuthGuard page={<UnbilledStoreReport />} /> },
-       { path: "/report/employee-performance", element: <AuthGuard page={<EmployeePerformanceReport />} /> },
-       { path: "/report/monthly-no-order", element: <AuthGuard page={<MonthlyNoOrderReport />} /> },
-       { path: "/report/inventories", element: <AuthGuard page={<InventoryReport />} /> },
+        // Reports
+        { path: "/report/attendance", element: <AuthGuard page={<AttendanceReport />} /> },
+        { path: "/report/day-tracking", element: <AuthGuard page={<DayTrackingReport />} /> },
+        { path: "/report/mr-analysis", element: <AuthGuard page={<MrAnalysis />} /> },
+        { path: "/report/pending-collection", element: <AuthGuard page={<PendingCollectionReport />} /> },
+        { path: "/report/pending-approval", element: <AuthGuard page={<PendingApprovalReport />} /> },
+        { path: "/report/store-revenue", element: <AuthGuard page={<StoreRevenueReport />} /> },
+        { path: "/report/sku-revenue", element: <AuthGuard page={<SkuRevenueReport />} /> },
+        { path: "/report/monthly-progress", element: <AuthGuard page={<MonthlyProgressReport />} /> },
+        { path: "/report/unbilled-store", element: <AuthGuard page={<UnbilledStoreReport />} /> },
+        { path: "/report/employee-performance", element: <AuthGuard page={<EmployeePerformanceReport />} /> },
+        { path: "/report/monthly-no-order", element: <AuthGuard page={<MonthlyNoOrderReport />} /> },
+        { path: "/report/inventories", element: <AuthGuard page={<InventoryReport />} /> },
 
 
-       { path: "/noOrder-reason", element: <AuthGuard page={<NoOrderReason />} /> },
-       { path: "/add-update/noOrder-reason", element: <AuthGuard page={<AddUpdateNoOrder />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.MANAGER]}/> },
-       { path: "/order/form", element: <AuthGuard page={<OrderForm />} /> },
-       { path: "/order/form/:storeId/:visitId", element: <AuthGuard page={<OrderForm />} /> },
-       { path: "/order/form/:storeId/:visitId/:orderId", element: <AuthGuard page={<OrderForm />} /> },
+        { path: "/noOrder-reason", element: <AuthGuard page={<NoOrderReason />} /> },
+        { path: "/add-update/noOrder-reason", element: <AuthGuard page={<AddUpdateNoOrder />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.MANAGER]} /> },
+        { path: "/order/form", element: <AuthGuard page={<OrderForm />} /> },
+        { path: "/order/form/:storeId/:visitId", element: <AuthGuard page={<OrderForm />} /> },
+        { path: "/order/form/:storeId/:visitId/:orderId", element: <AuthGuard page={<OrderForm />} /> },
 
-       { path: "/config/colour", element: <AuthGuard page={<Colour />} /> },
-       { path: "/config/colour/add-update/", element: <AuthGuard page={<AddUpdateColour />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.MANAGER]}/> },
-       { path: "/config/size", element: <AuthGuard page={<Size />} /> },
-       { path: "/config/size/add-update/", element: <AuthGuard page={<AddUpdateSize />} /> },
-       { path: "/config/payment-mode", element: <AuthGuard page={<PaymentMode />} /> },
-       { path: "/config/payment-mode/add-update/", element: <AuthGuard page={<AddUpdatePaymentMode />} /> },
+        { path: "/config/colour", element: <AuthGuard page={<Colour />} /> },
+        { path: "/config/colour/add-update/", element: <AuthGuard page={<AddUpdateColour />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.MANAGER]} /> },
+        { path: "/config/size", element: <AuthGuard page={<Size />} /> },
+        { path: "/config/size/add-update/", element: <AuthGuard page={<AddUpdateSize />} /> },
+        { path: "/config/payment-mode", element: <AuthGuard page={<PaymentMode />} /> },
+        { path: "/config/payment-mode/add-update/", element: <AuthGuard page={<AddUpdatePaymentMode />} /> },
 
-       { path: "/config/feature", element: <AuthGuard page={<Feature />} /> },
-       { path: "/config/feature/add-update", element: <AuthGuard page={<AddUpdateFeature />} role={[UserRole.SUPER_ADMIN]}/> },
-       { path: "/config/role", element: <AuthGuard page={<Role />} /> },
-       { path: "/config/role/add-update", element: <AuthGuard page={<AddUpdateRole />} role={[UserRole.SUPER_ADMIN]}/> },
-        
-       { path: "/admin/import-export", element: <AuthGuard page={<ImportExport/>} /> },
+        { path: "/config/feature", element: <AuthGuard page={<Feature />} /> },
+        { path: "/config/feature/add-update", element: <AuthGuard page={<AddUpdateFeature />} role={[UserRole.SUPER_ADMIN]} /> },
+        { path: "/config/role", element: <AuthGuard page={<Role />} /> },
+        { path: "/config/role/add-update", element: <AuthGuard page={<AddUpdateRole />} role={[UserRole.SUPER_ADMIN]} /> },
 
-       
-    //    Expense Management
-    { path: "/hr/expense", element: <AuthGuard page={<ExpenseManagement />} /> },
-    { path: "/hr/expense-apply", element: <AuthGuard page={<ExpenseApply />} /> },
-    { path: "/config/policy", element: <AuthGuard page={<Policy />} /> },
-    { path: "/config/add-leave", element: <AuthGuard page={<AddUpdateLeave />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
+        { path: "/admin/import-export", element: <AuthGuard page={<ImportExport />} /> },
 
-    { path: "/config/leave", element: <AuthGuard page={<Leave />} /> },
-    { path: "/config/leave-view", element: <AuthGuard page={<LeaveView />} /> },
-    { path: "/config/add-update-leave-count", element: <AuthGuard page={<AddUpdateLeaveView />} /> },
-    
-    { path: "/hr/holidays", element: <AuthGuard page={<Holidays />} /> },
-    { path: "/hr/holidays", element: <AuthGuard page={<Holidays />} /> },
-    
-    { path: "/hr/leave-approval", element: <AuthGuard page={<LeaveApproval />} /> },
-    { path: "/hr/leave-apply", element: <AuthGuard page={<LeaveApplication />} /> },
-    { path: "/config/add-policy", element: <AuthGuard page={<AddUpdatePolicy />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
-    
-    // policy Type
-    { path: "/config/policyTypes", element: <AuthGuard page={<PolicyTypes />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]}/> },
-    { path: "/config/add-update-policyTypes", element: <AuthGuard page={<AddUpdatePolicyTypes />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]}/> },
-   
-    { path: "/stores/doctor-details", element: <AuthGuard page={<DoctorDetails />} /> },
-    { path: "/stores/chemist-details", element: <AuthGuard page={<ChemistDetails />} /> },
-    { path: "/stores/stockiest-details", element: <AuthGuard page={<StockiestDetails />} /> },
 
- 
-    { path: "/hr/attendance", element: <AuthGuard page={<AttendanceDetails />} /> },
-    { path: "/hr/dar", element: <AuthGuard page={<Dar />} /> },
-    { path: "/hr/AddUpdateDar", element: <AuthGuard page={<AddUpdateDar />} /> },
+        //    Expense Management
+        { path: "/hr/expense", element: <AuthGuard page={<ExpenseManagement />} /> },
+        { path: "/hr/expense-apply", element: <AuthGuard page={<ExpenseApply />} /> },
+        { path: "/config/policy", element: <AuthGuard page={<Policy />} /> },
+        { path: "/config/add-leave", element: <AuthGuard page={<AddUpdateLeave />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
 
-    { path: "/config/dar/activity-type", element: <AuthGuard page={<ActivityType />} /> },
-    { path: "/config/dar/activity-related-to", element: <AuthGuard page={<ActivityRelatedTo />} /> },
-    { path: "/config/dar/next-action-on", element: <AuthGuard page={<NextActionOn />} /> },
-    { path: "/config/dar/status", element: <AuthGuard page={<DarStatus />} /> },
+        { path: "/config/leave", element: <AuthGuard page={<Leave />} /> },
+        { path: "/config/leave-view", element: <AuthGuard page={<LeaveView />} /> },
+        { path: "/config/add-update-leave-count", element: <AuthGuard page={<AddUpdateLeaveView />} /> },
 
-    
-   ]);
+        { path: "/hr/holidays", element: <AuthGuard page={<Holidays />} /> },
+        { path: "/hr/holidays", element: <AuthGuard page={<Holidays />} /> },
+
+        { path: "/hr/leave-approval", element: <AuthGuard page={<LeaveApproval />} /> },
+        { path: "/hr/leave-apply", element: <AuthGuard page={<LeaveApplication />} /> },
+        { path: "/config/add-policy", element: <AuthGuard page={<AddUpdatePolicy />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
+
+        // policy Type
+        { path: "/config/policyTypes", element: <AuthGuard page={<PolicyTypes />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
+        { path: "/config/add-update-policyTypes", element: <AuthGuard page={<AddUpdatePolicyTypes />} role={[UserRole.ADMIN, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
+
+        { path: "/stores/doctor-details", element: <AuthGuard page={<DoctorDetails />} /> },
+        { path: "/stores/chemist-details", element: <AuthGuard page={<ChemistDetails />} /> },
+        { path: "/stores/stockiest-details", element: <AuthGuard page={<StockiestDetails />} /> },
+
+
+        { path: "/hr/attendance", element: <AuthGuard page={<AttendanceDetails />} /> },
+        { path: "/hr/dar", element: <AuthGuard page={<Dar />} /> },
+        { path: "/hr/AddUpdateDar", element: <AuthGuard page={<AddUpdateDar />} /> },
+
+        { path: "/config/dar/activity-type", element: <AuthGuard page={<ActivityType />} /> },
+        { path: "/config/dar/activity-related-to", element: <AuthGuard page={<ActivityRelatedTo />} /> },
+        { path: "/config/dar/next-action-on", element: <AuthGuard page={<NextActionOn />} /> },
+        { path: "/config/dar/status", element: <AuthGuard page={<DarStatus />} /> },
+
+
+    ]);
     return (
         <Fragment>
             {
