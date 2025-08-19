@@ -50,77 +50,77 @@ export default function TargetDataTable() {
 
   useEffect(() => {
     async function fetchData() {
-        try {
-            dispatch(setLoaderAction(true));
-            setIsLoading(true)
-            const res = await getRoleService({isActive:true});
-            if (res?.data?.status === 200) {
-              const d = res?.data?.data
-              .filter((d: any) => (d?.key === "da693r2" || d?.key === "da693r6") && d?.isActive === true)
-              .map((d: any) => {
-                // Add dynamic values based on the `key`
-                let dynamicValue;
-                
-                if (d?.key === "da693r2") {
-                  dynamicValue = UserRole.SSM;
-                } else if (d?.key === "da693r6") {
-                  dynamicValue = UserRole.RETAILER;
-                }
-            
-                // Return the updated object with a new key-value pair
-                return {
-                  ...d,                 // Spread the original object
-                  roleEnum: dynamicValue   // Add the dynamic value based on the `key`
-                };
-              });
-              setDataRole(d);
-                dispatch(setLoaderAction(false));
-                setIsLoading(false)
-            }
-            setIsLoading(false)
-            dispatch(setLoaderAction(false));
-        } catch (error) {
-            dispatch(setLoaderAction(false));
-            setIsLoading(false)
+      try {
+        dispatch(setLoaderAction(true));
+        setIsLoading(true)
+        const res = await getRoleService({ isActive: true });
+        if (res?.data?.status === 200) {
+          const d = res?.data?.data
+            .filter((d: any) => (d?.key === "da693r2" || d?.key === "da693r6") && d?.isActive === true)
+            .map((d: any) => {
+              // Add dynamic values based on the `key`
+              let dynamicValue;
+
+              if (d?.key === "da693r2") {
+                dynamicValue = UserRole.SSM;
+              } else if (d?.key === "da693r6") {
+                dynamicValue = UserRole.RETAILER;
+              }
+
+              // Return the updated object with a new key-value pair
+              return {
+                ...d,                 // Spread the original object
+                roleEnum: dynamicValue   // Add the dynamic value based on the `key`
+              };
+            });
+          setDataRole(d);
+          dispatch(setLoaderAction(false));
+          setIsLoading(false)
         }
+        setIsLoading(false)
+        dispatch(setLoaderAction(false));
+      } catch (error) {
+        dispatch(setLoaderAction(false));
+        setIsLoading(false)
+      }
     }
     fetchData();
-}, []);
+  }, []);
   const usersSSM = useSelector((state: any) => state?.users?.usersSSM);
   const [isSelectedRole, setIsSelectedRole] = useState<any>(true);
-  const [selectedRole, setSelectedRole] = useState<any>( authState?.user?.role === UserRole.RETAILER ? true : authState?.user?.role === UserRole.SSM ? UserRole.SSM : null);
+  const [selectedRole, setSelectedRole] = useState<any>(authState?.user?.role === UserRole.RETAILER ? true : authState?.user?.role === UserRole.SSM ? UserRole.SSM : null);
 
-    const handleRoleChange = (selectedOption: any) => {
-        setIsSelectedRole(false);
-        setSelectedRole(selectedOption)
-        // setSelectedExecutive(selectedOption)
-    };
+  const handleRoleChange = (selectedOption: any) => {
+    setIsSelectedRole(false);
+    setSelectedRole(selectedOption)
+    // setSelectedExecutive(selectedOption)
+  };
   // Use useMemo to filter users with role 'SSM'
   const usersSSMList = useMemo(() => {
-  const filteredUsers = usersSSM?.filter((data: any) => (selectedRole === UserRole.SSM ? data.role === UserRole.SSM : data.role === UserRole.RETAILER) ) || [];
-  const sortedUsers = filteredUsers.sort((a: any, b: any) => {
-     return a?.name?.localeCompare(b?.name)
-  });
+    const filteredUsers = usersSSM?.filter((data: any) => (selectedRole === UserRole.SSM ? data.role === UserRole.SSM : data.role === UserRole.RETAILER)) || [];
+    const sortedUsers = filteredUsers.sort((a: any, b: any) => {
+      return a?.name?.localeCompare(b?.name)
+    });
 
-  return sortedUsers;
+    return sortedUsers;
   }, [usersSSM, selectedRole]);
 
 
- 
+
   const [selectedExecutive, setSelectedExecutive] = useState<any>("ALL");
-  useEffect(()=>{
-    if(authState?.user?.role === UserRole.SSM || authState?.user?.role === UserRole.RETAILER){
+  useEffect(() => {
+    if (authState?.user?.role === UserRole.SSM || authState?.user?.role === UserRole.RETAILER) {
       setSelectedExecutive(authState?.user?.id)
     }
   }, [])
-  
+
   // const [timeline, setTimeline] = useState<any>(null);
 
   useEffect(() => {
     dispatch(getUsersActions());
-}, []);
+  }, []);
   const handleExecutiveChange = (value: any) => {
-      setSelectedExecutive(value);
+    setSelectedExecutive(value);
   };
   const currentDate = new Date();
 
@@ -134,8 +134,8 @@ export default function TargetDataTable() {
   currentYear = today.getMonth() < 3 ? currentYear - 1 : currentYear;
   const [timeline, setTimeline] = useState<any>();
   const quarterText = ["Q1", "Q2", "Q3", "Q4"];
- 
-  
+
+
   const startYear = 2023;
   const yearText: number[] = [];
 
@@ -145,11 +145,11 @@ export default function TargetDataTable() {
   const quartersToShow = Math.ceil((currMonthIdx + 1) / 3);
 
   const options: Option[] = [
-    
+
     {
       value: TimelineEnum.QUARTER,
       label: 'Quarter',
-      children: quarterText?.slice(0,quartersToShow)?.map((data): Option => {
+      children: quarterText?.slice(0, quartersToShow)?.map((data): Option => {
         return {
           value: data,
           label: capitalizeFirstLetter(data)
@@ -159,7 +159,7 @@ export default function TargetDataTable() {
     {
       value: TimelineEnum.YEAR,
       label: 'Year',
-      children: yearText?.reverse()?.map((data:any): Option => {
+      children: yearText?.reverse()?.map((data: any): Option => {
         return {
           value: data,
           label: data
@@ -169,7 +169,7 @@ export default function TargetDataTable() {
   ];
 
   const [memoCheck, setMemoCheck] = useState<boolean>(false)
-  const handleTimelineChange : any= (value: any) => {
+  const handleTimelineChange: any = (value: any) => {
     setMemoCheck(true)
     setTimeline(value);
   };
@@ -190,60 +190,61 @@ export default function TargetDataTable() {
     }
     fetchTargetData();
   }, [timeline]);
-  let usersList:any = []
- usersList.push(usersSSMList.map((d:any)=>d?.emp_id))
+  let usersList: any = []
+  usersList.push(usersSSMList.map((d: any) => d?.emp_id))
   const dataSource = useMemo(() => {
-    let filteredData: any =  [];
-    if(authState?.user?.role === UserRole.SSM || authState?.user?.role ===  UserRole.RETAILER){
-      filteredData =  targetData?.filter((data: any) => data?.target?.empId === authState?.user?.id) 
-    }else{
-      if(selectedExecutive !== "ALL"){
-        filteredData =  targetData?.filter((data: any) => data?.target?.empId === selectedExecutive) 
-      }else{
-  filteredData = targetData?.filter((data: any) => usersList[0]?.includes(data?.target?.empId)); 
+    let filteredData: any = [];
+    if (authState?.user?.role === UserRole.SSM || authState?.user?.role === UserRole.RETAILER) {
+      filteredData = targetData?.filter((data: any) => data?.target?.empId === authState?.user?.id)
+    } else {
+      if (selectedExecutive !== "ALL") {
+        filteredData = targetData?.filter((data: any) => data?.target?.empId === selectedExecutive)
+      } else {
+        filteredData = targetData?.filter((data: any) => usersList[0]?.includes(data?.target?.empId));
 
       }
     }
-    let quarterMonths:any = {
-      Q1: [4, 5, 6],  
-      Q2: [7, 8, 9],  
-      Q3: [10, 11, 12], 
-      Q4: [1, 2, 3] 
+    let quarterMonths: any = {
+      Q1: [4, 5, 6],
+      Q2: [7, 8, 9],
+      Q3: [10, 11, 12],
+      Q4: [1, 2, 3]
     };
-      // Determine the month indices for the selected quarter
-      const selectedMonths:any = timeline ? quarterMonths[timeline[1]] : [];     
-    return filteredData?.map((data:any, index:any) => {
-       let filteredAllTarget:any = data?.target?.allTarget ?? [];
-     if(timeline && timeline[0] === TimelineEnum.QUARTER){ 
-       filteredAllTarget = data?.target?.allTarget?.filter((item: any, index:any) => {
-        const itemDate = new Date(item?.month);
-        const month = itemDate.getMonth() + 1;
-        if(selectedMonths.includes(month)){
-        return item;
-        }
-      });
-    }
-    // console.log({filteredAllTarget})
-        
-     return{
-      key: index,
-      salesRep: capitalizeSubstring(`${data?.target?.firstname} ${data?.target?.lastname}`),
-      my: data?.timeline,
-      empId: data?.target?.empId,
-      storeTarget: filteredAllTarget?.reduce((acc: any, item: any) => acc + Number(item.storeTarget || 0), 0),
-      storeAchievement: data?.achievedStores,
-      orderTarget: filteredAllTarget?.reduce((acc: any, item: any) => acc + Number(item.orderTarget || 0), 0),
-      orderAchievement: +data?.target?.totalAmount,
-      collectionTarget: filteredAllTarget?.reduce((acc: any, item: any) => acc + Number(item.collectionTarget || 0), 0),
-      collectionAchievement: +data?.target?.totalCollectedAmount,
-    }}) || [];
+    // Determine the month indices for the selected quarter
+    const selectedMonths: any = timeline ? quarterMonths[timeline[1]] : [];
+    return filteredData?.map((data: any, index: any) => {
+      let filteredAllTarget: any = data?.target?.allTarget ?? [];
+      if (timeline && timeline[0] === TimelineEnum.QUARTER) {
+        filteredAllTarget = data?.target?.allTarget?.filter((item: any, index: any) => {
+          const itemDate = new Date(item?.month);
+          const month = itemDate.getMonth() + 1;
+          if (selectedMonths.includes(month)) {
+            return item;
+          }
+        });
+      }
+      // console.log({filteredAllTarget})
+
+      return {
+        key: index,
+        salesRep: capitalizeSubstring(`${data?.target?.firstname} ${data?.target?.lastname}`),
+        my: data?.timeline,
+        empId: data?.target?.empId,
+        storeTarget: filteredAllTarget?.reduce((acc: any, item: any) => acc + Number(item.storeTarget || 0), 0),
+        storeAchievement: data?.achievedStores,
+        orderTarget: filteredAllTarget?.reduce((acc: any, item: any) => acc + Number(item.orderTarget || 0), 0),
+        orderAchievement: +data?.target?.totalAmount,
+        collectionTarget: filteredAllTarget?.reduce((acc: any, item: any) => acc + Number(item.collectionTarget || 0), 0),
+        collectionAchievement: +data?.target?.totalCollectedAmount,
+      }
+    }) || [];
   }, [targetData, selectedExecutive, timeline, memoCheck, usersList]);
-  const totalStoreTarget = dataSource?.reduce((acc:any, item:any) => acc + Number(item.storeTarget || 0), 0);
-  const totalStoreAchievement = dataSource?.reduce((acc:any, item:any) => acc + Number(item.storeAchievement || 0), 0);
-  const totalOrderTarget = dataSource?.reduce((acc:any, item:any) => acc + Number(item.orderTarget || 0), 0);
-  const totalOrderAchievement = dataSource?.reduce((acc:any, item:any) => acc + Number(item.orderAchievement || 0), 0);
-  const totalCollectionTarget = dataSource?.reduce((acc:any, item:any) => acc + Number(item.collectionTarget || 0), 0);
-  const totalCollectionAchievement = dataSource?.reduce((acc:any, item:any) => acc + Number(item.collectionAchievement || 0), 0);
+  const totalStoreTarget = dataSource?.reduce((acc: any, item: any) => acc + Number(item.storeTarget || 0), 0);
+  const totalStoreAchievement = dataSource?.reduce((acc: any, item: any) => acc + Number(item.storeAchievement || 0), 0);
+  const totalOrderTarget = dataSource?.reduce((acc: any, item: any) => acc + Number(item.orderTarget || 0), 0);
+  const totalOrderAchievement = dataSource?.reduce((acc: any, item: any) => acc + Number(item.orderAchievement || 0), 0);
+  const totalCollectionTarget = dataSource?.reduce((acc: any, item: any) => acc + Number(item.collectionTarget || 0), 0);
+  const totalCollectionAchievement = dataSource?.reduce((acc: any, item: any) => acc + Number(item.collectionAchievement || 0), 0);
   const dataSourceWithTotals: any = [
     ...dataSource
   ];
@@ -275,24 +276,24 @@ export default function TargetDataTable() {
   };
   const getOrderCollectionPercent = useMemo(() => {
     // if (totalOrderTarget || totalOrderAchievement) {
-      const r = (Number(totalCollectionAchievement) / Number(totalCollectionTarget));
-      return r > 1 ? 1 : isNaN(r) ? 0 : r
+    const r = (Number(totalCollectionAchievement) / Number(totalCollectionTarget));
+    return r > 1 ? 1 : isNaN(r) ? 0 : r
     // }
     // return 0;
   }, [totalCollectionTarget, totalCollectionAchievement])
 
   const getValueTargetPercent = useMemo(() => {
     // if (totalOrderAchievement  && totalOrderTarget) {
-      const r = (Number(totalOrderAchievement) / Number(totalOrderTarget));
-      return r > 1 ? 1 :isNaN(r) ? 0 : r
+    const r = (Number(totalOrderAchievement) / Number(totalOrderTarget));
+    return r > 1 ? 1 : isNaN(r) ? 0 : r
     // }
     // return 0;
   }, [totalOrderAchievement])
 
   const getStoreTargetPercent = useMemo(() => {
     // if (totalStoreAchievement && totalStoreTarget) {
-      const r = Number(totalStoreAchievement) / Number(totalStoreTarget);
-      return r > 1 ? 1 : isNaN(r) ? 0 : r
+    const r = Number(totalStoreAchievement) / Number(totalStoreTarget);
+    return r > 1 ? 1 : isNaN(r) ? 0 : r
     // }
     // return 0;
   }, [totalStoreAchievement])
@@ -319,9 +320,9 @@ export default function TargetDataTable() {
             },
           };
         }
-        return (authState?.user?.role === UserRole.SSM || authState?.user?.role === UserRole.RETAILER) ? <span style={{color:"blue"}}>{text}</span>:<Link to={`/target-achievement?userId=${record?.empId}`}>{text}</Link>;
+        return (authState?.user?.role === UserRole.SSM || authState?.user?.role === UserRole.RETAILER) ? <span style={{ color: "blue" }}>{text}</span> : <Link to={`/target-achievement?userId=${record?.empId}`}>{text}</Link>;
       },
-    }]:[]),
+    }] : []),
     {
       title: 'M-Y',
       dataIndex: 'my',
@@ -331,7 +332,7 @@ export default function TargetDataTable() {
           return {
             children: text,
             props: {
-              colSpan:  authState?.user?.role === UserRole.RETAILER ? 1 : 0, // Hide this cell as it is merged with the previous one
+              colSpan: authState?.user?.role === UserRole.RETAILER ? 1 : 0, // Hide this cell as it is merged with the previous one
             },
           };
         }
@@ -339,7 +340,7 @@ export default function TargetDataTable() {
       },
       width: 120
     },
-    ...(authState?.user?.role !== UserRole.RETAILER && selectedRole !== UserRole.RETAILER? [{
+    ...(authState?.user?.role !== UserRole.RETAILER && selectedRole !== UserRole.RETAILER ? [{
       title: 'New Store',
       children: [
         {
@@ -355,7 +356,7 @@ export default function TargetDataTable() {
           width: 110,
         },
       ],
-    }]:[]),
+    }] : []),
     {
       title: 'New Order Value',
       children: [
@@ -373,7 +374,7 @@ export default function TargetDataTable() {
         },
       ],
     },
-    ...(authState?.user?.role !== UserRole.RETAILER && selectedRole !== UserRole.RETAILER ? [  {
+    ...(authState?.user?.role !== UserRole.RETAILER && selectedRole !== UserRole.RETAILER ? [{
       title: 'Collection',
       children: [
         {
@@ -389,9 +390,9 @@ export default function TargetDataTable() {
           width: 110,
         },
       ],
-    }]:[]),
+    }] : []),
   ];
- 
+
   return (
     <div>
       <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
@@ -403,207 +404,207 @@ export default function TargetDataTable() {
           <PlusOutlined className="plusIcon" />
         </div>
       </Link>}
-    
-      <main className='content' style={{marginBottom:"40px"}}>
+
+      <main className='content' style={{ marginBottom: "40px" }}>
         <div className="target-filter ">
           <div className="brand" style={{ paddingLeft: "0px" }}>
             <span style={{ color: "black", fontSize: "14px", fontWeight: "bold" }}>Target Period: </span>
 
-              <Cascader defaultValue={['Year', String(currentYear)]} options={options}  placeholder="Please select"  onChange={handleTimelineChange}  />
-            
+            <Cascader defaultValue={['Year', String(currentYear)]} options={options} placeholder="Please select" onChange={handleTimelineChange} />
+
           </div>
           {authState?.user?.role !== UserRole.RETAILER && authState?.user?.role !== UserRole.SSM && <div className="brand" style={{ paddingLeft: "0px" }}>
             <span style={{ color: "black", fontSize: "14px", fontWeight: "bold" }}>Role: </span>
-                        <Select
-                            placeholder="Select Role"
-                            onChange={handleRoleChange}
-                            options ={ dataRole.map((data: any) => ({
-                              label: data?.name,  
-                              value: data?.roleEnum  
-                            }))}
-                            
-                        />
+            <Select
+              placeholder="Select Role"
+              onChange={handleRoleChange}
+              options={dataRole.map((data: any) => ({
+                label: data?.name,
+                value: data?.roleEnum
+              }))}
+
+            />
           </div>}
           <div className="category"  >
             <span style={{ color: "black", fontSize: "14px", fontWeight: "bold" }}>Executive: </span>
-           {authState?.user?.role === UserRole.SSM || authState?.user?.role === UserRole.RETAILER ? 
-           <Select
-           placeholder="Select Executive"
-           onChange={handleExecutiveChange}
-           defaultValue={`${authState?.user?.name} (${authState?.user?.role})`} 
-           options={
-            []
-         }
-         className='selectTargetFil'
-         />
-           :
-           <>
-          
-           <Select
-              placeholder="Select Executive"
-              onChange={handleExecutiveChange}
-              defaultValue={"ALL"} 
-              options={
-               [{label: "ALL", value: "ALL"}, ...usersSSMList?.map((data: any) => ({
-                label: `${capitalizeSubstring(data?.name)}  (${data?.role})`,
-                value: data?.emp_id,
-              }))]
+            {authState?.user?.role === UserRole.SSM || authState?.user?.role === UserRole.RETAILER ?
+              <Select
+                placeholder="Select Executive"
+                onChange={handleExecutiveChange}
+                defaultValue={`${authState?.user?.name} (${authState?.user?.role})`}
+                options={
+                  []
+                }
+                className='selectTargetFil'
+              />
+              :
+              <>
+
+                <Select
+                  placeholder="Select Executive"
+                  onChange={handleExecutiveChange}
+                  defaultValue={"ALL"}
+                  options={
+                    [{ label: "ALL", value: "ALL" }, ...usersSSMList?.map((data: any) => ({
+                      label: `${capitalizeSubstring(data?.name)}  (${data?.role})`,
+                      value: data?.emp_id,
+                    }))]
+                  }
+                  className='selectTargetFil'
+                  disabled={isSelectedRole}
+                // style={{width:"100%"}}
+                /></>
             }
-            className='selectTargetFil'
-            disabled={isSelectedRole}
-            // style={{width:"100%"}}
-            /></>
-           }
-            
+
           </div>
 
         </div>
-       {selectedRole && <div>
-        <div className="chartDirection" style={{width:"100%", marginBottom: "10px", marginTop: "20px", display:"flex", justifyContent: "" }}>
-          <div className='chartbg' style={{ marginTop: "0", background: "#f0f2f7" }}>
-            <div className="chartContainer">
-              <span>Achieved</span>
-              <span><RupeeSymbol />{formattedAmount(totalOrderAchievement)}</span>
-            </div>
-            <GaugeChart
-              id="gauge-chart5"
-              nrOfLevels={420}
-              arcsLength={[0.25, 0.25, 0.25, 0.25]}
-              colors={["#b54e45", "#f5c966", "#8abc5b", "#4f8a5c"]}
-              percent={getValueTargetPercent}
-              arcPadding={0.02}
-              cornerRadius={3}
-              arcWidth={0.20}
-              textColor={getTextColor(getValueTargetPercent)}
-              needleBaseColor="black"
-              className="gaugechart fontb"
-            />
-            <div className="valueTarContent">
-              <span>0</span>
-              <span>{authState?.user?.role === UserRole.RETAILER  ? "Order Value":"Sales Target"}</span>
-              <div className="valueTarTxt">
-                <span>Target</span>
-                <span><RupeeSymbol />{formattedAmount(totalOrderTarget)}</span>
+        {selectedRole && <div>
+          <div className="chartDirection" style={{ width: "100%", marginBottom: "10px", marginTop: "20px", display: "flex", justifyContent: "" }}>
+            <div className='chartbg' style={{ marginTop: "0", background: "#f0f2f7" }}>
+              <div className="chartContainer">
+                <span>Achieved</span>
+                <span><RupeeSymbol />{formattedAmount(totalOrderAchievement)}</span>
+              </div>
+              <GaugeChart
+                id="gauge-chart5"
+                nrOfLevels={420}
+                arcsLength={[0.25, 0.25, 0.25, 0.25]}
+                colors={["#b54e45", "#f5c966", "#8abc5b", "#4f8a5c"]}
+                percent={getValueTargetPercent}
+                arcPadding={0.02}
+                cornerRadius={3}
+                arcWidth={0.20}
+                textColor={getTextColor(getValueTargetPercent)}
+                needleBaseColor="black"
+                className="gaugechart fontb"
+              />
+              <div className="valueTarContent">
+                <span>0</span>
+                <span>{authState?.user?.role === UserRole.RETAILER ? "Order Value" : "Sales Target"}</span>
+                <div className="valueTarTxt">
+                  <span>Target</span>
+                  <span><RupeeSymbol />{formattedAmount(totalOrderTarget)}</span>
+                </div>
               </div>
             </div>
-          </div>
-          {( (authState?.user?.role === UserRole.RETAILER || selectedRole) && selectedRole !== UserRole.SSM )&&  <div style={{ position: 'relative'}} className='retailorTarget'>
-          {isLoading && (
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              // backgroundColor: 'rgba(255, 255, 255, 0.7)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 1,
-            }}>
-              <LoadingOutlined />
+            {((authState?.user?.role === UserRole.RETAILER || selectedRole) && selectedRole !== UserRole.SSM) && <div style={{ position: 'relative' }} className='retailorTarget'>
+              {isLoading && (
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  // backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 1,
+                }}>
+                  <LoadingOutlined />
+                </div>
+              )}
+              {selectedRole !== UserRole.SSM &&
+                <Table
+                  columns={columns}
+                  dataSource={
+                    isLoading ? [] : dataSourceWithTotals
+                  }
+                  rowClassName={rowClassName}
+                  scroll={{ x: "100%" }}
+                  size="small"
+                  pagination={false}
+                />}
+            </div>}
+            {authState?.user?.role !== UserRole.RETAILER && selectedRole === UserRole.SSM && <><div className="chartbg" style={{ background: "#f0f2f7" }}>
+              <div className="chartContainer">
+                <span>Achieved</span>
+                <span>{totalStoreAchievement ?? 0}</span>
+              </div>
+              <GaugeChart
+                id="gauge-chart5"
+                nrOfLevels={420}
+                arcsLength={[0.25, 0.25, 0.25, 0.25]}
+                colors={["#b54e45", "#f5c966", "#8abc5b", "#4f8a5c"]}
+                percent={getStoreTargetPercent}
+                arcPadding={0.02}
+                cornerRadius={3}
+                arcWidth={0.20}
+                textColor={getTextColor(getStoreTargetPercent)}
+                needleBaseColor="black"
+                className="gaugechart fontb"
+              />
+              <div className="dashStoTar">
+                <span>0</span>
+                <span>Stores Target</span>
+                <div className="dashStoTarTxt">
+                  <span>Target</span>
+                  <span>{totalStoreTarget ?? 0}</span>
+                </div>
+              </div>
             </div>
-          )}
-         { selectedRole !== UserRole.SSM && 
-         <Table
-            columns={columns}
-            dataSource={
-              isLoading ? [] : dataSourceWithTotals
+              <div className="chartbg" style={{ background: "#f0f2f7" }}>
+                <div className="chartContainer">
+                  <span>Achieved</span>
+                  <span><RupeeSymbol />{formattedAmount(totalCollectionAchievement)}</span>
+                </div>
+                <GaugeChart
+                  id="gauge-chart5"
+                  nrOfLevels={420}
+                  arcsLength={[0.25, 0.25, 0.25, 0.25]}
+                  colors={["#b54e45", "#f5c966", "#8abc5b", "#4f8a5c"]}
+                  percent={getOrderCollectionPercent}
+                  arcPadding={0.02}
+                  cornerRadius={3}
+                  arcWidth={0.20}
+                  textColor={getTextColor(getOrderCollectionPercent)}
+                  needleBaseColor="black"
+                  className="gaugechart fontb"
+                />
+                <div className="dashStoTar">
+                  <span>0</span>
+                  <span>Collection</span>
+                  <div className="dashStoTarTxt">
+                    <span>Target</span>
+                    <span><RupeeSymbol />{formattedAmount(totalCollectionTarget)}</span>
+                  </div>
+                </div>
+              </div>
+            </>
             }
-            rowClassName={rowClassName}
-            scroll={{x:"100%"}}
-            size="small"
-            pagination={false}
-          />}
-        </div>}
-          {authState?.user?.role !== UserRole.RETAILER && selectedRole === UserRole.SSM &&<><div className="chartbg" style={{ background: "#f0f2f7" }}>
-            <div className="chartContainer">
-              <span>Achieved</span>
-              <span>{totalStoreAchievement ?? 0}</span>
-            </div>
-            <GaugeChart
-              id="gauge-chart5"
-              nrOfLevels={420}
-              arcsLength={[0.25, 0.25, 0.25, 0.25]}
-              colors={["#b54e45", "#f5c966", "#8abc5b", "#4f8a5c"]}
-              percent={getStoreTargetPercent}
-              arcPadding={0.02}
-              cornerRadius={3}
-              arcWidth={0.20}
-              textColor={getTextColor(getStoreTargetPercent)}
-              needleBaseColor="black"
-              className="gaugechart fontb"
-            />
-            <div className="dashStoTar">
-              <span>0</span>
-              <span>Stores Target</span>
-              <div className="dashStoTarTxt">
-                <span>Target</span>
-                <span>{totalStoreTarget ?? 0}</span>
-              </div>
-            </div>
-          </div>
-          <div className="chartbg" style={{ background: "#f0f2f7" }}>
-            <div className="chartContainer">
-              <span>Achieved</span>
-              <span><RupeeSymbol />{formattedAmount(totalCollectionAchievement)}</span>
-            </div>
-            <GaugeChart
-              id="gauge-chart5"
-              nrOfLevels={420}
-              arcsLength={[0.25, 0.25, 0.25, 0.25]}
-              colors={["#b54e45", "#f5c966", "#8abc5b", "#4f8a5c"]}
-              percent={getOrderCollectionPercent}
-              arcPadding={0.02}
-              cornerRadius={3}
-              arcWidth={0.20}
-              textColor={getTextColor(getOrderCollectionPercent)}
-              needleBaseColor="black"
-              className="gaugechart fontb"
-            />
-            <div className="dashStoTar">
-              <span>0</span>
-              <span>Collection</span>
-              <div className="dashStoTarTxt">
-                <span>Target</span>
-                <span><RupeeSymbol />{formattedAmount(totalCollectionTarget)}</span>
-              </div>
-            </div>
-          </div>
-          </>
-          }
 
-        </div>
-        {( selectedRole  )&& selectedRole === UserRole.SSM && authState?.user?.role !== UserRole.RETAILER &&
-        <div style={{ position: 'relative' }}>
-          {isLoading && (
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              // backgroundColor: 'rgba(255, 255, 255, 0.7)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 1,
-            }}>
-              <LoadingOutlined />
-            </div>
-          )}
-          <Table
-            columns={columns}
-            dataSource={
-              isLoading ? [] : dataSourceWithTotals
-            }
-            rowClassName={rowClassName}
-            scroll={{x:"100%"}}
-            size="small"
-            pagination={false}
-          
-          />
-        </div>}
+          </div>
+          {(selectedRole) && selectedRole === UserRole.SSM && authState?.user?.role !== UserRole.RETAILER &&
+            <div style={{ position: 'relative' }}>
+              {isLoading && (
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  // backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 1,
+                }}>
+                  <LoadingOutlined />
+                </div>
+              )}
+              <Table
+                columns={columns}
+                dataSource={
+                  isLoading ? [] : dataSourceWithTotals
+                }
+                rowClassName={rowClassName}
+                scroll={{ x: "100%" }}
+                size="small"
+                pagination={false}
+
+              />
+            </div>}
         </div>}
       </main>
       <Footer />
