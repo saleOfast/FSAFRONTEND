@@ -119,10 +119,10 @@ import AddAndUpdateOtherBrand from 'component/admin/brand/addAndUpdateOtherBrand
 
 import Holidays from 'component/hrProcess/holidays';
 import Edetails from 'page/visits/eDetails';
-import { MrAnalysis } from 'component/admin/reports/mrAnalysis';
+import {MrAnalysis} from 'component/admin/reports/mrAnalysis';
+import PurchaseOrder from 'component/admin/purchaseOrder/purchaseOrder';
+import InventoryDashboard from 'component/admin/InventoryDashboard/InventoryDashboard';
 import Warehouse from 'page/warehouse';
-
-
 
 function AppRoutes() {
     const route = useRoutes([
@@ -148,6 +148,7 @@ function AppRoutes() {
         { path: "/visit/inventory/:storeId", element: <AuthGuard page={<Inventory />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/visit/inventory", element: <AuthGuard page={<Inventory />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
 
+        
         { path: "/visit", element: <AuthGuard page={<Visit />} />, },
         {
             path: "/visit-details/:storeId/:visitId", element: <AuthGuard page={<VisitDetails />} />,
@@ -159,6 +160,11 @@ function AppRoutes() {
                 { path: "no-order-reason", element: <NoOrderReasonOutlet /> }
             ],
         },
+        { path: "/purchaseOrder", element: <AuthGuard page={<PurchaseOrder />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
+        { path: "/InventoryDashboard", element: <AuthGuard page={<InventoryDashboard />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
+
+
+
         { path: "/order", element: <AuthGuard page={<Order />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.CHANNEL, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/order/order-list/:storeId/:visitId", element: <AuthGuard page={<OrderList />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/order/order-list/:storeId/:visitId/:orderId", element: <AuthGuard page={<OrderList />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },

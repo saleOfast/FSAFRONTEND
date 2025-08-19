@@ -7,6 +7,7 @@ import {
   InsertRowAboveOutlined,
   MoneyCollectOutlined,
   ShoppingCartOutlined,
+  ShoppingOutlined,
   PlusOutlined,
   AimOutlined,
   DashboardOutlined,
@@ -15,6 +16,7 @@ import {
   MedicineBoxOutlined,
   SolutionOutlined,
   FileAddOutlined,
+  DatabaseOutlined,
 } from "@ant-design/icons";
 
 import React, { Fragment, useEffect, useState } from "react";
@@ -639,6 +641,50 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                   >
                     <DeploymentUnitOutlined className="adminMenuTxt" />
                     Beat
+                  </SidebarLink>
+                </Link>
+              )}
+                {authState?.user?.role !== UserRole.SSM &&
+              authState?.user?.role !== UserRole.RETAILER &&
+              authState?.user?.role !== UserRole.CHANNEL && (
+                <Link
+                  to="/purchaseOrder"
+                  className="linkto"
+                  // onClick={toggleSidebar}
+                >
+                  <SidebarLink
+                    style={{ color: "black" }}
+                    className={
+                      pathname.includes("/purchaseOrder") ||
+                        pathname.includes("/addPurchaseOrder")
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <ShoppingOutlined className="adminMenuTxt" />
+                    Purchase Order
+                  </SidebarLink>
+                </Link>
+              )}
+               {authState?.user?.role !== UserRole.SSM &&
+              authState?.user?.role !== UserRole.RETAILER &&
+              authState?.user?.role !== UserRole.CHANNEL && (
+                <Link
+                  to="/InventoryDashboard"
+                  className="linkto"
+                  // onClick={toggleSidebar}
+                >
+                  <SidebarLink
+                    style={{ color: "black" }}
+                    className={
+                      pathname.includes("/InventoryDashboard") ||
+                        pathname.includes("/addInventoryDashboard")
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <DatabaseOutlined className="adminMenuTxt" />
+                    Inventory
                   </SidebarLink>
                 </Link>
               )}
