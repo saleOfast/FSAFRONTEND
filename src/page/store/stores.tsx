@@ -123,7 +123,7 @@ function Store() {
         })
       );
       setPageNumber(newPageNumber);
-    } catch (error) {}
+    } catch (error) { }
   }, [pageNumber, filters, dispatch, searchValue]);
 
   const [toggleDelete, setToggleDelete] = useState(false);
@@ -148,7 +148,7 @@ function Store() {
       <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }} >
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">Doctor/Chemist/Stockist</h1>
-      </header> 
+      </header>
       {/* <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">Doctor/Chemist/Stockiest</h1>
@@ -187,10 +187,10 @@ function Store() {
         <div className="search" >
           <Input
             prefix={<SearchOutlined />}
-            placeholder="Search Store by Name, Category, Id"
+            placeholder="Search Store by Name, Category, Id or location"
             value={searchValue}
             onChange={handleSearchInputChange}
-          
+
           />
           {!isMobile && (
             <>
@@ -260,54 +260,54 @@ function Store() {
             store_data.map((item, index) => {
               return (
                 <div>
-                  <Link  to={`/stores/store-details?store_id=${item?.storeId}`} className="no-underline">
-             
-                   <div className="store-list" key={index}>
-                  <div className="shoptitle">
-                   
-                      <div className="fontb">{item?.storeName}</div>
-                     
-                    {authState?.user?.role !== UserRole.CHANNEL && (
-                      <span>
-                        <Link
-                          to={`/stores/add-store?storeId=${item?.storeId}`}
-                          className="linkDefault"
-                        >
-                          <FormOutlined style={{ fontSize: "14px" }} />
-                        </Link>
-                      </span>
-                    )}
-                  </div>
-               
-                    <div className="storeConlist">
-                      <div>
-                        <div className="storeIdTxt">
-                          {item?.storeCat?.categoryName} | store ID:{" "}
-                          {item?.storeId}
-                        </div>
-                        <div className="flexSpace storeAddTxt">
+                  <Link to={`/stores/store-details?store_id=${item?.storeId}`} className="no-underline">
+
+                    <div className="store-list" key={index}>
+                      <div className="shoptitle">
+
+                        <div className="fontb">{item?.storeName}</div>
+
+                        {authState?.user?.role !== UserRole.CHANNEL && (
                           <span>
-                            {item?.addressLine1}, {item?.addressLine2},{" "}
-                            {item?.state}
+                            <Link
+                              to={`/stores/add-store?storeId=${item?.storeId}`}
+                              className="linkDefault"
+                            >
+                              <FormOutlined style={{ fontSize: "14px" }} />
+                            </Link>
                           </span>
-                        </div>
+                        )}
                       </div>
 
-                      {item?.isPremiumStore && (
-                        <div className="premiumtag">
-                          <div className="bli">
-                            <CrownOutlined className="crownIcon" />
+                      <div className="storeConlist">
+                        <div>
+                          <div className="storeIdTxt">
+                            {item?.storeCat?.categoryName} | store ID:{" "}
+                            {item?.storeId}
                           </div>
-                          <span className="premiumText">Premium</span>
+                          <div className="flexSpace storeAddTxt">
+                            <span>
+                              {item?.addressLine1}, {item?.addressLine2},{" "}
+                              {item?.state}
+                            </span>
+                          </div>
                         </div>
-                      )}
+
+                        {item?.isPremiumStore && (
+                          <div className="premiumtag">
+                            <div className="bli">
+                              <CrownOutlined className="crownIcon" />
+                            </div>
+                            <span className="premiumText">Premium</span>
+                          </div>
+                        )}
+                      </div>
+
                     </div>
-                
+                  </Link>
+
                 </div>
-                     </Link>
-                        
-                </div>
-             
+
               );
             })}
         </div>
