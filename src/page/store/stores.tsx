@@ -1,12 +1,14 @@
 import {
+  AppstoreOutlined,
   ArrowLeftOutlined,
   CrownOutlined,
   FilterOutlined,
   FormOutlined,
   PlusOutlined,
   SearchOutlined,
+  UnorderedListOutlined,
 } from "@ant-design/icons";
-import { Input, Select } from "antd";
+import { Input, Select, Table } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
@@ -47,6 +49,7 @@ function Store() {
   const [pageNumber, setPageNumber] = useState(1);
 
   const [store_data, setStore_data] = useState<IStoreData[]>([]);
+  const [gridView, setGridView] = useState(true)
 
   useEffect(() => {
     dispatch(
@@ -123,7 +126,7 @@ function Store() {
         })
       );
       setPageNumber(newPageNumber);
-    } catch (error) {}
+    } catch (error) { }
   }, [pageNumber, filters, dispatch, searchValue]);
 
   const [toggleDelete, setToggleDelete] = useState(false);
@@ -143,12 +146,21 @@ function Store() {
   useEffect(() => {
     setIsMobile(isMobileDevice());
   }, []);
+
+  const handleGridView = () => {
+    setGridView(true)
+
+  }
+  const handleListView = () => {
+    setGridView(false)
+
+  }
   return (
     <div className="store-v1 storeBgC">
       <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }} >
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">Doctor/Chemist/Stockist</h1>
-      </header> 
+      </header>
       {/* <header className="heading heading-container" style={{ backgroundColor: "#070D79" }}>
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
         <h1 className="page-title pr-18">Doctor/Chemist/Stockiest</h1>
@@ -190,8 +202,19 @@ function Store() {
             placeholder="Search Store by Name, Category, Id"
             value={searchValue}
             onChange={handleSearchInputChange}
-          
+
+
           />
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+              <AppstoreOutlined style={{ fontSize: '15px' }} onClick={handleGridView} />
+
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', marginRight: '10px' }}>
+              <UnorderedListOutlined style={{ fontSize: '15px' }} onClick={handleListView} />
+
+            </div>
+          </div>
           {!isMobile && (
             <>
               <Link to="/stores/stores-filter" className="linkto">
@@ -245,72 +268,120 @@ function Store() {
             setToggleDelete(e);
           }}
         />
-        <div
-          className="content"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "20px",
-            marginTop: "24px",
-            marginBottom: "10px",
-          }}
-        >
-          {store_data &&
-            store_data.length > 0 &&
-            store_data.map((item, index) => {
-              return (
-                <div>
-                  <Link  to={`/stores/store-details?store_id=${item?.storeId}`} className="no-underline">
-             
-                   <div className="store-list" key={index}>
-                  <div className="shoptitle">
-                   
-                      <div className="fontb">{item?.storeName}</div>
-                     
-                    {authState?.user?.role !== UserRole.CHANNEL && (
-                      <span>
-                        <Link
-                          to={`/stores/add-store?storeId=${item?.storeId}`}
-                          className="linkDefault"
-                        >
-                          <FormOutlined style={{ fontSize: "14px" }} />
-                        </Link>
-                      </span>
-                    )}
-                  </div>
-               
-                    <div className="storeConlist">
-                      <div>
-                        <div className="storeIdTxt">
-                          {item?.storeCat?.categoryName} | store ID:{" "}
-                          {item?.storeId}
-                        </div>
-                        <div className="flexSpace storeAddTxt">
-                          <span>
-                            {item?.addressLine1}, {item?.addressLine2},{" "}
-                            {item?.state}
-                          </span>
-                        </div>
-                      </div>
+        {
+          gridView ? (
+            <div
+              className="content"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "20px",
+                marginTop: "24px",
+                marginBottom: "10px",
+              }}
+            >
+              {store_data &&
+                store_data.length > 0 &&
+                store_data.map((item, index) => {
+                  return (
+                    <div>
+                      <Link to={`/stores/store-details?store_id=${item?.storeId}`} className="no-underline">
 
-                      {item?.isPremiumStore && (
-                        <div className="premiumtag">
-                          <div className="bli">
-                            <CrownOutlined className="crownIcon" />
+                        <div className="store-list" key={index}>
+                          <div className="shoptitle">
+
+                            <div className="fontb">{item?.storeName}</div>
+
+                            {authState?.user?.role !== UserRole.CHANNEL && (
+                              <span>
+                                <Link
+                                  to={`/stores/add-store?storeId=${item?.storeId}`}
+                                  className="linkDefault"
+                                >
+                                  <FormOutlined style={{ fontSize: "14px" }} />
+                                </Link>
+                              </span>
+                            )}
                           </div>
-                          <span className="premiumText">Premium</span>
+
+                          <div className="storeConlist">
+                            <div>
+                              <div className="storeIdTxt">
+                                {item?.storeCat?.categoryName} | store ID:{" "}
+                                {item?.storeId}
+                              </div>
+                              <div className="flexSpace storeAddTxt">
+                                <span>
+                                  {item?.addressLine1}, {item?.addressLine2},{" "}
+                                  {item?.state}
+                                </span>
+                              </div>
+                            </div>
+
+                            {item?.isPremiumStore && (
+                              <div className="premiumtag">
+                                <div className="bli">
+                                  <CrownOutlined className="crownIcon" />
+                                </div>
+                                <span className="premiumText">Premium</span>
+                              </div>
+                            )}
+                          </div>
+
                         </div>
-                      )}
+                      </Link>
+
                     </div>
-                
-                </div>
-                     </Link>
-                        
-                </div>
-             
-              );
-            })}
-        </div>
+
+                  );
+                })}
+            </div>) : (
+            <table className="store-table" style={{ textDecoration: 'none' }}>
+              <thead>
+                <tr>
+                  <th>storeId</th>
+                  <th>storeName</th>
+                  <th>ownerName</th>
+                  <th>Address</th>
+                  <th>isPremiumStore</th>
+                  <th>townCity</th>
+
+                  {authState?.user?.role !== UserRole.CHANNEL && <th>Edit</th>}
+                </tr>
+              </thead>
+              <tbody >
+                {store_data?.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item?.storeId}</td>
+                    <td >
+                      <Link to={`/stores/store-details?store_id=${item?.storeId}`} style={{ textDecoration: 'none', color: 'black' }}>
+                        {item?.storeName}
+                      </Link>
+                    </td>
+                    <td>{item?.ownerName}</td>
+                    <td>{item?.addressLine1}</td>
+                    <td>{item?.isPremiumStore ? <CrownOutlined /> : "-"}</td>
+                    <td>{item?.storeCat?.categoryName}</td>
+
+
+                    <td>{item?.isPremiumStore ? <CrownOutlined /> : "-"}</td>
+                    <td>{item?.addressLine1}</td>
+
+                    {authState?.user?.role !== UserRole.CHANNEL && (
+                      <td>
+                        <Link to={`/stores/add-store?storeId=${item?.storeId}`}>
+                          <FormOutlined />
+                        </Link>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+          )
+        }
+
         {totalStoreRecords > 0 && store_data.length < totalStoreRecords && (
           <LoadMore isLoading={isLoading} onClick={handleLoadMore} />
         )}
