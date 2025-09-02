@@ -123,6 +123,7 @@ import {MrAnalysis} from 'component/admin/reports/mrAnalysis';
 import PurchaseOrder from 'component/admin/purchaseOrder/purchaseOrder';
 import InventoryDashboard from 'component/admin/InventoryDashboard/InventoryDashboard';
 import Warehouse from 'page/warehouse';
+import Profile1 from 'component/admin/profile/profile';
 
 function AppRoutes() {
     const route = useRoutes([
@@ -252,6 +253,8 @@ function AppRoutes() {
         { path: "/config/feature", element: <AuthGuard page={<Feature />} /> },
         { path: "/config/feature/add-update", element: <AuthGuard page={<AddUpdateFeature />} role={[UserRole.SUPER_ADMIN]} /> },
         { path: "/config/role", element: <AuthGuard page={<Role />} /> },
+        { path: "/config/profile", element: <AuthGuard page={<Profile1 />} /> },
+
         { path: "/config/role/add-update", element: <AuthGuard page={<AddUpdateRole />} role={[UserRole.SUPER_ADMIN]} /> },
 
         { path: "/admin/import-export", element: <AuthGuard page={<ImportExport />} /> },

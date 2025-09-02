@@ -669,6 +669,10 @@ export default function OrderSummary() {
 										<th className="fwtNor txtC">Status</th>
 										<th className="fwtNor txtC">Mode</th>
 										<th className="fwtNor txtC">Amount</th>
+										<th className="fwtNor txtC">Invoice Reference</th>
+										<th className="fwtNor txtC">Date</th>
+										<th className="fwtNor txtC">Remarks</th>
+										
 									</tr>
 								</thead>
 								<tbody className="table-body attDetailContent">
@@ -679,13 +683,18 @@ export default function OrderSummary() {
 												<tr className="storeData txtC" key={ind}>
 													<td className="txtC">{item?.paymentMode === "CASH" ? item?.paymentId : item?.transactionId} </td>
 													<td className="txtC">{item?.status}</td>
+													<td className="txtC">{item?.Mode}</td>
+													<td className="txtC">{item?.Amount}</td>
+													<td className="txtC">{item?.InvoiceReference}</td>
+													<td className="txtC">{item?.Date}</td>
+													<td className="txtC">{item?.Remarks}</td>
 													<td className="txtC">{item?.paymentMode}</td>
 													<td className="txtC fw-bold">{item?.amount}</td>
 												</tr>
 											)
 										}) : isNoRecord && (
 											<tr className="storeData txtC">
-												<td colSpan={4}>No record found</td>
+												<td colSpan={7}>No record found</td>
 											</tr>
 										)
 									}
