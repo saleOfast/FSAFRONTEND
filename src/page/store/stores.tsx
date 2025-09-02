@@ -336,15 +336,15 @@ function Store() {
                   );
                 })}
             </div>) : (
-            <table className="store-table" style={{ textDecoration: 'none' }}>
+            <table className="store-table" style={{ textDecoration: 'none', fontSize: '13px' }}>
               <thead>
                 <tr>
-                  <th>storeId</th>
+                  <th>StoreId</th>
                   <th>storeName</th>
                   <th>ownerName</th>
                   <th>Address</th>
+                  <th>City</th>
                   <th>isPremiumStore</th>
-                  <th>townCity</th>
 
                   {authState?.user?.role !== UserRole.CHANNEL && <th>Edit</th>}
                 </tr>
@@ -360,12 +360,8 @@ function Store() {
                     </td>
                     <td>{item?.ownerName}</td>
                     <td>{item?.addressLine1}</td>
+                    <td>{item?.townCity}</td>
                     <td>{item?.isPremiumStore ? <CrownOutlined /> : "-"}</td>
-                    <td>{item?.storeCat?.categoryName}</td>
-
-
-                    <td>{item?.isPremiumStore ? <CrownOutlined /> : "-"}</td>
-                    <td>{item?.addressLine1}</td>
 
                     {authState?.user?.role !== UserRole.CHANNEL && (
                       <td>
@@ -374,6 +370,12 @@ function Store() {
                         </Link>
                       </td>
                     )}
+
+
+                    {/* <td>{item?.isPremiumStore ? <CrownOutlined /> : "-"}</td>
+                    <td>{item?.addressLine1}</td> */}
+
+
                   </tr>
                 ))}
               </tbody>

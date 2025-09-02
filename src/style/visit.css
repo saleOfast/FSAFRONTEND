@@ -9,18 +9,21 @@
   margin-top: 50px;
   top: 50px;
 }
+
 .visitHeader {
   display: flex;
   justify-content: space-around;
   align-items: center;
   font-size: 14px;
 }
+
 .visitSelect {
   padding-right: 6px;
   color: var(--bg-color-p0);
   font-size: 12px;
   font-weight: bold;
 }
+
 .visitDropdown {
   width: 40px;
   height: 10px;
@@ -28,6 +31,7 @@
   font-size: 12px;
   padding: 3px 1px;
 }
+
 .redbar {
   width: 90%;
   height: 18px;
@@ -35,6 +39,7 @@
   margin: 22px 22px 10px;
   border-radius: 20px;
 }
+
 .greenbar {
   width: 30%;
   height: 18px;
@@ -42,6 +47,7 @@
   margin: 22px 0px 10px;
   border-radius: 20px;
 }
+
 .visit-list {
   width: 320px;
   background: var(--bg-color-list);
@@ -49,13 +55,15 @@
   font-size: 14px;
   padding: 14px 10px 14px;
   border-radius: 8px;
- 
+
 }
+
 .flexSpace {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .progData {
   display: flex;
   justify-content: center;
@@ -94,49 +102,58 @@
   text-decoration: none;
   list-style: none;
 }
-.adminVistSel{
+
+.adminVistSel {
   width: 80px;
   color: black;
   background: #ddd;
 }
-.adminBeatSel{
+
+.adminBeatSel {
   width: 100px;
   color: black;
   background: #ddd;
 }
-.p-8{
+
+.p-8 {
   padding: 8px;
 }
-.createVistBeat{
+
+.createVistBeat {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 10px;
 }
-.createVBTxt{
+
+.createVBTxt {
   background: var(--bg-color-p0);
   padding: 4px 12px 6px;
   border-radius: 18px;
   color: white;
   font-size: 12px;
 }
-.admCNameTxt{
+
+.admCNameTxt {
   margin-bottom: 7px;
   font-weight: bold;
   font-size: 18px;
 }
-.admVisitSName{
+
+.admVisitSName {
   margin-bottom: 3px;
   font-weight: bold;
   font-size: 15px;
 }
-.adminVisDate{
+
+.adminVisDate {
   font-weight: bold;
   color: black;
   font-size: 14px;
 }
-.adimnVisStatus{
+
+.adimnVisStatus {
   font-weight: bold;
   color: black;
   font-size: 14px;
