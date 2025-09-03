@@ -308,6 +308,14 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                     </Link>
                   ),
                 },
+                 {
+                  key: "7c",
+                  label: (
+                    <Link to="/config/profile" onClick={toggleSidebar}>
+                      Profile
+                    </Link>
+                  ),
+                },
               ],
             },
           ]

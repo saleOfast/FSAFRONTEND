@@ -180,7 +180,7 @@ const InventoryDashboard = () => {
     return (
         <div style={{ backgroundColor: '#fefefe', minHeight: '100vh' }}>
             {/* Header */}
-            <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
+            <header className="heading heading-container" style={{ backgroundColor: "#8488BF"}}>
                 <ArrowLeftOutlined onClick={previousPage} className="back-button" />
                 <h1 className="page-title pr-18">Inventory</h1>
             </header>
