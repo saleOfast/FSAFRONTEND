@@ -72,9 +72,9 @@ export default function Order() {
         orderDate: new Date().toISOString(),
         products: orderToReorder.products.map((product: any) => ({
           categoryId: product.categoryId,
-          brandId: product.brandId,                                                                                  
-          productId: product.productId,                           
-          productName: product.productName,                                  
+          brandId: product.brandId,
+          productId: product.productId,
+          productName: product.productName,
           mrp: product.mrp,
           rlp: product.rlp,
           noOfCase: product.noOfCase,
@@ -184,7 +184,7 @@ export default function Order() {
       }
     }
   };
-  
+
   const handleChange = (value: any) => {
     setFilter((prev) => {
       const newFilters = {

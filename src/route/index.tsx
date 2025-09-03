@@ -119,11 +119,17 @@ import AddAndUpdateOtherBrand from 'component/admin/brand/addAndUpdateOtherBrand
 
 import Holidays from 'component/hrProcess/holidays';
 import Edetails from 'page/visits/eDetails';
-import {MrAnalysis} from 'component/admin/reports/mrAnalysis';
+import { MrAnalysis } from 'component/admin/reports/mrAnalysis';
 import PurchaseOrder from 'component/admin/purchaseOrder/purchaseOrder';
 import InventoryDashboard from 'component/admin/InventoryDashboard/InventoryDashboard';
 import Warehouse from 'page/warehouse';
 import Profile1 from 'component/admin/profile/profile';
+import Salesreturn from 'page/salesreturn';
+import Sku from 'page/sku';
+import PointOfSalesMaterial from 'page/posm';
+import Store from '../page/store/stores';
+import Storeinfo from 'page/storeInfo';
+
 
 function AppRoutes() {
     const route = useRoutes([
@@ -149,7 +155,7 @@ function AppRoutes() {
         { path: "/visit/inventory/:storeId", element: <AuthGuard page={<Inventory />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
         { path: "/visit/inventory", element: <AuthGuard page={<Inventory />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} />, },
 
-        
+
         { path: "/visit", element: <AuthGuard page={<Visit />} />, },
         {
             path: "/visit-details/:storeId/:visitId", element: <AuthGuard page={<VisitDetails />} />,
@@ -182,6 +188,7 @@ function AppRoutes() {
         { path: "/payment/:storeId", element: <AuthGuard page={<Collection />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/target-data-table", element: <AuthGuard page={<TargetDataTable />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.SSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/warehouse", element: <AuthGuard page={<Warehouse />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.SSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
+        { path: "/salesreturn", element: <AuthGuard page={<Salesreturn />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.SSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/e-detailing", element: <AuthGuard page={<Edetails />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.SSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
         { path: "/target-achievement", element: <AuthGuard page={<TargetVsAchivement />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.CHANNEL]} /> },
         { path: "/admin/create-visit", element: <AuthGuard page={<CreateVisit />} role={[UserRole.ADMIN, UserRole.SSM, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
@@ -222,8 +229,16 @@ function AppRoutes() {
         { path: "/target-chart", element: <AuthGuard page={<TargetChart />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN]} /> },
 
         { path: "/Pending-approval", element: <AuthGuard page={<PendingApprovalAll />} role={[UserRole.ADMIN, UserRole.RSM, UserRole.RETAILER, UserRole.SUPER_ADMIN, UserRole.MANAGER]} /> },
+
+        // SKUs
+        { path: "/sku", element: <AuthGuard page={<Sku />} /> },
+        // POSM
+        { path: "/posm", element: <AuthGuard page={<PointOfSalesMaterial />} /> },
+        // store
+        { path: "/storeinfo", element: <AuthGuard page={<Storeinfo />} /> },
+
         // Reports
-        { path: "/report/attendance", element: <AuthGuard page={<AttendanceReport />} /> },
+        { path: "/sku", element: <AuthGuard page={<Sku />} /> },
         { path: "/report/day-tracking", element: <AuthGuard page={<DayTrackingReport />} /> },
         { path: "/report/mr-analysis", element: <AuthGuard page={<MrAnalysis />} /> },
         { path: "/report/pending-collection", element: <AuthGuard page={<PendingCollectionReport />} /> },

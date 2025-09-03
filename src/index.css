@@ -9,10 +9,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 option {
   width: 30px;
   height: auto;
   padding: '10px';
   border-radius: '5px';
   border: '1px solid #ccc';
+}
+
+/* CSS (global or module) */
+.no-border td,
+.no-border th {
+  border-right: none !important;
+  /* removes vertical line */
 }
