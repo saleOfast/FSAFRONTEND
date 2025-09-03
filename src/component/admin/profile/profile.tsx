@@ -49,7 +49,7 @@ const tabData = [
   { key: 7, name: "Reports", available: true, visible: true },
 ];
 
-// Object Permissions Data
+// Object Permissions Data  
 const objectData = [
   { key: 1, object: "Account", create: true, read: true, edit: true, delete: false, viewAll: true, modifyAll: false },
   { key: 2, object: "Contact", create: true, read: true, edit: true, delete: false, viewAll: true, modifyAll: false },
@@ -130,13 +130,13 @@ export default function Profile1() {
   // Tab Permissions Columns
   const tabColumns = [
     {
-      title: <span className="font-bold">Tab Name</span>,
+      title: <span className="font-semibold">Tab Name</span>,
       dataIndex: "name",
       key: "name",
-      render: (text: string) => <span className="font-bold">{text}</span>,
+      render: (text: string) => <span className="font-semibold">{text}</span>,
     },
     {
-      title: <span className="font-bold">Available</span>,
+      title: <span className="font-semibold">Available</span>,
       dataIndex: "available",
       key: "available",
       align: "center" as const,
@@ -148,7 +148,7 @@ export default function Profile1() {
       ),
     },
     {
-      title: <span className="font-bold">Visible</span>,
+      title: <span className="font-semibold">Visible</span>,
       dataIndex: "visible",
       key: "visible",
       align: "center" as const,
@@ -163,14 +163,14 @@ export default function Profile1() {
 
   // Object Permissions Columns
   const objectColumns = [
-    { 
-      title: <span className="font-bold">Object</span>, 
-      dataIndex: "object", 
+    {
+      title: <span className="font-semibold">Object</span>,
+      dataIndex: "object",
       key: "object",
-      render: (text: string) => <span className="font-bold">{text}</span>,
+      render: (text: string) => <span className="font-semibold">{text}</span>,
     },
     {
-      title: <span className="font-bold">Create</span>,
+      title: <span className="font-semibold">Create</span>,
       dataIndex: "create",
       key: "create",
       align: "center" as const,
@@ -182,7 +182,7 @@ export default function Profile1() {
       ),
     },
     {
-      title: <span className="font-bold">Read</span>,
+      title: <span className="font-semibold">Read</span>,
       dataIndex: "read",
       key: "read",
       align: "center" as const,
@@ -194,7 +194,7 @@ export default function Profile1() {
       ),
     },
     {
-      title: <span className="font-bold">Edit</span>,
+      title: <span className="font-semibold">Edit</span>,
       dataIndex: "edit",
       key: "edit",
       align: "center" as const,
@@ -206,7 +206,7 @@ export default function Profile1() {
       ),
     },
     {
-      title: <span className="font-bold">Delete</span>,
+      title: <span className="font-semibold">Delete</span>,
       dataIndex: "delete",
       key: "delete",
       align: "center" as const,
@@ -218,7 +218,7 @@ export default function Profile1() {
       ),
     },
     {
-      title: <span className="font-bold">View All</span>,
+      title: <span className="font-semibold">View All</span>,
       dataIndex: "viewAll",
       key: "viewAll",
       align: "center" as const,
@@ -230,7 +230,7 @@ export default function Profile1() {
       ),
     },
     {
-      title: <span className="font-bold">Modify All</span>,
+      title: <span className="font-semibold">Modify All</span>,
       dataIndex: "modifyAll",
       key: "modifyAll",
       align: "center" as const,
@@ -246,13 +246,13 @@ export default function Profile1() {
   // System Permissions Columns
   const systemColumns = [
     {
-      title: <span className="font-bold">Permission Name</span>,
+      title: <span className="font-semibold">Permission Name</span>,
       dataIndex: "name",
       key: "name",
-      render: (text: string) => <span className="font-bold">{text}</span>,
+      render: (text: string) => <span className="font-semibold">{text}</span>,
     },
     {
-      title: <span className="font-bold">Enabled</span>,
+      title: <span className="font-semibold">Enabled</span>,
       dataIndex: "enabled",
       key: "enabled",
       align: "center" as const,
@@ -266,44 +266,44 @@ export default function Profile1() {
   ];
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen" style={{ fontFamily: "'Inter', sans-serif", backgroundColor: "#fcfdfd" }}>
       {/* Header */}
       <header
         className="heading heading-container px-6"
         style={{ backgroundColor: "#8488BF" }}
       >
         <ArrowLeftOutlined onClick={previousPage} className="back-button" />
-        <h1 className="page-title pr-18 font-bold">Profile</h1>
+        <h1 className="page-title pr-18 font-bold" style={{ fontFamily: "'Inter', sans-serif" }}>Profile</h1>
       </header>
 
       {/* Profile Layout */}
-      <div className="flex-1 p-6 overflow-y-auto bg-gray-50">
+      <div className="flex-1 p-6 overflow-y-auto bg-gray-50" style={{ fontFamily: "'Inter', sans-serif" }}>
         {/* Main content container with proper spacing */}
         <div className="mx-6">
           <Row justify="space-between" align="middle" className="mb-6">
             <Col>
-              <h1 className="text-2xl font-bold mb-2">
+              <h1 className="text-2xl font-bold mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
                 {selectedProfile.name}
               </h1>
-              <p className="text-gray-600 mb-2 font-medium">
+              <p className="text-gray-600 mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
                 {selectedProfile.description}
               </p>
               <div className="flex items-center">
-                <Tag color="blue" className="font-medium">{selectedProfile.license}</Tag>
-                <span className="text-gray-500 ml-3 font-medium">
+                <Tag color="blue" className="font-bold" style={{ fontFamily: "'Inter', sans-serif" }}>{selectedProfile.license}</Tag>
+                <span className="text-gray-500 ml-3" style={{ fontFamily: "'Inter', sans-serif" }}>
                   {selectedProfile.users} users assigned
                 </span>
               </div>
             </Col>
             <Col>
               <Space>
-                <Button type="default" icon={<EditOutlined />} className="font-medium">
+                <Button type="default" icon={<EditOutlined />} style={{ fontFamily: "'Inter', sans-serif" }}>
                   Edit
                 </Button>
-                <Button type="default" icon={<CopyOutlined />} className="font-medium">
+                <Button type="default" icon={<CopyOutlined />} style={{ fontFamily: "'Inter', sans-serif" }}>
                   Clone
                 </Button>
-                <Button danger icon={<DeleteOutlined />} className="font-medium">
+                <Button danger icon={<DeleteOutlined />} style={{ fontFamily: "'Inter', sans-serif" }}>
                   Delete
                 </Button>
               </Space>
@@ -313,92 +313,184 @@ export default function Profile1() {
           {/* Tabs - Added mt-8 for more spacing above the tabs */}
           <div className="mt-8">
             <Tabs defaultActiveKey="overview" type="card">
-              <TabPane tab={<span className="font-bold">Overview</span>} key="overview">
+              <TabPane tab={<span className="font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>Overview</span>} key="overview">
                 <Row gutter={16}>
                   {/* Profile Summary Card */}
+
                   <Col xs={24} md={8}>
                     <Card
-                      title={<span className="font-bold">Profile Summary</span>}
-                      headStyle={{
-                        backgroundColor: '#f0f2f5',
-                        fontWeight: 'bold',
-                        borderBottom: '1px solid #e8e8e8'
-                      }}
-                      className="h-full flex flex-col"
+                      title="Profile Summary"
+                      className="rounded-2xl shadow-sm"
+                      headStyle={{ fontFamily: "'Inter', sans-serif" }}
+                      bodyStyle={{ fontFamily: "'Inter', sans-serif" }}
+
                     >
-                      <div className="flex flex-col justify-end flex-grow">
-                        <div className="flex justify-between items-center mb-4">
-                          <span className="text-sm text-gray-600 font-bold">User License:</span>
-                          <span className="text-sm font-bold">{selectedProfile.license}</span>
-                        </div>
-                        <div className="flex justify-between items-center mb-4">
-                          <span className="text-sm text-gray-600 font-bold">Users Assigned:</span>
-                          <span className="text-sm font-bold">{selectedProfile.users}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-gray-600 font-bold">Last Modified:</span>
-                          <span className="text-sm font-bold">{selectedProfile.lastModified}</span>
-                        </div>
-                      </div>
+                      <Row className="mb-4">
+                        <Col span={12}>
+                          <span
+                            className="text-sm text-gray-600 font-semibold"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            User License:
+                          </span>
+                        </Col>
+                        <Col span={12} style={{ textAlign: "right" }}>
+                          <span
+                            className="text-sm"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            {selectedProfile.license}
+                          </span>
+                        </Col>
+                      </Row>
+
+                      <Row className="mb-4">
+                        <Col span={12}>
+                          <span
+                            className="text-sm text-gray-600 font-semibold"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            Users Assigned:
+                          </span>
+                        </Col>
+                        <Col span={12} style={{ textAlign: "right" }}>
+                          <span
+                            className="text-sm"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            {selectedProfile.users}
+                          </span>
+                        </Col>
+                      </Row>
+
+                      <Row>
+                        <Col span={12}>
+                          <span
+                            className="text-sm text-gray-600 font-semibold"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            Last Modified:
+                          </span>
+                        </Col>
+                        <Col span={12} style={{ textAlign: "right" }}>
+                          <span
+                            className="text-sm"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            {selectedProfile.lastModified}
+                          </span>
+                        </Col>
+                      </Row>
                     </Card>
                   </Col>
-                  
+
+
                   {/* App Access Card */}
                   <Col xs={24} md={8}>
                     <Card
-                      title={<span className="font-bold">App Access</span>}
-                      headStyle={{
-                        backgroundColor: '#f0f2f5',
-                        fontWeight: 'bold',
-                        borderBottom: '1px solid #e8e8e8'
-                      }}
-                      className="h-full flex flex-col"
+                      title="App Access"
+                      className="rounded-2xl shadow-sm"
+                      headStyle={{ fontFamily: "'Inter', sans-serif" }}
+                      bodyStyle={{ fontFamily: "'Inter', sans-serif" }}
                     >
-                      <div className="flex flex-col justify-end flex-grow">
-                        <div className="flex justify-between items-center mb-4">
-                          <span className="text-sm text-gray-600 font-bold">Visible Apps:</span>
-                          <span className="text-sm font-bold">3/5</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-gray-600 font-bold">Default App:</span>
-                          <span className="text-sm font-bold">Sales</span>
-                        </div>
-                      </div>
+                      <Row className="mb-4">
+                        <Col span={12}>
+                          <span
+                            className="text-sm text-gray-600 font-semibold"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            Visible Apps:
+                          </span>
+                        </Col>
+                        <Col span={12} style={{ textAlign: "right" }}>
+                          <span
+                            className="text-sm"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            3/5
+                          </span>
+                        </Col>
+                      </Row>
+
+                      <Row>
+                        <Col span={12}>
+                          <span
+                            className="text-sm text-gray-600 font-semibold"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            Default App:
+                          </span>
+                        </Col>
+                        <Col span={12} style={{ textAlign: "right" }}>
+                          <span
+                            className="text-sm"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            Sales
+                          </span>
+                        </Col>
+                      </Row>
                     </Card>
                   </Col>
-                  
+
+
                   {/* Object Access Card */}
                   <Col xs={24} md={8}>
                     <Card
-                      title={<span className="font-bold">Object Access</span>}
-                      headStyle={{
-                        backgroundColor: '#f0f2f5',
-                        fontWeight: 'bold',
-                        borderBottom: '1px solid #e8e8e8'
-                      }}
-                      className="h-full flex flex-col"
+                      title="Object Access"
+                      className="rounded-2xl shadow-sm"
+                      headStyle={{ fontFamily: "'Inter', sans-serif" }}
+                      bodyStyle={{ fontFamily: "'Inter', sans-serif" }}
                     >
-                      <div className="flex flex-col justify-end flex-grow">
-                        <div className="flex justify-between items-center mb-4">
-                          <span className="text-sm text-gray-600 font-bold">Standard Objects:</span>
-                          <span className="text-sm font-bold">5/12</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-gray-600 font-bold">Custom Objects:</span>
-                          <span className="text-sm font-bold">0/3</span>
-                        </div>
-                      </div>
+                      <Row className="mb-4">
+                        <Col span={12}>
+                          <span
+                            className="text-sm text-gray-600 font-semibold"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            Standard Objects:
+                          </span>
+                        </Col>
+                        <Col span={12} style={{ textAlign: "right" }}>
+                          <span
+                            className="text-sm"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            5/12
+                          </span>
+                        </Col>
+                      </Row>
+
+                      <Row>
+                        <Col span={12}>
+                          <span
+                            className="text-sm text-gray-600 font-semibold"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            Custom Objects:
+                          </span>
+                        </Col>
+                        <Col span={12} style={{ textAlign: "right" }}>
+                          <span
+                            className="text-sm"
+                            style={{ fontFamily: "'Inter', sans-serif" }}
+                          >
+                            0/3
+                          </span>
+                        </Col>
+                      </Row>
                     </Card>
                   </Col>
+
                 </Row>
               </TabPane>
 
-              <TabPane tab={<span className="font-bold">Tabs</span>} key="tabs">
+              <TabPane tab={<span className="font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>Tabs</span>} key="tabs">
                 <div className="mb-4">
-                  <h3 className="text-lg font-bold">Tab Permissions</h3>
-                  <p className="text-gray-500 font-medium">Control which tabs are available and visible to users with this profile</p>
+                  <h3 className="text-lg font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>Tab Permissions</h3>
+                  <p className="text-gray-500" style={{ fontFamily: "'Inter', sans-serif" }}>Control which tabs are available and visible to users with this profile</p>
                 </div>
-                <Card>
+                <Card bodyStyle={{ fontFamily: "'Inter', sans-serif" }}>
                   <Table
                     columns={tabColumns}
                     dataSource={tabsData}
@@ -409,14 +501,14 @@ export default function Profile1() {
                 </Card>
               </TabPane>
 
-              <TabPane tab={<span className="font-bold">Object Permissions</span>} key="object">
+              <TabPane tab={<span className="font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>Object Permissions</span>} key="object">
                 <div className="mb-4">
-                  <h3 className="text-lg font-bold">
+                  <h3 className="text-lg font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
                     Standard Object Permissions
                   </h3>
-                  <p className="text-gray-500 font-medium">Manage CRUD permissions for standard objects</p>
+                  <p className="text-gray-500" style={{ fontFamily: "'Inter', sans-serif" }}>Manage CRUD permissions for standard objects</p>
                 </div>
-                <Card>
+                <Card bodyStyle={{ fontFamily: "'Inter', sans-serif" }}>
                   <Table
                     columns={objectColumns}
                     dataSource={objects}
@@ -427,18 +519,19 @@ export default function Profile1() {
                 </Card>
               </TabPane>
 
-              <TabPane tab={<span className="font-bold">System Permissions</span>} key="system">
+              <TabPane tab={<span className="font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>System Permissions</span>} key="system">
                 <div className="mb-4">
-                  <h3 className="text-lg font-bold">System Permissions</h3>
-                  <p className="text-gray-500 font-medium">Configure system-wide permissions for this profile</p>
+                  <h3 className="text-lg font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>System Permissions</h3>
+                  <p className="text-gray-500" style={{ fontFamily: "'Inter', sans-serif" }}>Configure system-wide permissions for this profile</p>
                 </div>
                 <Row gutter={[16, 16]}>
                   {systemPermissions.map(category => (
                     <Col xs={24} lg={12} key={category.key}>
                       <Card
-                        title={<span className="font-bold">{category.category}</span>}
+                        title={<span className="font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>{category.category}</span>}
                         className="mb-4"
-                        headStyle={{ backgroundColor: '#f0f2f5', fontWeight: 'bold' }}
+                        headStyle={{ backgroundColor: '#f0f2f5', fontWeight: 'bold', fontFamily: "'Inter', sans-serif" }}
+                        bodyStyle={{ fontFamily: "'Inter', sans-serif" }}
                       >
                         <Table
                           columns={systemColumns}
@@ -461,8 +554,15 @@ export default function Profile1() {
         </div>
       </div>
 
-      <style>{
-        `
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+            Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+            'Segoe UI Emoji', 'Segoe UI Symbol' !important;
+        }
+
         .ant-row-space-between {
           justify-content: space-between;
           margin: 15px;
@@ -474,10 +574,10 @@ export default function Profile1() {
           margin-top: 20px;
         }
         .ant-card-head-title {
-          font-weight: 700 !important;
+          font-weight: 600 !important;
         }
-        .font-medium {
-          font-weight: 600;
+        .font-semibold {
+          font-weight: 600 !important;
         }
         .font-bold {
           font-weight: 700 !important;
@@ -488,21 +588,39 @@ export default function Profile1() {
           flex-grow: 1;
         }
         .ant-tabs-nav {
-            width: 1420px !important; 
-            padding-left: 5px;
+          width: 1420px !important; 
+          padding-left: 5px;
         }
         .ant-table-thead > tr > th {
-          font-weight: 700 !important;
+          font-weight: 600 !important;
         }
-        @media (max-width: 768px) {
-          .ant-tabs-nav {
-            width: 100% !important;
-            padding-left: 0;
+          .ant-tag.ant-tag-blue{
+               color:black;
+               background: #edeef2; 
+           border:white;
           }
+               .text-gray-600{
+               padding-bottom:10px;
+               }
+            @media (max-width: 768px) {
+              .ant-tabs-nav {
+                width: 100% !important;
+                padding-left: 0;
+              }
+            .ant-space-gap-col-small {
+                column-gap: 8px;
+                margin-top: 20px;
+            }
+                .ant-col-xs-24 {
+                --ant-display: block;
+                display: block;
+                display: var(--ant-display);
+                flex: 0 0 100%;
+                max-width: 100%;
+                padding-bottom:15px;
+            }
         }
-        `
-      }
-      </style>
+      `}</style>
     </div>
   );
 }
