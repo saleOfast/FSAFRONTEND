@@ -443,8 +443,8 @@ export const AdminDashboard = () => {
                                 style={{
                                   marginBottom: "20px",
                                   position: "relative",
-                                  top: "-10px",
-                                  left: "190px",
+                                  top: "-5px",
+                                  left: "150px",
                                 }}
                                 className="target"
                               >
@@ -456,7 +456,7 @@ export const AdminDashboard = () => {
                                   marginBottom: "50px",
                                   fontWeight: "600",
                                   font: "Inter",
-                                  marginRight: "30px",
+                                  marginRight: "15px",
                                   color: "#000000",
                                 }}
                                 className="Achieved"

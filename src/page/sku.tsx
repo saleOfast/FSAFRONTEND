@@ -11,7 +11,11 @@ import {
     Select,
     Input,
     Form,
-    Modal
+    Modal,
+    Descriptions,
+    Typography,
+    Popconfirm,
+    message
 } from 'antd';
 import React, { useState } from 'react';
 import previousPage from 'utils/previousPage';
@@ -20,11 +24,12 @@ import type { Breakpoint } from 'antd/es/_util/responsiveObserver';
 import { SearchOutlined } from "@ant-design/icons";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 const { Option } = Select;
-
+const { Text } = Typography;
 
 const { useBreakpoint } = Grid;
 
 interface SKU {
+    key: string;
     skuNumber: string;
     productName: string;
     salesChannel: string;
@@ -39,11 +44,155 @@ interface SKU {
 }
 
 const Sku = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isViewEditModalOpen, setIsViewEditModalOpen] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [viewingRecord, setViewingRecord] = useState<SKU | null>(null);
+    const [form] = Form.useForm();
+    const [editForm] = Form.useForm();
+    const screens = useBreakpoint();
+    const [data, setData] = useState<SKU[]>([
+        {
+            key: '1',
+            skuNumber: "COC-500B",
+            productName: "Coca-Cola",
+            salesChannel: "Retail",
+            channelSku: "COC-R500",
+            barcode: "8901234567890",
+            description: "500ml PET Bottle",
+            attributeColor: "Red",
+            attributeSize: "500ml",
+            stockLevel: 120,
+            warehouseLocation: "WH-Delhi-01",
+            productDescription: "Coca-Cola refreshing soft drink, 500ml PET",
+        },
+        {
+            key: '2',
+            skuNumber: "PEP-1L",
+            productName: "Pepsi",
+            salesChannel: "Distributor",
+            channelSku: "PEP-D1000",
+            barcode: "8909876543210",
+            description: "1L PET Bottle",
+            attributeColor: "Blue",
+            attributeSize: "1L",
+            stockLevel: 80,
+            warehouseLocation: "WH-Mumbai-02",
+            productDescription: "Pepsi cola drink, 1L PET bottle pack",
+        },
+        {
+            key: '3',
+            skuNumber: "SPR-330",
+            productName: "Sprite",
+            salesChannel: "Retail",
+            channelSku: "SPR-R330",
+            barcode: "8905678912345",
+            description: "330ml Can",
+            attributeColor: "Green",
+            attributeSize: "330ml",
+            stockLevel: 150,
+            warehouseLocation: "WH-Bangalore-03",
+            productDescription: "Sprite lemon-lime drink, 330ml can",
+        },
+    ]);
+
+    const handleOpenModal = () => setIsModalOpen(true);
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        form.resetFields();
+    };
+
+    const handleViewClick = (record: SKU) => {
+        setViewingRecord(record);
+        setIsViewEditModalOpen(true);
+        setIsEditing(false);
+        // Set form values with the record data
+        editForm.setFieldsValue(record);
+    };
+
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };
+
+    const handleCancelEdit = () => {
+        setIsEditing(false);
+        // Reset form to original values
+        if (viewingRecord) {
+            editForm.setFieldsValue(viewingRecord);
+        }
+    };
+
+    const handleCloseViewEditModal = () => {
+        setIsViewEditModalOpen(false);
+        setViewingRecord(null);
+        setIsEditing(false);
+        editForm.resetFields();
+    };
+
+    const handleSubmit = () => {
+        form.validateFields().then((values) => {
+            console.log("Form Values:", values);
+            // Generate a unique key for the new item
+            const newKey = (data.length + 1).toString();
+            
+            // Add the new SKU to the data array
+            const newSku: SKU = {
+                key: newKey,
+                ...values
+            };
+            
+            setData([...data, newSku]);
+            message.success('SKU added successfully');
+            setIsModalOpen(false);
+            form.resetFields();
+        }).catch((errorInfo) => {
+            console.log('Validation Failed:', errorInfo);
+        });
+    };
+
+    const handleEditSubmit = () => {
+        editForm.validateFields().then((values) => {
+            console.log("Updated Values:", values);
+            
+            // Update the data array with the edited values
+            if (viewingRecord) {
+                const updatedData = data.map(item => 
+                    item.key === viewingRecord.key 
+                        ? { ...item, ...values } 
+                        : item
+                );
+                
+                setData(updatedData);
+                setViewingRecord({...viewingRecord, ...values});
+                message.success('SKU updated successfully');
+            }
+            
+            setIsEditing(false);
+        }).catch((errorInfo) => {
+            console.log('Validation Failed:', errorInfo);
+        });
+    };
+
+    const handleDelete = (record: SKU) => {
+        // Filter out the deleted item
+        const newData = data.filter(item => item.key !== record.key);
+        setData(newData);
+        message.success('SKU deleted successfully');
+    };
+
     const columns = [
         {
             title: "SKU Number",
             dataIndex: "skuNumber",
             key: "skuNumber",
+            render: (text: string, record: SKU) => (
+                <a
+                    onClick={() => handleViewClick(record)}
+                    style={{ color: '#1890ff', cursor: 'pointer' }}
+                >
+                    {text}
+                </a>
+            ),
         },
         {
             title: "Product Name",
@@ -80,94 +229,186 @@ const Sku = () => {
             dataIndex: "attributeSize",
             key: "attributeSize",
         },
-        {
-            title: "Stock Level",
-            dataIndex: "stockLevel",
-            key: "stockLevel",
-        },
-        {
-            title: "Warehouse Location",
-            dataIndex: "warehouseLocation",
-            key: "warehouseLocation",
-        },
-        {
-            title: "Product Description",
-            dataIndex: "productDescription",
-            key: "productDescription",
-        },
-
+          {
+    title: "Action",
+    key: "action",
+    render: (_: unknown, record: SKU) => (
+      <Space size="middle">
+        <Popconfirm
+          title="Delete this SKU"
+          description="Are you sure you want to delete this SKU?"
+          onConfirm={() => handleDelete(record)}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button 
+            type="link" 
+            danger 
+            icon={<DeleteOutlined />}
+          >
+        
+          </Button>
+        </Popconfirm>
+      </Space>
+    ),
+  },
     ];
 
-    const data: SKU[] = [
-        {
-            skuNumber: "COC-500B",
-            productName: "Coca-Cola",
-            salesChannel: "Retail",
-            channelSku: "COC-R500",
-            barcode: "8901234567890",
-            description: "500ml PET Bottle",
-            attributeColor: "Red",
-            attributeSize: "500ml",
-            stockLevel: 120,
-            warehouseLocation: "WH-Delhi-01",
-            productDescription: "Coca-Cola refreshing soft drink, 500ml PET",
-        },
-        {
-            skuNumber: "PEP-1L",
-            productName: "Pepsi",
-            salesChannel: "Distributor",
-            channelSku: "PEP-D1000",
-            barcode: "8909876543210",
-            description: "1L PET Bottle",
-            attributeColor: "Blue",
-            attributeSize: "1L",
-            stockLevel: 80,
-            warehouseLocation: "WH-Mumbai-02",
-            productDescription: "Pepsi cola drink, 1L PET bottle pack",
-        },
-        {
-            skuNumber: "PEP-1L",
-            productName: "Pepsi",
-            salesChannel: "Distributor",
-            channelSku: "PEP-D1000",
-            barcode: "8909876543210",
-            description: "1L PET Bottle",
-            attributeColor: "Blue",
-            attributeSize: "1L",
-            stockLevel: 80,
-            warehouseLocation: "WH-Mumbai-02",
-            productDescription: "Pepsi cola drink, 1L PET bottle pack",
-        },
-        {
-            skuNumber: "PEP-1L",
-            productName: "Pepsi",
-            salesChannel: "Distributor",
-            channelSku: "PEP-D1000",
-            barcode: "8909876543210",
-            description: "1L PET Bottle",
-            attributeColor: "Blue",
-            attributeSize: "1L",
-            stockLevel: 80,
-            warehouseLocation: "WH-Mumbai-02",
-            productDescription: "Pepsi cola drink, 1L PET bottle pack",
-        },
-    ];
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [form] = Form.useForm();
-    const screens = useBreakpoint();
-
-    const handleOpenModal = () => setIsModalOpen(true);
-    const handleCloseModal = () => setIsModalOpen(false);
-    const handleSubmit = () => {
-        form.validateFields().then((values) => {
-            console.log("Form Values:", values);
-            setIsModalOpen(false);
-            form.resetFields();
-        });
+    const renderViewContent = () => {
+        if (!viewingRecord) return null;
+        
+        return (
+            <div style={{ overflowX: 'auto' }}>
+                <Descriptions 
+                    column={screens.xs ? 1 : 2} 
+                    bordered
+                    size="small"
+                >
+                    <Descriptions.Item label="SKU Number">{viewingRecord.skuNumber}</Descriptions.Item>
+                    <Descriptions.Item label="Product Name">{viewingRecord.productName}</Descriptions.Item>
+                    <Descriptions.Item label="Sales Channel">{viewingRecord.salesChannel}</Descriptions.Item>
+                    <Descriptions.Item label="Channel SKU">{viewingRecord.channelSku}</Descriptions.Item>
+                    <Descriptions.Item label="Barcode/UPC">{viewingRecord.barcode}</Descriptions.Item>
+                    <Descriptions.Item label="Description">{viewingRecord.description}</Descriptions.Item>
+                    <Descriptions.Item label="Attribute - Color">{viewingRecord.attributeColor}</Descriptions.Item>
+                    <Descriptions.Item label="Attribute - Size">{viewingRecord.attributeSize}</Descriptions.Item>
+                    <Descriptions.Item label="Stock Level">{viewingRecord.stockLevel}</Descriptions.Item>
+                    <Descriptions.Item label="Warehouse Location">{viewingRecord.warehouseLocation}</Descriptions.Item>
+                    <Descriptions.Item label="Product Description" span={screens.xs ? 1 : 2}>
+                        {viewingRecord.productDescription}
+                    </Descriptions.Item>
+                </Descriptions>
+            </div>
+        );
     };
 
+    const renderEditForm = () => {
+        return (
+            <Form layout="vertical" form={editForm}>
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="SKU Number"
+                            name="skuNumber"
+                            rules={[{ required: true, message: "SKU Number is required" }]}
+                        >
+                            <Input placeholder="Enter SKU Number" />
+                        </Form.Item>
+                    </Col>
 
+                    <Col span={12}>
+                        <Form.Item
+                            label="Product Name"
+                            name="productName"
+                            rules={[{ required: true, message: "Product name is required" }]}
+                        >
+                            <Input placeholder="Enter product name" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Sales Channel"
+                            name="salesChannel"
+                            rules={[{ required: true, message: "Please select sales channel" }]}
+                        >
+                            <Select placeholder="Select Sales Channel">
+                                <Option value="retail">Retail</Option>
+                                <Option value="distributor">Distributor</Option>
+                                <Option value="online">Online</Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+
+                    <Col span={12}>
+                        <Form.Item
+                            label="Channel SKU"
+                            name="channelSku"
+                            rules={[{ required: true, message: "Channel SKU is required" }]}
+                        >
+                            <Input placeholder="Enter channel SKU" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Barcode / UPC"
+                            name="barcode"
+                            rules={[{ required: true, message: "Barcode/UPC is required" }]}
+                        >
+                            <Input placeholder="Enter Barcode or UPC" />
+                        </Form.Item>
+                    </Col>
+
+                    <Col span={12}>
+                        <Form.Item
+                            label="Description"
+                            name="description"
+                        >
+                            <Input placeholder="Enter short description" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Attribute - Color"
+                            name="attributeColor"
+                        >
+                            <Input placeholder="Enter color" />
+                        </Form.Item>
+                    </Col>
+
+                    <Col span={12}>
+                        <Form.Item
+                            label="Attribute - Size"
+                            name="attributeSize"
+                        >
+                            <Input placeholder="Enter size" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Stock Level"
+                            name="stockLevel"
+                            rules={[{ required: true, message: "Please enter stock level" }]}
+                        >
+                            <Input type="number" placeholder="Enter stock level" />
+                        </Form.Item>
+                    </Col>
+
+                    <Col span={12}>
+                        <Form.Item
+                            label="Warehouse Location"
+                            name="warehouseLocation"
+                        >
+                            <Input placeholder="Enter warehouse location" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            label="Product Description"
+                            name="productDescription"
+                        >
+                            <Input.TextArea placeholder="Enter detailed product description" rows={3} />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}></Col>
+                </Row>
+            </Form>
+        );
+    };
 
     return (
         <div style={{ backgroundColor: '#f4f6fa', minHeight: '100vh' }}>
@@ -233,7 +474,7 @@ const Sku = () => {
                                     background: '#6164A5',
                                     borderColor: '#4B6CB7',
                                 }}
-                                onClick={handleOpenModal}   // <-- add this line
+                                onClick={handleOpenModal}
                             >
                                 <PlusOutlined /> Add SKUs
                             </Button>
@@ -283,6 +524,8 @@ const Sku = () => {
                     </div>
                 </div>
             </div>
+            
+            {/* Add New SKU Modal */}
             <Modal
                 title="Create New SKUs"
                 open={isModalOpen}
@@ -290,7 +533,16 @@ const Sku = () => {
                 onCancel={handleCloseModal}
                 okText="Save"
                 cancelText="Cancel"
-                width={900} // wider modal for big form
+                width={900}
+                style={{ top: 20 }}
+                bodyStyle={{
+                    maxHeight: '70vh',
+                    overflowY: 'auto',
+                    paddingRight: '8px'
+                }}
+                maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                getContainer={false}
+                forceRender
             >
                 <p style={{ marginBottom: 20, color: "#666" }}>
                     Fill in the details below to create a new SKUs location.
@@ -408,19 +660,62 @@ const Sku = () => {
                     </Row>
 
                     <Row gutter={16}>
-                        <Col span={24}>
+                        <Col span={12}>
                             <Form.Item
                                 label="Product Description"
                                 name="productDescription"
                             >
-                                <Input.TextArea placeholder="Enter detailed product description" rows={4} />
+                                <Input.TextArea placeholder="Enter detailed product description" rows={3} />
                             </Form.Item>
                         </Col>
                     </Row>
                 </Form>
-
             </Modal>
 
+            {/* View/Edit SKU Modal */}
+            <Modal
+                title={
+                    isEditing 
+                        ? `Edit SKU - ${viewingRecord?.skuNumber || ''}` 
+                        : `View SKU - ${viewingRecord?.skuNumber || ''}`
+                }
+                open={isViewEditModalOpen}
+                onOk={isEditing ? handleEditSubmit : handleCloseViewEditModal}
+                onCancel={handleCloseViewEditModal}
+                okText={isEditing ? "Update" : "Close"}
+                cancelText={isEditing ? "Cancel Edit" : "Cancel"}
+                width={screens.xs ? '95%' : 900}
+                style={{ top: 20 }}
+                bodyStyle={{
+                    maxHeight: '70vh',
+                    overflowY: 'auto',
+                    paddingRight: '8px'
+                }}
+                maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                getContainer={false}
+                forceRender
+                footer={[
+                    !isEditing && (
+                        <Button key="edit" type="primary" onClick={handleEditClick}>
+                            <EditOutlined /> Edit
+                        </Button>
+                    ),
+                    isEditing && (
+                        <Button key="cancel" onClick={handleCancelEdit}>
+                            Cancel 
+                        </Button>
+                    ),
+                    <Button 
+                        key="ok" 
+                        type={isEditing ? "primary" : "default"} 
+                        onClick={isEditing ? handleEditSubmit : handleCloseViewEditModal}
+                    >
+                        {isEditing ? "Save" : "Close"}
+                    </Button>,
+                ]}
+            >
+                {isEditing ? renderEditForm() : renderViewContent()}
+            </Modal>
         </div>
     );
 };

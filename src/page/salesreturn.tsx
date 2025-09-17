@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Statistic, Progress, Button, Tag, Table, Modal, Input, AutoComplete, AutoCompleteProps, Checkbox, Select, Space, Form, DatePicker, Drawer, InputNumber } from "antd";
+import { Card, Row, Col, Statistic, Progress, Button, Tag, Table, Modal, Input, Select, Space, Form, DatePicker, Drawer, InputNumber, Descriptions, Typography, Grid } from "antd";
 import {
     InboxOutlined,
     ClockCircleOutlined,
@@ -8,8 +8,7 @@ import {
     ArrowLeftOutlined,
     CheckCircleOutlined,
     PlusOutlined,
-    CheckOutlined,
-    CloseOutlined,
+    EditOutlined
 } from "@ant-design/icons";
 import previousPage from "utils/previousPage";
 import { setLoaderAction } from "redux-store/action/appActions";
@@ -21,7 +20,12 @@ import { DEFAULT_PAGE_SIZE } from "app-constants";
 import { DurationEnum } from "enum/common";
 import { useLocation } from "react-router-dom";
 import dayjs from "dayjs";
-import { zIndex } from "html2canvas/dist/types/css/property-descriptors/z-index";
+
+const { Text } = Typography;
+const { Search } = Input;
+const { Option } = Select;
+const { useBreakpoint } = Grid;
+
 interface OptionType {
     value: string;
     label?: React.ReactNode;
@@ -59,6 +63,7 @@ const cardData = [
         icon: <ArrowUpOutlined />,
     },
 ];
+
 const data = [
     {
         key: "1",
@@ -98,100 +103,15 @@ const data = [
     },
 ];
 
-const columns = [
-    {
-        title: "Return ID",
-        dataIndex: "returnId",
-        key: "returnId",
-    },
-    {
-        title: "Order Number",
-        dataIndex: "orderNumber",
-        key: "orderNumber",
-    },
-    {
-        title: "Customer",
-        dataIndex: "customer",
-        key: "customer",
-    },
-    {
-        title: "Date",
-        dataIndex: "date",
-        key: "date",
-    },
-    {
-        title: "Status",
-        dataIndex: "status",
-        key: "status",
-        render: (status: string) => {
-            switch (status) {
-                case "Pending":
-                    return (
-                        <Tag icon={<ClockCircleOutlined />} color="black">
-                            Pending
-                        </Tag>
-                    );
-                case "Approved":
-                    return (
-                        <Tag icon={<CheckCircleOutlined />} color="black">
-                            Approved
-                        </Tag>
-                    );
-                case "Processing":
-                    return (
-                        <Tag icon={<InboxOutlined />} color="black">
-                            Processing
-                        </Tag>
-                    );
-                case "Completed":
-                    return (
-                        <Tag icon={<CheckCircleOutlined />} color="black">
-                            Completed
-                        </Tag>
-                    );
-                default:
-                    return <Tag>{status}</Tag>;
-            }
-        },
-    },
-    {
-        title: "Value",
-        dataIndex: "value",
-        key: "value",
-    },
-    {
-        title: "Actions",
-        key: "actions",
-        render: () => (
-            <Button type="default" shape="round" color="black">
-                View Details
-            </Button>
-        ),
-    },
-];
-
-const { Search } = Input;
-const { Option } = Select;
 const Salesreturn: React.FC = () => {
-
-    const [selectedReturn, setelectedReturn] = useState(false);
+    const [isViewEditModalOpen, setIsViewEditModalOpen] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [viewingRecord, setViewingRecord] = useState<any>(null);
+    const [editForm] = Form.useForm();
     const [isModalOpenSaleReturn, setIsModalOpenSaleReturn] = useState(false);
     const [selectedRecord, setSelectedRecord] = useState<any>(null);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // const [options, setOptions] = useState<any[]>([]);
-
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
     const location = useLocation();
-    const [selectedItems, setSelectedItems] = useState<string[]>([]);
     const [orderList, setOrderList] = useState<any[]>([]);
     const [pageNumber, setPageNumber] = useState(1);
     const [totalRecords, setTotalRecords] = useState(0);
@@ -199,19 +119,14 @@ const Salesreturn: React.FC = () => {
     const searchParams = new URLSearchParams(location?.search);
     const orderType: string | null = searchParams.get("orderType");
     const duration: string | null = searchParams.get("duration");
-    const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
-
     const [filter, setFilter] = useState({
         duration: duration ? DurationEnum.TODAY : "",
         isCallType: orderType ? orderType : "",
     });
     const dispatch = useDispatch<AppDispatch>();
+    const [selectedProductId, setSelectedProductId] = useState<any | null>(null);
+    const screens = useBreakpoint();
 
-    const options = [
-        { value: "parle G", label: "parle G" },
-        { value: "Coca Cola", label: "Coca Cola" },
-        { value: "Good day", label: "Good day" },
-    ];
     useEffect(() => {
         getOrderList(filter);
     }, []);
@@ -235,26 +150,165 @@ const Salesreturn: React.FC = () => {
             dispatch(setLoaderAction(false));
         }
     };
-    const [selectedProductId, setSelectedProductId] = useState<any | null>(null);
 
-    // ✅ Filter orders based on selected product
     const filteredOrders = selectedProductId
         ? orderList.filter((order: any) =>
             order.products.some((p: any) => p.productId === selectedProductId)
         )
         : orderList;
 
+    const handleViewClick = (record: any) => {
+        setViewingRecord(record);
+        setIsViewEditModalOpen(true);
+        setIsEditing(false);
+        editForm.setFieldsValue({
+            ...record,
+            storeName: record.store?.storeName || "-",
+        });
+    };
+
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };
+
+    const handleCancelEdit = () => {
+        setIsEditing(false);
+        if (viewingRecord) {
+            editForm.setFieldsValue({
+                ...viewingRecord,
+                storeName: viewingRecord.store?.storeName || "-",
+            });
+        }
+    };
+
+    const handleCloseViewEditModal = () => {
+        setIsViewEditModalOpen(false);
+        setViewingRecord(null);
+        setIsEditing(false);
+        editForm.resetFields();
+    };
+
+    const handleEditSubmit = () => {
+        editForm.validateFields().then((values) => {
+            console.log("Updated Values:", values);
+            setIsEditing(false);
+            if (viewingRecord) {
+                setViewingRecord({...viewingRecord, ...values});
+            }
+        });
+    };
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
     const handleOpenModal = (record: any) => {
         setSelectedRecord(record);
         setIsModalOpenSaleReturn(true);
-        setIsModalOpen(false)
+        setIsModalOpen(false);
     };
+
+    const columns = [
+        {
+            title: "Return ID",
+            dataIndex: "returnId",
+            key: "returnId",
+            render: (text: string, record: any) => (
+                <a
+                    onClick={() => handleViewClick(record)}
+                    style={{ color: '#1890ff', cursor: 'pointer' }}
+                >
+                    {text}
+                </a>
+            ),
+        },
+        {
+            title: "Order Number",
+            dataIndex: "orderNumber",
+            key: "orderNumber",
+        },
+        {
+            title: "Customer",
+            dataIndex: "customer",
+            key: "customer",
+        },
+        {
+            title: "Date",
+            dataIndex: "date",
+            key: "date",
+        },
+        {
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
+            render: (status: string) => {
+                switch (status) {
+                    case "Pending":
+                        return (
+                            <Tag icon={<ClockCircleOutlined />} color="black">
+                                Pending
+                            </Tag>
+                        );
+                    case "Approved":
+                        return (
+                            <Tag icon={<CheckCircleOutlined />} color="black">
+                                Approved
+                            </Tag>
+                        );
+                    case "Processing":
+                        return (
+                            <Tag icon={<InboxOutlined />} color="black">
+                                Processing
+                            </Tag>
+                        );
+                    case "Completed":
+                        return (
+                            <Tag icon={<CheckCircleOutlined />} color="black">
+                                Completed
+                            </Tag>
+                        );
+                    default:
+                        return <Tag>{status}</Tag>;
+                }
+            },
+        },
+        {
+            title: "Value",
+            dataIndex: "value",
+            key: "value",
+        },
+        {
+            title: "Actions",
+            key: "actions",
+            render: () => (
+                <Button type="default" shape="round" style={{ color: 'black' }}>
+                    View Details
+                </Button>
+            ),
+        },
+    ];
 
     const ReturnColumns = [
         {
             title: "Order ID",
             dataIndex: "orderId",
             key: "orderId",
+            render: (text: string, record: any) => (
+                <a
+                    onClick={() => handleViewClick(record)}
+                    style={{ color: '#1890ff', cursor: 'pointer' }}
+                >
+                    {text}
+                </a>
+            ),
         },
         {
             title: "Date",
@@ -266,7 +320,6 @@ const Salesreturn: React.FC = () => {
             key: "storeName",
             render: (_: any, record: any) => record.store?.storeName || "-",
         },
-
         {
             title: "Order Status",
             dataIndex: "orderStatus",
@@ -278,10 +331,9 @@ const Salesreturn: React.FC = () => {
             key: "paymentStatus",
         },
         {
-            title: "Actions", // ✅ Combine Edit/Delete under one column
+            title: "Actions",
             key: "actions",
             render: (_: any, record: any) => (
-
                 <Button
                     type="primary"
                     style={{
@@ -299,8 +351,8 @@ const Salesreturn: React.FC = () => {
             ),
         },
     ];
-    const SelectReturnTable = [
 
+    const SelectReturnTable = [
         {
             title: "Product Name",
             dataIndex: "productName",
@@ -320,16 +372,9 @@ const Salesreturn: React.FC = () => {
                     min={0}
                     max={record.orderedQty}
                     value={record.returnQty}
-                // onChange={(val) => handleUpdate(record.key, "returnQty", val)}
                 />
             ),
         },
-        // {
-        //     title: "Price",
-        //     dataIndex: "price",
-        //     key: "price",
-        //     render: (price: number) => `₹${price}`,
-        // },
         {
             title: "Reason",
             dataIndex: "reason",
@@ -338,25 +383,123 @@ const Salesreturn: React.FC = () => {
                 <Input
                     placeholder="Enter reason"
                     value={record.reason}
-                // onChange={(e) => handleUpdate(record.key, "reason", e.target.value)}
                 />
             ),
         },
     ];
 
+    const renderViewContent = () => {
+        if (!viewingRecord) return null;
+        
+        return (
+            <div style={{ overflowX: 'auto' }}>
+                <Descriptions 
+                    column={screens.xs ? 1 : 2} 
+                    bordered
+                    size="small"
+                >
+                    <Descriptions.Item label="Return ID">{viewingRecord.returnId}</Descriptions.Item>
+                    <Descriptions.Item label="Order Number">{viewingRecord.orderNumber}</Descriptions.Item>
+                    <Descriptions.Item label="Customer">{viewingRecord.customer}</Descriptions.Item>
+                    <Descriptions.Item label="Date">{viewingRecord.date}</Descriptions.Item>
+                    <Descriptions.Item label="Status">
+                        <Tag color={
+                            viewingRecord.status === "Completed" ? "green" : 
+                            viewingRecord.status === "Approved" ? "blue" :
+                            viewingRecord.status === "Processing" ? "orange" : "default"
+                        }>
+                            {viewingRecord.status}
+                        </Tag>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Value">{viewingRecord.value}</Descriptions.Item>
+                </Descriptions>
+            </div>
+        );
+    };
 
+    const renderEditForm = () => {
+        return (
+            <Form layout="vertical" form={editForm}>
+                <Row gutter={16}>
+                    <Col xs={24} sm={12}>
+                        <Form.Item
+                            label="Return ID"
+                            name="returnId"
+                            rules={[{ required: true, message: "Return ID is required" }]}
+                        >
+                            <Input placeholder="Enter Return ID" />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={12}>
+                        <Form.Item
+                            label="Order Number"
+                            name="orderNumber"
+                            rules={[{ required: true, message: "Order Number is required" }]}
+                        >
+                            <Input placeholder="Enter Order Number" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={16}>
+                    <Col xs={24} sm={12}>
+                        <Form.Item
+                            label="Customer"
+                            name="customer"
+                            rules={[{ required: true, message: "Customer is required" }]}
+                        >
+                            <Input placeholder="Enter Customer" />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={12}>
+                        <Form.Item
+                            label="Date"
+                            name="date"
+                            rules={[{ required: true, message: "Date is required" }]}
+                        >
+                            <Input placeholder="Enter Date" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={16}>
+                    <Col xs={24} sm={12}>
+                        <Form.Item
+                            label="Status"
+                            name="status"
+                            rules={[{ required: true, message: "Status is required" }]}
+                        >
+                            <Select placeholder="Select Status">
+                                <Option value="Pending">Pending</Option>
+                                <Option value="Approved">Approved</Option>
+                                <Option value="Processing">Processing</Option>
+                                <Option value="Completed">Completed</Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={12}>
+                        <Form.Item
+                            label="Value"
+                            name="value"
+                            rules={[{ required: true, message: "Value is required" }]}
+                        >
+                            <Input placeholder="Enter Value" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+            </Form>
+        );
+    };
 
     return (
-        <div>
+        <div style={{ overflowX: 'hidden' }}>
             <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
                 <ArrowLeftOutlined onClick={previousPage} className="back-button" />
                 <h1 className="page-title pr-18">Sales & Return</h1>
             </header>
 
-            <Row gutter={[16, 16]} style={{ marginTop: '20px' }}>
+            <Row gutter={[16, 16]} style={{ marginTop: '20px', padding: '0 10px' }}>
                 {cardData.map((item, index) => (
                     <Col xs={24} sm={12} md={6} key={index}>
-                        <Card bordered={true} className="rounded-xl shadow-sm" >
+                        <Card bordered={true} className="rounded-xl shadow-sm" bodyStyle={{ padding: '16px' }}>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <span style={{ fontWeight: 500 }}>{item.title}</span>
                                 {item.icon}
@@ -382,18 +525,16 @@ const Salesreturn: React.FC = () => {
                                 </div>
                             )}
                         </Card>
-
                     </Col>
                 ))}
             </Row>
 
             <div style={{ padding: 10, marginTop: '10px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <h2 style={{ marginBottom: 0 }}>Recent  </h2>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+                    <h2 style={{ marginBottom: 0 }}>Recent</h2>
                     <Button
                         type="primary"
                         size="large"
-
                         style={{
                             width: '120px',
                             height: '40px',
@@ -409,22 +550,28 @@ const Salesreturn: React.FC = () => {
                 </div>
                 <p style={{ marginBottom: 10 }}>Manage and track all return requests</p>
 
-                <Table
-                    columns={columns}
-                    dataSource={data}
-                    pagination={false}
-                    bordered={false}
-                    scroll={{ x: "max-content" }} // ✅ enables horizontal scroll
-                    style={{ width: "100%" }}
-                />
+                <div style={{ overflowX: 'auto' }}>
+                    <Table
+                        columns={columns}
+                        dataSource={data}
+                        pagination={false}
+                        bordered={false}
+                        scroll={{ x: 'max-content' }}
+                        style={{ minWidth: '600px' }}
+                    />
+                </div>
             </div>
+            
             <Modal
                 title="Sales Return"
                 open={isModalOpen}
                 onOk={handleOk}
                 onCancel={handleCancel}
-                width={1000}
+                width={screens.xs ? '95%' : 1000}
                 style={{ top: 20 }}
+                maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                getContainer={false}
+                forceRender
             >
                 <Row gutter={[16, 16]}>
                     <Col span={24}>
@@ -439,82 +586,96 @@ const Salesreturn: React.FC = () => {
                             {orderList.flatMap((order: any) =>
                                 order.products.map((p: any) => (
                                     <Select.Option
-                                        key={`${order.orderId}-${p.productId}`} // unique key
-                                        value={p.productId}                     // ✅ value added
+                                        key={`${order.orderId}-${p.productId}`}
+                                        value={p.productId}
                                     >
                                         {p?.productName} ({order.orderId})
                                     </Select.Option>
                                 ))
                             )}
-
                         </Select>
-                        <div style={{ marginTop: '20px' }}>
-
+                        <div style={{ marginTop: '20px', overflowX: 'auto' }}>
                             <Table
                                 columns={ReturnColumns}
                                 dataSource={filteredOrders}
-
                                 pagination={{ pageSize: 5 }}
                                 bordered={false}
-                                scroll={{ x: "max-content" }} // ✅ enables horizontal scroll
-                                style={{ width: "100%" }}
+                                scroll={{ x: 'max-content' }}
+                                style={{ minWidth: '700px' }}
                             />
-
-
                         </div>
-
-
                     </Col>
                 </Row>
-
-
             </Modal>
-            {/* selected sales return modal */}
+            
             <Modal
                 title="Order Details"
-                width={1000}
+                width={screens.xs ? '95%' : 1000}
                 style={{ top: 20 }}
-
+                maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                getContainer={false}
+                forceRender
                 open={isModalOpenSaleReturn}
                 onOk={() => setIsModalOpenSaleReturn(false)}
                 onCancel={() => setIsModalOpenSaleReturn(false)}
                 bodyStyle={{ padding: 16 }}
             >
-
-
-
-                {/* {selectedRecord ? (
-                    <div>
-                        <p><b>Order ID:</b> {selectedRecord.orderId}</p>
-                        <p><b>Customer:</b> {selectedRecord.store?.storeName}</p>
-                        <p><b>Status:</b> {selectedRecord.orderStatus}</p>
-                    </div>
-                ) : null} */}
-
-                <Table
-                    columns={SelectReturnTable}
-                    dataSource={filteredOrders}
-                    pagination={{ pageSize: 5 }}
-                    bordered={false}
-                    scroll={{ x: "max-content" }} // ✅ enables horizontal scroll
-                    style={{ width: "100%" }}
-                />
-
+                <div style={{ overflowX: 'auto' }}>
+                    <Table
+                        columns={SelectReturnTable}
+                        dataSource={filteredOrders}
+                        pagination={{ pageSize: 5 }}
+                        bordered={false}
+                        scroll={{ x: 'max-content' }}
+                        style={{ minWidth: '600px' }}
+                    />
+                </div>
             </Modal>
 
-
-
-            {/* inline responsive style for search height */}
-            <style>{`
-        .custom-search .ant-input,
-        .custom-search .ant-btn {
-          height: 45px !important;
-          font-size: 15px;
-        }
-     
-      `}</style>
-
-        </div >
+            <Modal
+                title={
+                    isEditing 
+                        ? `Edit Return - ${viewingRecord?.returnId || ''}` 
+                        : `View Return - ${viewingRecord?.returnId || ''}`
+                }
+                open={isViewEditModalOpen}
+                onOk={isEditing ? handleEditSubmit : handleCloseViewEditModal}
+                onCancel={handleCloseViewEditModal}
+                okText={isEditing ? "Update" : "Close"}
+                cancelText={isEditing ? "Cancel Edit" : "Cancel"}
+                width={screens.xs ? '95%' : 900}
+                style={{ top: 20 }}
+                bodyStyle={{
+                    maxHeight: '70vh',
+                    overflowY: 'auto',
+                    padding: '16px'
+                }}
+                maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                getContainer={false}
+                forceRender
+                footer={[
+                    !isEditing && (
+                        <Button key="edit" type="primary" onClick={handleEditClick}>
+                            <EditOutlined /> Edit
+                        </Button>
+                    ),
+                    isEditing && (
+                        <Button key="cancel" onClick={handleCancelEdit}>
+                            Cancel 
+                        </Button>
+                    ),
+                    <Button 
+                        key="ok" 
+                        type={isEditing ? "primary" : "default"} 
+                        onClick={isEditing ? handleEditSubmit : handleCloseViewEditModal}
+                    >
+                        {isEditing ? "Save" : "Close"}
+                    </Button>,
+                ]}
+            >
+                {isEditing ? renderEditForm() : renderViewContent()}
+            </Modal>
+        </div>
     );
 };
 

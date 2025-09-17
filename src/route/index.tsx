@@ -129,7 +129,9 @@ import Sku from 'page/sku';
 import PointOfSalesMaterial from 'page/posm';
 import Store from '../page/store/stores';
 import Storeinfo from 'page/storeInfo';
-
+import DashboardAdmin from 'page/DashboardAdmin/DashboardAdmin';
+import DistributorDashboard  from 'page/DistributorDashboard/DistributorDashboard';
+import SchemeAndDiscount from 'page/admin/SchemeAndDiscount/SchemeAndDiscount';
 
 function AppRoutes() {
     const route = useRoutes([
@@ -236,9 +238,15 @@ function AppRoutes() {
         { path: "/posm", element: <AuthGuard page={<PointOfSalesMaterial />} /> },
         // store
         { path: "/storeinfo", element: <AuthGuard page={<Storeinfo />} /> },
-
+        // Dashboard Admin
+        { path: "/DashboardAdmin", element: <AuthGuard page={<DashboardAdmin />} /> },
+        // Distributor Dashboard
+        { path: "/DistributorDashboard", element: <AuthGuard page={<DistributorDashboard />} /> },
         // Reports
         { path: "/sku", element: <AuthGuard page={<Sku />} /> },
+        // Scheme and discount
+        { path: "/SchemeAndDiscount", element: <AuthGuard page={<SchemeAndDiscount />} /> },
+
         { path: "/report/day-tracking", element: <AuthGuard page={<DayTrackingReport />} /> },
         { path: "/report/mr-analysis", element: <AuthGuard page={<MrAnalysis />} /> },
         { path: "/report/pending-collection", element: <AuthGuard page={<PendingCollectionReport />} /> },

@@ -168,6 +168,7 @@ export default function Profile1() {
       dataIndex: "object",
       key: "object",
       render: (text: string) => <span className="font-semibold">{text}</span>,
+      width: '15%',
     },
     {
       title: <span className="font-semibold">Create</span>,
@@ -180,6 +181,7 @@ export default function Profile1() {
           onChange={() => handleToggleObject(record.key, "create")}
         />
       ),
+      width: '12%',
     },
     {
       title: <span className="font-semibold">Read</span>,
@@ -192,6 +194,7 @@ export default function Profile1() {
           onChange={() => handleToggleObject(record.key, "read")}
         />
       ),
+      width: '12%',
     },
     {
       title: <span className="font-semibold">Edit</span>,
@@ -204,6 +207,7 @@ export default function Profile1() {
           onChange={() => handleToggleObject(record.key, "edit")}
         />
       ),
+      width: '12%',
     },
     {
       title: <span className="font-semibold">Delete</span>,
@@ -216,6 +220,7 @@ export default function Profile1() {
           onChange={() => handleToggleObject(record.key, "delete")}
         />
       ),
+      width: '12%',
     },
     {
       title: <span className="font-semibold">View All</span>,
@@ -228,6 +233,7 @@ export default function Profile1() {
           onChange={() => handleToggleObject(record.key, "viewAll")}
         />
       ),
+      width: '12%',
     },
     {
       title: <span className="font-semibold">Modify All</span>,
@@ -240,6 +246,7 @@ export default function Profile1() {
           onChange={() => handleToggleObject(record.key, "modifyAll")}
         />
       ),
+      width: '12%',
     },
   ];
 
@@ -481,7 +488,6 @@ export default function Profile1() {
                       </Row>
                     </Card>
                   </Col>
-
                 </Row>
               </TabPane>
 
@@ -490,14 +496,16 @@ export default function Profile1() {
                   <h3 className="text-lg font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>Tab Permissions</h3>
                   <p className="text-gray-500" style={{ fontFamily: "'Inter', sans-serif" }}>Control which tabs are available and visible to users with this profile</p>
                 </div>
-                <Card bodyStyle={{ fontFamily: "'Inter', sans-serif" }}>
-                  <Table
-                    columns={tabColumns}
-                    dataSource={tabsData}
-                    pagination={false}
-                    bordered
-                    scroll={{ x: true }}
-                  />
+                <Card bodyStyle={{ fontFamily: "'Inter', sans-serif", padding: 0 }}>
+                  <div className="overflow-x-auto">
+                    <Table
+                      columns={tabColumns}
+                      dataSource={tabsData}
+                      pagination={false}
+                      bordered
+                      scroll={{ x: 'max-content' }}
+                    />
+                  </div>
                 </Card>
               </TabPane>
 
@@ -508,14 +516,16 @@ export default function Profile1() {
                   </h3>
                   <p className="text-gray-500" style={{ fontFamily: "'Inter', sans-serif" }}>Manage CRUD permissions for standard objects</p>
                 </div>
-                <Card bodyStyle={{ fontFamily: "'Inter', sans-serif" }}>
-                  <Table
-                    columns={objectColumns}
-                    dataSource={objects}
-                    pagination={false}
-                    bordered
-                    scroll={{ x: true }}
-                  />
+                <Card bodyStyle={{ fontFamily: "'Inter', sans-serif", padding: 0 }}>
+                  <div className="overflow-x-auto">
+                    <Table
+                      columns={objectColumns}
+                      dataSource={objects}
+                      pagination={false}
+                      bordered
+                      scroll={{ x: 'max-content' }}
+                    />
+                  </div>
                 </Card>
               </TabPane>
 
@@ -531,19 +541,22 @@ export default function Profile1() {
                         title={<span className="font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>{category.category}</span>}
                         className="mb-4"
                         headStyle={{ backgroundColor: '#f0f2f5', fontWeight: 'bold', fontFamily: "'Inter', sans-serif" }}
-                        bodyStyle={{ fontFamily: "'Inter', sans-serif" }}
+                        bodyStyle={{ fontFamily: "'Inter', sans-serif", padding: 0 }}
                       >
-                        <Table
-                          columns={systemColumns}
-                          dataSource={category.permissions.map(p => ({
-                            ...p,
-                            categoryKey: category.key
-                          }))}
-                          pagination={false}
-                          bordered
-                          rowKey="key"
-                          size="small"
-                        />
+                        <div className="overflow-x-auto">
+                          <Table
+                            columns={systemColumns}
+                            dataSource={category.permissions.map(p => ({
+                              ...p,
+                              categoryKey: category.key
+                            }))}
+                            pagination={false}
+                            bordered
+                            rowKey="key"
+                            size="small"
+                            scroll={{ x: 'max-content' }}
+                          />
+                        </div>
                       </Card>
                     </Col>
                   ))}
@@ -588,37 +601,62 @@ export default function Profile1() {
           flex-grow: 1;
         }
         .ant-tabs-nav {
-          width: 1420px !important; 
+          width: 100% !important; 
           padding-left: 5px;
         }
         .ant-table-thead > tr > th {
           font-weight: 600 !important;
         }
-          .ant-tag.ant-tag-blue{
-               color:black;
-               background: #edeef2; 
-           border:white;
+        .ant-tag.ant-tag-blue{
+          color:black;
+          background: #edeef2; 
+          border:white;
+        }
+        .text-gray-600{
+          padding-bottom:10px;
+        }
+        
+        /* Remove horizontal scroll for tables */
+        .ant-table-container {
+          overflow-x: auto;
+          width: 100%;
+        }
+        
+        .ant-table {
+          min-width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+          .ant-tabs-nav {
+            width: 100% !important;
+            padding-left: 0;
           }
-               .text-gray-600{
-               padding-bottom:10px;
-               }
-            @media (max-width: 768px) {
-              .ant-tabs-nav {
-                width: 100% !important;
-                padding-left: 0;
-              }
-            .ant-space-gap-col-small {
-                column-gap: 8px;
-                margin-top: 20px;
-            }
-                .ant-col-xs-24 {
-                --ant-display: block;
-                display: block;
-                display: var(--ant-display);
-                flex: 0 0 100%;
-                max-width: 100%;
-                padding-bottom:15px;
-            }
+          .ant-space-gap-col-small {
+            column-gap: 8px;
+            margin-top: 20px;
+          }
+          .ant-col-xs-24 {
+            --ant-display: block;
+            display: block;
+            display: var(--ant-display);
+            flex: 0 0 100%;
+            max-width: 100%;
+            padding-bottom:15px;
+          }
+          
+          /* Responsive table adjustments */
+          .ant-table-thead > tr > th,
+          .ant-table-tbody > tr > td {
+            padding: 8px !important;
+          }
+            
+          .ant-table-wrapper .ant-table {
+            font-size: 12px;
+          }
+          
+          .ant-switch {
+            transform: scale(0.8);
+          }
         }
       `}</style>
     </div>
