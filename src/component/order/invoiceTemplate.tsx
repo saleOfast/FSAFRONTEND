@@ -344,10 +344,12 @@ export const InvoiceTemplate = ({ data, sizeData, dataSource }: any): any => {
     .line-items-container th.heading-quantity {
       width: 50px;
     }
+
     .line-items-container th.heading-price {
       text-align: right;
       width: 100px;
     }
+      
     .line-items-container th.heading-subtotal {
       width: 100px;
     }
@@ -434,9 +436,11 @@ export const InvoiceTemplate = ({ data, sizeData, dataSource }: any): any => {
         content: element(footer);
       }
     }
+      
     th{
       background-color: none!important
     }
+
     td{
       border: white
     }

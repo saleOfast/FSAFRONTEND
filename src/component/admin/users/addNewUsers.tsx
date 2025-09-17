@@ -206,7 +206,7 @@ export default function AddNewUsers() {
                 name="lastname"
                 placeholder="Enter Last Name"
                 label={"Last Name"}
-              // required
+              required
               />
             </Col>
           </Row>
@@ -218,7 +218,7 @@ export default function AddNewUsers() {
                 name="Contact Number"
                 placeholder="Enter Aadhar Number"
                 label={"Aadhar"}
-                required
+                // required
               />
             </Col>
             <Col xs={24} sm={24} md={12} lg={12}>
@@ -241,7 +241,7 @@ export default function AddNewUsers() {
                 name="phone"
                 placeholder="Enter Phone no."
                 label={"Phone"}
-                required
+                // required
               />
             </Col>
             <Col xs={24} sm={24} md={12} lg={12} className="ant-input ">
@@ -263,7 +263,7 @@ export default function AddNewUsers() {
                 name="photo"
                 placeholder=""
                 label={"Photo"}
-                required
+                // required
               />
             </Col>
             <Col xs={24} sm={24} md={12} lg={12}>
@@ -273,7 +273,7 @@ export default function AddNewUsers() {
                 name="Login Credentials"
                 placeholder="N/A"
                 label={"Login Credentials"}
-                required
+                // required
               />
             </Col>
           </Row>
@@ -292,7 +292,7 @@ export default function AddNewUsers() {
                 name="appAccessGiven"
                 label="App Access Given"
                 placeholder="Select App Access Given"
-                required
+                // required
                 optionData={[
                   { label: "Yes", value: true },
                   { label: "No", value: false }
@@ -314,7 +314,7 @@ export default function AddNewUsers() {
                 name="modeOfAccess"
                 label="Mode Of Access"
                 placeholder="Select Mode Of Access"
-                required
+                // required
                 optionData={[
                   { label: "Android", value: "Android" },
                   { label: "iOS", value: "iOS" },
@@ -339,7 +339,7 @@ export default function AddNewUsers() {
                 name="Login Shared"
                 placeholder="Enter Login Credential Shared"
                 label={"Login Credential Shared"}
-                required
+                // required
               />
 
             </Col>
@@ -357,7 +357,7 @@ export default function AddNewUsers() {
                 name="Training"
                 label="Training Completed"
                 placeholder="Training Completed"
-                required
+                // required
                 optionData={[
                   { label: "Yes", value: "true" },
                   { label: "No", value: "false" },
@@ -382,7 +382,7 @@ export default function AddNewUsers() {
                 name="loginShared"
                 label="Train Mode "
                 placeholder="Select Train Mode"
-                required
+                // required
                 optionData={[
                   { label: "Video", value: "Video" },
                   { label: "WhatsApp", value: "WhatsApp" },
@@ -407,7 +407,7 @@ export default function AddNewUsers() {
                 name="joining_dae"
                 placeholder="Enter Train Run Date"
                 label={"Train Run Date"}
-                required
+                // required
               />
 
             </Col>
@@ -427,7 +427,7 @@ export default function AddNewUsers() {
                 name="supervision"
                 label="Supervision feedback "
                 placeholder="Select Supervision Feedback"
-                required
+                // required
                 optionData={[
                   { label: "Satisfactory", value: "Vide" },
                   { label: "Unsatisfying", value: "WhatsAp" },
@@ -451,7 +451,7 @@ export default function AddNewUsers() {
                 name="bill_country"
                 label="Country"
                 placeholder="Select Country"
-                required
+                // required
                 optionData={[
                   { label: "India", value: "India" },
                   { label: "United States", value: "United States" },
@@ -551,7 +551,7 @@ export default function AddNewUsers() {
                 name="joining_date"
                 placeholder="Enter Joining Date"
                 label={"Joining Date"}
-                required
+                // required
               />
             </Col>
             <Col xs={24} sm={24} md={12} lg={12}>
@@ -574,7 +574,7 @@ export default function AddNewUsers() {
                 filterOption={(inputValue: any, option: any) => {
                   return option.label.toLowerCase().includes(inputValue.toLowerCase())
                 }}
-                required
+                // required
               />
             </Col>
           </Row>

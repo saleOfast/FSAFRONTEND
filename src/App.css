@@ -208,9 +208,10 @@
 }
 
 .back-button {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 50px; /* Add this line to move it further left */
 }
 
 .heading-container {

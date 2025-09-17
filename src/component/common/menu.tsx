@@ -9,7 +9,6 @@ import {
   ShoppingCartOutlined,
   ShoppingOutlined,
   PlusOutlined,
-  AimOutlined,
   DashboardOutlined,
   AppstoreOutlined,
   GroupOutlined,
@@ -23,16 +22,16 @@ import {
   TrophyOutlined,
   SoundOutlined,
   ShopOutlined,
+  TagsOutlined,
+  GiftOutlined
 } from "@ant-design/icons";
 
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth } from "context/AuthContext";
 import { UserRole } from "enum/common";
 import { Menu, MenuProps } from "antd";
-import { getStoresByEmpIdService } from "services/usersSerivce";
-// import { Menu } from 'antd';
 
 const SidebarWrapperAdmin = styled.div<{ isOpen: boolean }>`
   position: fixed;
@@ -74,8 +73,6 @@ const Overlay = styled.div<{ isOpen: boolean }>`
   background: rgba(0, 0, 0, 0.3);
   z-index: 1;
   display: ${({ isOpen }: any) => (isOpen ? "block" : "none")};
-  
-    
 `;
 
 const SidebarLink = styled.a`
@@ -98,12 +95,67 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
   const { authState } = useAuth();
   const { pathname } = useLocation();
   type MenuItem = Required<MenuProps>["items"][number];
+  
+  // Dashboard menu items with Admin Dashboard as submenu
+  const dashboardItems: MenuItem[] = [
+    {
+      key: "dashboard",
+      icon: <DashboardOutlined />,
+      label: <span style={{ color: "black" }}>Dashboard</span>,
+      style: { background: "none", color: "black",fontFamily: "Roboto"  },
+      children: [
+        {
+          key: "main-dashboard",
+          label: (
+            <Link
+              to={
+                authState?.user?.role === UserRole.SSM ||
+                authState?.user?.role === UserRole.CHANNEL
+                  ? "/dashboard"
+                  : authState?.user?.role === UserRole.RETAILER
+                    ? "/retailor/dashboard"
+                    : "/admin/dashboard"
+              }
+              onClick={toggleSidebar}
+            >
+              Main Dashboard
+            </Link>
+          ),
+        },
+        ...(authState?.user?.role !== UserRole.CHANNEL
+          ? [
+              {
+                key: "admin-dashboard",
+                label: (
+                  <Link to="/DashboardAdmin" onClick={toggleSidebar}>
+                    Admin Dashboard
+                  </Link>
+                ),
+              },
+            ]
+          : []),
+           ...(authState?.user?.role !== UserRole.CHANNEL
+          ? [
+              {
+                key: "admin-dashboard",
+                label: (
+                  <Link to="/DistributorDashboard" onClick={toggleSidebar}>
+                    Distributor Dashboard
+                  </Link>
+                ),
+              },
+            ]
+          : []),
+      ],
+    },
+  ];
+
   const orderItems: MenuItem[] = [
     {
       key: "sub0",
       icon: <ShoppingCartOutlined />,
       label: <span style={{ color: "black" }}>Order</span>,
-      style: { background: "none", color: "black" },
+      style: { background: "none", color: "black",fontFamily: "Roboto"  },
       children: [
         {
           key: "1",
@@ -129,7 +181,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
       key: "sub1",
       icon: <GroupOutlined />,
       label: <span style={{ color: "black" }}>Configuration</span>,
-      style: { background: "none", color: "black" },
+      style: { background: "none", color: "black", fontFamily: "Roboto" },
       children: [
         {
           key: "0",
@@ -171,8 +223,6 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             },
           ],
         },
-        // { key: '2', label: <Link to="/admin/category" onClick={toggleSidebar}>Medicine Category</Link> },
-        // { key: '3', label: <Link to="/admin/store-category" onClick={toggleSidebar}>Customer Category</Link> },
         {
           key: "4",
           label: (
@@ -181,7 +231,6 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             </Link>
           ),
         },
-        // { key: '5', label: <Link to="/config/colour" onClick={toggleSidebar}>Product  Colour</Link> },
         {
           key: "6",
           label: (
@@ -316,6 +365,15 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                     </Link>
                   ),
                 },
+                 {
+                    key: "users",
+                    label: (
+                      <Link to="/admin/users" onClick={toggleSidebar}>
+                        Users
+                      </Link>
+                    ),
+                  },
+                 
               ],
             },
           ]
@@ -328,7 +386,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
       key: "sub2",
       icon: <AppstoreOutlined />,
       label: <span style={{ color: "black" }}>Reports</span>,
-      style: { background: "none", color: "black" },
+      style: { background: "none", color: "black", fontFamily: "Roboto"  },
       children: [
         ...(authState?.user?.role === UserRole.RETAILER
           ? [
@@ -466,35 +524,35 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                   ),
                 },
               ],
-            },
-            {
-              key: "7",
-              label: (
-                <Link
-                  to="/report/employee-performance"
-                  onClick={toggleSidebar}
-                >
-                  Performance
-                </Link>
-              ),
-            },
-            {
-              key: "8",
-              label: (
-                <Link to="/report/unbilled-store" onClick={toggleSidebar}>
-                  Unbilled Store
-                </Link>
-              ),
-            },
-            {
-              key: "9",
-              label: (
-                <Link to="/report/monthly-no-order" onClick={toggleSidebar}>
-                  No Order Report
-                </Link>
-              ),
-            },
-          ]),
+                },
+                {
+                  key: "7",
+                  label: (
+                    <Link
+                      to="/report/employee-performance"
+                      onClick={toggleSidebar}
+                    >
+                      Performance
+                    </Link>
+                  ),
+                },
+                {
+                  key: "8",
+                  label: (
+                    <Link to="/report/unbilled-store" onClick={toggleSidebar}>
+                      Unbilled Store
+                    </Link>
+                  ),
+                },
+                {
+                  key: "9",
+                  label: (
+                    <Link to="/report/monthly-no-order" onClick={toggleSidebar}>
+                      No Order Report
+                    </Link>
+                  ),
+                },
+              ]),
       ],
     },
   ];
@@ -504,7 +562,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
       key: "sub4",
       icon: <SolutionOutlined />,
       label: <span style={{ color: "black" }}>HR Process</span>,
-      style: { background: "none", color: "black" },
+      style: { background: "none", color: "black", fontFamily: "Roboto"  },
       children: [
         {
           key: "00",
@@ -555,7 +613,6 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
           ),
         }] : []),
 
-        // { key: '4', label: <Link to="/expense-apply" onClick={toggleSidebar}>Mark Attendance</Link> },
         {
           key: "5",
           label: (
@@ -567,15 +624,6 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
   ];
   const onClicks: MenuProps["onClick"] | any = (e: any) => {
     // console.log('click', e);
-  };
-  const rolePaths: any = {
-    [UserRole.SSM]: "/home",
-    [UserRole.RETAILER]: "/retailor/dashboard",
-    [UserRole.ADMIN]: "/admin/dashboard",
-    [UserRole.DIRECTOR]: "/admin/dashboard",
-    [UserRole.MANAGER]: "/admin/dashboard",
-    [UserRole.RSM]: "/admin/dashboard",
-    [UserRole.SUPER_ADMIN]: "/admin/dashboard",
   };
 
   return (
@@ -616,26 +664,25 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                 </SidebarLink>
               </Link>
             )}
-            <Link
-              to={
-                authState?.user?.role === UserRole.SSM ||
-                  authState?.user?.role === UserRole.CHANNEL
-                  ? "/dashboard"
-                  : authState?.user?.role === UserRole.RETAILER
-                    ? "/retailor/dashboard"
-                    : "/admin/dashboard"
-              }
-              className="linkto"
-              onClick={toggleSidebar}
+            
+            {/* Dashboard with Admin Dashboard as submenu */}
+            <SidebarLink
+              className={pathname.includes("/dashboard") ? "active" : ""}
+              style={{ zIndex: 9999999 }}
             >
-              <SidebarLink
-                style={{ color: "black" }}
-                className={pathname.includes("/dashboard") ? "active" : ""}
-              >
-                <DashboardOutlined className="adminMenuTxt" />
-                Dashboard
-              </SidebarLink>
-            </Link>
+              <Menu
+                onClick={onClicks}
+                style={{
+                  width: "200px",
+                  background: "none",
+                  color: "white",
+                  padding: 0,
+                }}
+                mode="vertical"
+                items={dashboardItems}
+              />
+            </SidebarLink>
+
             {authState?.user?.role !== UserRole.SSM &&
               authState?.user?.role !== UserRole.RETAILER &&
               authState?.user?.role !== UserRole.CHANNEL && (
@@ -664,7 +711,6 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                 <Link
                   to="/purchaseOrder"
                   className="linkto"
-                // onClick={toggleSidebar}
                 >
                   <SidebarLink
                     style={{ color: "black" }}
@@ -686,7 +732,6 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                 <Link
                   to="/InventoryDashboard"
                   className="linkto"
-                // onClick={toggleSidebar}
                 >
                   <SidebarLink
                     style={{ color: "black" }}
@@ -809,6 +854,26 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                 >
                   <BankOutlined className="adminMenuTxt" />
                   WareHouse
+                </SidebarLink>
+              </Link>
+            )}
+              {authState?.user?.role !== UserRole.CHANNEL && (
+              <Link
+                to="/SchemeAndDiscount"
+                className="linkto"
+                onClick={toggleSidebar}
+              >
+                <SidebarLink
+                  style={{ color: "black" }}
+                  className={
+                    pathname.includes("/SchemeAndDiscount") ||
+                      pathname.includes("/SchemeAndDiscount")
+                      ? "active"
+                      : ""
+                  }
+                >
+                  <GiftOutlined className="adminMenuTxt" />
+                  Scheme and Discount
                 </SidebarLink>
               </Link>
             )}
@@ -938,42 +1003,6 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               </Link>
             )}
 
-            {(authState?.user?.role === UserRole.ADMIN ||
-              authState?.user?.role === UserRole.SUPER_ADMIN) && (
-                <Link
-                  to="/admin/users"
-                  className="linkto"
-                  onClick={toggleSidebar}
-                >
-                  <SidebarLink
-                    style={{ color: "black" }}
-                    className={
-                      pathname.includes("/users") ||
-                        pathname.includes("/add-new-users")
-                        ? "active"
-                        : ""
-                    }
-                  >
-                    <BuildOutlined className="adminMenuTxt" />
-                    Users
-                  </SidebarLink>
-                </Link>
-              )}
-
-            {/* {authState?.user?.role === UserRole.ADMIN &&
-              <> <Link to="/admin/brand" className="linkto" onClick={toggleSidebar}>
-                <SidebarLink className={pathname.includes('/brand') || pathname.includes('/new-brand') ? "active" : ""}>
-                  <ShopOutlined className="adminMenuTxt" />
-                  Brand
-                </SidebarLink>
-              </Link>
-                <Link to="/admin/category" className="linkto" onClick={toggleSidebar}>
-                  <SidebarLink className={pathname.includes('/category') || pathname.includes('/add-new-category') ? "active" : ""}>
-                    <ProjectOutlined className="adminMenuTxt" />
-                    Product Category
-                  </SidebarLink>
-                </Link>
-              </>} */}
             <Link
               to="/admin/product"
               className="linkto"
@@ -987,13 +1016,6 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                 Product
               </SidebarLink>
             </Link>
-            {/* {authState?.user?.role === UserRole.ADMIN &&
-              <Link to="/admin/store-category" className="linkto" onClick={toggleSidebar}>
-                <SidebarLink className={pathname.includes('/store-category') || pathname.includes('/add-update-category') ? "active" : ""}>
-                  <LayoutOutlined className="adminMenuTxt" />
-                  Store Category
-                </SidebarLink>
-              </Link>} */}
 
             <SidebarLink
               className={pathname.includes("/hr") ? "active" : ""}
@@ -1270,7 +1292,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
     background-color: #8488BF;
     align-items: center;
     flex-wrap: wrap;
-    margin-bottom: 7px;
+       margin-bottom: 7px;
 
 }
         .quickLink {
