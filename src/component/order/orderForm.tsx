@@ -676,8 +676,8 @@ export default function OrderForm() {
       dataIndex: 'product Id',
       key: 'product Id',
       width: 90
-
     },
+
     {
       title: 'Product Name',
       dataIndex: 'product name',
@@ -1203,34 +1203,34 @@ export default function OrderForm() {
   }, [])
 
   const orderSourceOptions = [
-  { label: "App", value: "app" },
-  { label: "Phone", value: "phone" },
-  { label: "In-person", value: "inperson" },
-  { label: "WhatsApp", value: "whatsapp" },
-];
+    { label: "App", value: "app" },
+    { label: "Phone", value: "phone" },
+    { label: "In-person", value: "inperson" },
+    { label: "WhatsApp", value: "whatsapp" },
+  ];
 
-const orderStatusOptions = [
-  { label: "Pending", value: "pending" },
-  { label: "Approved", value: "approved" },
-  { label: "Dispatched", value: "dispatched" },
-  { label: "Delivered", value: "delivered" },
-  { label: "Cancelled", value: "cancelled" },
-];
-const deliveryTimeSlotOptions = [
-  { label: "Morning", value: "morning" },
-  { label: "Evening", value: "evening" },
-];
-const paymentMethodOptions = [
-  { label: "Cash", value: "cash" },
-  { label: "Credit", value: "credit" },
-  { label: "Online", value: "online" },
-  { label: "COD", value: "cod" },
-];
-const paymentStatusOptions = [
-  { label: "Paid", value: "paid" },
-  { label: "Unpaid", value: "unpaid" },
-  { label: "Partially Paid", value: "partially_paid" },
-];
+  const orderStatusOptions = [
+    { label: "Pending", value: "pending" },
+    { label: "Approved", value: "approved" },
+    { label: "Dispatched", value: "dispatched" },
+    { label: "Delivered", value: "delivered" },
+    { label: "Cancelled", value: "cancelled" },
+  ];
+  const deliveryTimeSlotOptions = [
+    { label: "Morning", value: "morning" },
+    { label: "Evening", value: "evening" },
+  ];
+  const paymentMethodOptions = [
+    { label: "Cash", value: "cash" },
+    { label: "Credit", value: "credit" },
+    { label: "Online", value: "online" },
+    { label: "COD", value: "cod" },
+  ];
+  const paymentStatusOptions = [
+    { label: "Paid", value: "paid" },
+    { label: "Unpaid", value: "unpaid" },
+    { label: "Partially Paid", value: "partially_paid" },
+  ];
   return (
     <div>
       <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
@@ -1244,68 +1244,64 @@ const paymentStatusOptions = [
             </Link>} */}
 
 
-<main className="content" style={{ marginBottom: "120px" }}>
-  
-<Row gutter={[16, 16]}>
-  {[
-    { label: "Brand", component: <Select options={optionsBrand} placeholder="Select Brand" /> },
-    { label: "Category", component: <TreeSelect treeData={catOptions} placeholder="Select Category" /> },
-    // { label: "Chemist", component: <Select options={orderStoreList} placeholder="Select Chemist" /> },
-    { label: "Order Type", component: <Select options={callTypeList} placeholder="Select Order Type" /> },
-    { label: "Order ID", component: <Input placeholder="Enter Order ID" /> },
-    { label: "Customer ID/Name", component: <Input placeholder="Enter Customer ID/Name" /> },
-    { label: "Order Source", component: <Select options={orderSourceOptions} placeholder="Select Order Source" /> },
-    { label: "Order Date", component: <DatePicker style={{ width: "100%" }} /> },
-    { label: "Delivery Date", component: <DatePicker style={{ width: "100%" }} /> },
-    { label: "Order Status", component: <Select options={orderStatusOptions} placeholder="Select Status" /> },
-    { label: "Delivery Time Slot", component: <Select options={deliveryTimeSlotOptions} placeholder="Select Time Slot" /> },
-    { label: "Delivery Address", component: <Input placeholder="Enter Address" /> },
-    { label: "Salesperson ID", component: <Input placeholder="Enter Salesperson ID" /> },
-    { label: "Payment Method", component: <Select options={paymentMethodOptions} placeholder="Select Payment Method" /> },
-    { label: "Payment Status", component: <Select options={paymentStatusOptions} placeholder="Select Payment Status" /> },
-    { label: "Order Notes", component: <Input.TextArea rows={1} placeholder="Enter Notes" /> }
-  ].map((field, index) => (
-    <Col key={index} xs={12} md={8}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-        <label style={{ fontWeight: 500 }}>{field.label}:</label>
-        {React.cloneElement(field.component, { style: { width: "92%" } })}
-      </div>
-    </Col>
-  ))}
-</Row>
+      <main className="content" style={{ marginBottom: "120px" }}>
+
+        <Row gutter={[16, 16]}>
+          {[
+            { label: "Brand", component: <Select options={optionsBrand} placeholder="Select Brand" /> },
+            { label: "Category", component: <TreeSelect treeData={catOptions} placeholder="Select Category" /> },
+            // { label: "Chemist", component: <Select options={orderStoreList} placeholder="Select Chemist" /> },
+            { label: "Order Type", component: <Select options={callTypeList} placeholder="Select Order Type" /> },
+            { label: "Order ID", component: <Input placeholder="Enter Order ID" /> },
+            { label: "Customer ID/Name", component: <Input placeholder="Enter Customer ID/Name" /> },
+            { label: "Order Source", component: <Select options={orderSourceOptions} placeholder="Select Order Source" /> },
+            { label: "Order Date", component: <DatePicker style={{ width: "100%" }} /> },
+            { label: "Delivery Date", component: <DatePicker style={{ width: "100%" }} /> },
+            { label: "Order Status", component: <Select options={orderStatusOptions} placeholder="Select Status" /> },
+            { label: "Delivery Time Slot", component: <Select options={deliveryTimeSlotOptions} placeholder="Select Time Slot" /> },
+            { label: "Delivery Address", component: <Input placeholder="Enter Address" /> },
+            { label: "Salesperson ID", component: <Input placeholder="Enter Salesperson ID" /> },
+            { label: "Payment Method", component: <Select options={paymentMethodOptions} placeholder="Select Payment Method" /> },
+            { label: "Payment Status", component: <Select options={paymentStatusOptions} placeholder="Select Payment Status" /> },
+            { label: "Order Notes", component: <Input.TextArea rows={1} placeholder="Enter Notes" /> }
+          ].map((field, index) => (
+            <Col key={index} xs={12} md={8}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <label style={{ fontWeight: 500 }}>{field.label}:</label>
+                {React.cloneElement(field.component, { style: { width: "92%" } })}
+              </div>
+            </Col>
+          ))}
+        </Row>
 
 
 
-  {/* Table */}
-  <div style={{ position: "relative", marginTop: 20 }}>
-    <Table
-      components={{
-        body: {
-          row: EditableRow,
-          cell: EditableCell,
-        },
-      }}
-      scroll={{ x: "100%" }}
-      rowClassName={rowClassName}
-      bordered
-      dataSource={dataSource}
-      columns={columns as ColumnTypes}
-      pagination={false}
-    />
-  </div>
+        {/* Table */}
+        <div style={{ position: "relative", marginTop: 20 }}>
+          <Table
+            components={{
+              body: {
+                row: EditableRow,
+                cell: EditableCell,
+              },
+            }}
+            scroll={{ x: "100%" }}
+            rowClassName={rowClassName}
+            bordered
+            dataSource={dataSource}
+            columns={columns as ColumnTypes}
+            pagination={false}
+          />
+        </div>
 
-  <Button
-    onClick={handleAdd}
-    type="primary"
-    style={{ marginTop: 16, right: 20, position: "absolute" }}
-  >
-    Add a row
-  </Button>
-</main>
-
-
-
-
+        <Button
+          onClick={handleAdd}
+          type="primary"
+          style={{ marginTop: 16, right: 20, position: "absolute" }}  
+        >
+          Add a row
+        </Button>
+      </main>
       <Button
         onClick={() => handleCreateOrder(OrderStatus.ORDERPLACED)} type="primary" style={{ marginTop: 16, right: 20, position: "absolute" }}>
         Place Order

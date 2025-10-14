@@ -10,7 +10,7 @@ import { LS_KEYS } from "../../app-constants";
 import { useDispatch } from "react-redux";
 import { setLoaderAction } from "../../redux-store/action/appActions";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";  
 import HookFormInputField from "component/HookFormInputField";
 import { UserRole } from "enum/common";
 export const Login = () => {
@@ -32,11 +32,13 @@ export const Login = () => {
     [UserRole.SSM]: "/home",
     [UserRole.CHANNEL]: "/dashboard",
     [UserRole.RETAILER]: "/retailor/dashboard",
-    [UserRole.ADMIN]: "/admin/dashboard",
+    [UserRole.ADMIN]: "/DistributorDashboard",
     [UserRole.DIRECTOR]: "/admin/dashboard",
     [UserRole.MANAGER]: "/admin/dashboard",
     [UserRole.RSM]: "/admin/dashboard",
     [UserRole.SUPER_ADMIN]: "/admin/dashboard",
+    [UserRole.DISTRIBUTOR]: "/admin/dashboard",
+
   };
 
   const onSubmit = async (values: any) => {

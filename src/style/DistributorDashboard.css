@@ -38,6 +38,7 @@
     align-items: center;
     gap: 8px;
     transition: background-color 0.2s;
+    margin-top: 15px;
 }
 
 .download-report-btn:hover {
@@ -164,6 +165,7 @@
     align-items: center;
     gap: 8px;
     transition: background-color 0.2s;
+    margin-top: 15px;
 }
 
 .new-order-btn:hover {
@@ -186,7 +188,7 @@
         grid-template-columns: 1fr;
     }
     
-    .dashboard-container {
+    .dashboard-container1 {
         padding: 15px;
     }
     
@@ -410,7 +412,7 @@
         grid-template-columns: 1fr;
     }
     
-    .dashboard-container {
+    .dashboard-container1 {
         padding: 15px;
     }
     
@@ -640,7 +642,7 @@
         grid-template-columns: 1fr;
     }
     
-    .dashboard-container {
+    .dashboard-container1 {
         padding: 15px;
     }
     
@@ -782,7 +784,7 @@
         grid-template-columns: 1fr;
     }
     
-    .dashboard-container {
+    .dashboard-container1 {
         padding: 15px;
     }
     
@@ -811,7 +813,7 @@
         grid-template-columns: 1fr;
     }
     
-    .dashboard-container {
+    .dashboard-container1 {
         padding: 15px;
     }
     
