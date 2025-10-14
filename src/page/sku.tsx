@@ -23,6 +23,7 @@ import type { ColumnsType } from 'antd/es/table';
 import type { Breakpoint } from 'antd/es/_util/responsiveObserver';
 import { SearchOutlined } from "@ant-design/icons";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -180,58 +181,71 @@ const Sku = () => {
         message.success('SKU deleted successfully');
     };
 
-    const columns = [
-        {
-            title: "SKU Number",
-            dataIndex: "skuNumber",
-            key: "skuNumber",
-            render: (text: string, record: SKU) => (
-                <a
-                    onClick={() => handleViewClick(record)}
-                    style={{ color: '#1890ff', cursor: 'pointer' }}
-                >
-                    {text}
-                </a>
-            ),
-        },
-        {
-            title: "Product Name",
-            dataIndex: "productName",
-            key: "productName",
-        },
-        {
-            title: "Sales Channel",
-            dataIndex: "salesChannel",
-            key: "salesChannel",
-        },
-        {
-            title: "Channel SKU",
-            dataIndex: "channelSku",
-            key: "channelSku",
-        },
-        {
-            title: "Barcode/UPC",
-            dataIndex: "barcode",
-            key: "barcode",
-        },
-        {
-            title: "Description",
-            dataIndex: "description",
-            key: "description",
-        },
-        {
-            title: "Attribute - Color",
-            dataIndex: "attributeColor",
-            key: "attributeColor",
-        },
-        {
-            title: "Attribute - Size",
-            dataIndex: "attributeSize",
-            key: "attributeSize",
-        },
-          {
+// 👇 type columns explicitly
+const columns: ColumnsType<SKU> = [
+  {
+    title: "SKU Number",
+    dataIndex: "skuNumber",
+    key: "skuNumber",
+    width: 120,
+    fixed: screens.xs ? undefined : "left", // ✅ properly typed
+    render: (text: string, record: SKU) => (
+      <a
+        onClick={() => handleViewClick(record)}
+        style={{ color: "#1890ff", cursor: "pointer" }}
+      >
+        {text}
+      </a>
+    ),
+  },
+  {
+    title: "Product Name",
+    dataIndex: "productName",
+    key: "productName",
+    width: 120,
+  },
+  {
+    title: "Sales Channel",
+    dataIndex: "salesChannel",
+    key: "salesChannel",
+    width: 120,
+  },
+  {
+    title: "Channel SKU",
+    dataIndex: "channelSku",
+    key: "channelSku",
+    width: 120,
+  },
+  {
+    title: "Barcode",
+    dataIndex: "barcode",
+    key: "barcode",
+    width: 120,
+  },
+  {
+    title: "Description",
+    dataIndex: "description",
+    key: "description",
+    width: 150,
+    ellipsis: true,
+  },
+  {
+    title: "Color",
+    dataIndex: "attributeColor",
+    key: "attributeColor",
+    width: 80,
+  },
+  {
+    title: "Size",
+    dataIndex: "attributeSize",
+    key: "attributeSize",
+    width: 80,
+  },
+  {
     title: "Action",
     key: "action",
+    width: 80,
+    fixed: screens.xs ? undefined : "right", // ✅ properly typed
     render: (_: unknown, record: SKU) => (
       <Space size="middle">
         <Popconfirm
@@ -241,18 +255,14 @@ const Sku = () => {
           okText="Yes"
           cancelText="No"
         >
-          <Button 
-            type="link" 
-            danger 
-            icon={<DeleteOutlined />}
-          >
-        
-          </Button>
+          <Button type="link" danger icon={<DeleteOutlined />} />
         </Popconfirm>
       </Space>
     ),
   },
-    ];
+];
+
+
 
     const renderViewContent = () => {
         if (!viewingRecord) return null;
@@ -286,7 +296,7 @@ const Sku = () => {
         return (
             <Form layout="vertical" form={editForm}>
                 <Row gutter={16}>
-                    <Col span={12}>
+                    <Col xs={24} sm={12}>
                         <Form.Item
                             label="SKU Number"
                             name="skuNumber"
@@ -296,7 +306,7 @@ const Sku = () => {
                         </Form.Item>
                     </Col>
 
-                    <Col span={12}>
+                    <Col xs={24} sm={12}>
                         <Form.Item
                             label="Product Name"
                             name="productName"
@@ -308,7 +318,7 @@ const Sku = () => {
                 </Row>
 
                 <Row gutter={16}>
-                    <Col span={12}>
+                    <Col xs={24} sm={12}>
                         <Form.Item
                             label="Sales Channel"
                             name="salesChannel"
@@ -322,7 +332,7 @@ const Sku = () => {
                         </Form.Item>
                     </Col>
 
-                    <Col span={12}>
+                    <Col xs={24} sm={12}>
                         <Form.Item
                             label="Channel SKU"
                             name="channelSku"
@@ -334,7 +344,7 @@ const Sku = () => {
                 </Row>
 
                 <Row gutter={16}>
-                    <Col span={12}>
+                    <Col xs={24} sm={12}>
                         <Form.Item
                             label="Barcode / UPC"
                             name="barcode"
@@ -344,7 +354,7 @@ const Sku = () => {
                         </Form.Item>
                     </Col>
 
-                    <Col span={12}>
+                    <Col xs={24} sm={12}>
                         <Form.Item
                             label="Description"
                             name="description"
@@ -355,7 +365,7 @@ const Sku = () => {
                 </Row>
 
                 <Row gutter={16}>
-                    <Col span={12}>
+                    <Col xs={24} sm={12}>
                         <Form.Item
                             label="Attribute - Color"
                             name="attributeColor"
@@ -364,7 +374,7 @@ const Sku = () => {
                         </Form.Item>
                     </Col>
 
-                    <Col span={12}>
+                    <Col xs={24} sm={12}>
                         <Form.Item
                             label="Attribute - Size"
                             name="attributeSize"
@@ -375,7 +385,7 @@ const Sku = () => {
                 </Row>
 
                 <Row gutter={16}>
-                    <Col span={12}>
+                    <Col xs={24} sm={12}>
                         <Form.Item
                             label="Stock Level"
                             name="stockLevel"
@@ -385,7 +395,7 @@ const Sku = () => {
                         </Form.Item>
                     </Col>
 
-                    <Col span={12}>
+                    <Col xs={24} sm={12}>
                         <Form.Item
                             label="Warehouse Location"
                             name="warehouseLocation"
@@ -401,17 +411,16 @@ const Sku = () => {
                             label="Product Description"
                             name="productDescription"
                         >
-                            <Input.TextArea placeholder="Enter detailed product description" rows={3} />
+                            <Input.TextArea placeholder="Enter detailed product description" rows={2} />
                         </Form.Item>
                     </Col>
-                    <Col span={12}></Col>
                 </Row>
             </Form>
         );
     };
 
     return (
-        <div style={{ backgroundColor: '#f4f6fa', minHeight: '100vh' }}>
+        <div style={{ backgroundColor: '#f4f6fa', minHeight: '100vh', overflowX: 'hidden' }}>
             {/* Header */}
             <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
                 <ArrowLeftOutlined onClick={previousPage} className="back-button" />
@@ -481,7 +490,10 @@ const Sku = () => {
                         </Col>
                     </Row>
                 </Card>
-                <Row gutter={12} style={{ marginBottom: 16 }}>
+                
+              
+
+ <Row gutter={12} style={{ marginBottom: 16 }}>
                     {/* Search Input */}
                     <Col flex="auto">
                         <Input
@@ -489,6 +501,7 @@ const Sku = () => {
                             placeholder="Search SKUs by name, ID, or city..."
                             size="large"
                             allowClear
+                            style={{ width: '100%' }}
                         />
                     </Col>
 
@@ -497,7 +510,7 @@ const Sku = () => {
                         <Select
                             defaultValue="all"
                             size="large"
-                            style={{ minWidth: 150, height: '50px' }}
+                            style={{ width: '100%', minWidth: 150, height: '50px' }}
                             suffixIcon={<span style={{ fontSize: "12px" }}>▼</span>}
                         >
                             <Option value="all">All Status</Option>
@@ -513,13 +526,14 @@ const Sku = () => {
                     <h2 style={{ fontSize: '20px', marginBottom: '16px' }}>
                         SKUs ({data.length})
                     </h2>
-                    <div style={{ overflowX: 'auto' }}>
+                    <div style={{ width: '100%', overflowX: 'auto' }}>
                         <Table
                             columns={columns}
                             dataSource={data}
                             pagination={{ pageSize: 5 }}
                             bordered
-                            scroll={{ x: true }}
+                            scroll={{ x: screens.xs ? 800 : '100%' }}
+                            size="middle"
                         />
                     </div>
                 </div>
@@ -533,12 +547,11 @@ const Sku = () => {
                 onCancel={handleCloseModal}
                 okText="Save"
                 cancelText="Cancel"
-                width={900}
+                width={Math.min(900, window.innerWidth - 40)}
                 style={{ top: 20 }}
                 bodyStyle={{
                     maxHeight: '70vh',
-                    overflowY: 'auto',
-                    paddingRight: '8px'
+                    // overflowY: 'auto',
                 }}
                 maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 getContainer={false}
@@ -550,7 +563,7 @@ const Sku = () => {
 
                 <Form layout="vertical" form={form}>
                     <Row gutter={16}>
-                        <Col span={12}>
+                        <Col xs={24} sm={12}>
                             <Form.Item
                                 label="SKU Number"
                                 name="skuNumber"
@@ -560,7 +573,7 @@ const Sku = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col xs={24} sm={12}>
                             <Form.Item
                                 label="Product Name"
                                 name="productName"
@@ -572,7 +585,7 @@ const Sku = () => {
                     </Row>
 
                     <Row gutter={16}>
-                        <Col span={12}>
+                        <Col xs={24} sm={12}>
                             <Form.Item
                                 label="Sales Channel"
                                 name="salesChannel"
@@ -586,7 +599,7 @@ const Sku = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col xs={24} sm={12}>
                             <Form.Item
                                 label="Channel SKU"
                                 name="channelSku"
@@ -598,7 +611,7 @@ const Sku = () => {
                     </Row>
 
                     <Row gutter={16}>
-                        <Col span={12}>
+                        <Col xs={24} sm={12}>
                             <Form.Item
                                 label="Barcode / UPC"
                                 name="barcode"
@@ -608,7 +621,7 @@ const Sku = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col xs={24} sm={12}>
                             <Form.Item
                                 label="Description"
                                 name="description"
@@ -619,7 +632,7 @@ const Sku = () => {
                     </Row>
 
                     <Row gutter={16}>
-                        <Col span={12}>
+                        <Col xs={24} sm={12}>
                             <Form.Item
                                 label="Attribute - Color"
                                 name="attributeColor"
@@ -628,7 +641,7 @@ const Sku = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col xs={24} sm={12}>
                             <Form.Item
                                 label="Attribute - Size"
                                 name="attributeSize"
@@ -639,7 +652,7 @@ const Sku = () => {
                     </Row>
 
                     <Row gutter={16}>
-                        <Col span={12}>
+                        <Col xs={24} sm={12}>
                             <Form.Item
                                 label="Stock Level"
                                 name="stockLevel"
@@ -649,7 +662,7 @@ const Sku = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col xs={24} sm={12}>
                             <Form.Item
                                 label="Warehouse Location"
                                 name="warehouseLocation"
@@ -665,7 +678,7 @@ const Sku = () => {
                                 label="Product Description"
                                 name="productDescription"
                             >
-                                <Input.TextArea placeholder="Enter detailed product description" rows={3} />
+                                <Input.TextArea placeholder="Enter detailed product description" rows={2} />
                             </Form.Item>
                         </Col>
                     </Row>
@@ -684,12 +697,11 @@ const Sku = () => {
                 onCancel={handleCloseViewEditModal}
                 okText={isEditing ? "Update" : "Close"}
                 cancelText={isEditing ? "Cancel Edit" : "Cancel"}
-                width={screens.xs ? '95%' : 900}
+                width={Math.min(900, window.innerWidth - 40)}
                 style={{ top: 20 }}
                 bodyStyle={{
                     maxHeight: '70vh',
-                    overflowY: 'auto',
-                    paddingRight: '8px'
+                    // overflowY: 'auto',
                 }}
                 maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 getContainer={false}

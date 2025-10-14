@@ -96,59 +96,108 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
   const { pathname } = useLocation();
   type MenuItem = Required<MenuProps>["items"][number];
   
-  // Dashboard menu items with Admin Dashboard as submenu
+  // Role checks
+  const isAdmin = authState?.user?.role === UserRole.ADMIN;
+  const isSuperAdmin = authState?.user?.role === UserRole.SUPER_ADMIN;
+  const isSSM = authState?.user?.role === UserRole.SSM;
+  const isRetailer = authState?.user?.role === UserRole.RETAILER;
+  const isChannel = authState?.user?.role === UserRole.CHANNEL;
+  
+
   const dashboardItems: MenuItem[] = [
-    {
-      key: "dashboard",
-      icon: <DashboardOutlined />,
-      label: <span style={{ color: "black" }}>Dashboard</span>,
-      style: { background: "none", color: "black",fontFamily: "Roboto"  },
-      children: [
-        {
-          key: "main-dashboard",
-          label: (
-            <Link
-              to={
-                authState?.user?.role === UserRole.SSM ||
-                authState?.user?.role === UserRole.CHANNEL
-                  ? "/dashboard"
-                  : authState?.user?.role === UserRole.RETAILER
-                    ? "/retailor/dashboard"
-                    : "/admin/dashboard"
-              }
-              onClick={toggleSidebar}
-            >
-              Main Dashboard
-            </Link>
-          ),
-        },
-        ...(authState?.user?.role !== UserRole.CHANNEL
-          ? [
-              {
-                key: "admin-dashboard",
-                label: (
-                  <Link to="/DashboardAdmin" onClick={toggleSidebar}>
-                    Admin Dashboard
-                  </Link>
-                ),
-              },
-            ]
-          : []),
-           ...(authState?.user?.role !== UserRole.CHANNEL
-          ? [
-              {
-                key: "admin-dashboard",
-                label: (
-                  <Link to="/DistributorDashboard" onClick={toggleSidebar}>
-                    Distributor Dashboard
-                  </Link>
-                ),
-              },
-            ]
-          : []),
-      ],
-    },
-  ];
+  {
+    key: "dashboard",
+    icon: <DashboardOutlined />,
+    label: <span style={{ color: "black" }}>Dashboard</span>,
+    style: { background: "none", color: "black", fontFamily: "Roboto" },
+    children: [
+      // Super Admin - All dashboards
+      ...(isSuperAdmin
+        ? [
+            {
+              key: "main-dashboard",
+              label: (
+                <Link to="/admin/dashboard" onClick={toggleSidebar}>
+                  Main Dashboard
+                </Link>
+              ),
+            },
+            {
+              key: "admin-dashboard",
+              label: (
+                <Link to="/DashboardAdmin" onClick={toggleSidebar}>
+                  Admin Dashboard
+                </Link>
+              ),
+            },
+            {
+              key: "distributor-dashboard",
+              label: (
+                <Link to="/DistributorDashboard" onClick={toggleSidebar}>
+                  Distributor Dashboard
+                </Link>
+              ),
+            },
+          ]
+        : // Admin - Only Distributor Dashboard
+        isAdmin
+        ? [
+            {
+              key: "distributor-dashboard",
+              label: (
+                <Link to="/DistributorDashboard" onClick={toggleSidebar}>
+                  Main Dashboard
+                </Link>
+              ),
+            },
+          ]
+        : // Other roles (SSM, RETAILER, CHANNEL)
+          [
+            {
+              key: "main-dashboard",
+              label: (
+                <Link
+                  to={
+                    isSSM || isChannel
+                      ? "/dashboard"
+                      : isRetailer
+                      ? "/retailor/dashboard"
+                      : "/DistributorDashboard"
+                  }
+                  onClick={toggleSidebar}
+                >
+                  Main Dashboard
+                </Link>
+              ),
+            },
+            ...(!isChannel && !isSSM
+              ? [
+                  {
+                    key: "admin-dashboard",
+                    label: (
+                      <Link to="/DashboardAdmin" onClick={toggleSidebar}>
+                        Admin Dashboard
+                      </Link>
+                    ),
+                  },
+                ]
+              : []),
+            ...(!isChannel
+              ? [
+                  {
+                    key: "distributor-dashboard",
+                    label: (
+                      <Link to="/DistributorDashboard" onClick={toggleSidebar}>
+                        Distributor Dashboard
+                      </Link>
+                    ),
+                  },
+                ]
+              : []),
+          ]),
+    ],
+  },
+];
 
   const orderItems: MenuItem[] = [
     {
@@ -176,7 +225,9 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
       ],
     },
   ];
-  const categoryItems: MenuItem[] = [
+
+ 
+  const superAdminCategoryItems: MenuItem[] = [
     {
       key: "sub1",
       icon: <GroupOutlined />,
@@ -186,7 +237,6 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
         {
           key: "0",
           label: (
-
             <Link to="/admin/competitorbrand" onClick={toggleSidebar}>
               Competitor Brands
             </Link>
@@ -316,7 +366,6 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             },
           ],
         },
-
         {
           key: "8",
           label: (
@@ -333,54 +382,49 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             </Link>
           ),
         },
-
-        ...(authState?.user?.role === UserRole.SUPER_ADMIN
-          ? [
+        {
+          key: "7",
+          label: <span className="white-text">Super Admin</span>,
+          style: { background: "none" },
+          children: [
             {
-              key: "7",
-              label: <span className="white-text">Super Admin</span>,
-              style: { background: "none" },
-              children: [
-                {
-                  key: "7a",
-                  label: (
-                    <Link to="/config/feature" onClick={toggleSidebar}>
-                      Feature
-                    </Link>
-                  ),
-                },
-                {
-                  key: "7b",
-                  label: (
-                    <Link to="/config/role" onClick={toggleSidebar}>
-                      Role
-                    </Link>
-                  ),
-                },
-                 {
-                  key: "7c",
-                  label: (
-                    <Link to="/config/profile" onClick={toggleSidebar}>
-                      Profile
-                    </Link>
-                  ),
-                },
-                 {
-                    key: "users",
-                    label: (
-                      <Link to="/admin/users" onClick={toggleSidebar}>
-                        Users
-                      </Link>
-                    ),
-                  },
-                 
-              ],
+              key: "7a",
+              label: (
+                <Link to="/config/feature" onClick={toggleSidebar}>
+                  Feature
+                </Link>
+              ),
             },
-          ]
-          : []),
+            {
+              key: "7b",
+              label: (
+                <Link to="/config/role" onClick={toggleSidebar}>
+                  Role
+                </Link>
+              ),
+            },
+            {
+              key: "7c",
+              label: (
+                <Link to="/config/profile" onClick={toggleSidebar}>
+                  Profile
+                </Link>
+              ),
+            },
+            {
+              key: "users",
+              label: (
+                <Link to="/admin/users" onClick={toggleSidebar}>
+                  Users
+                </Link>
+              ),
+            },
+          ],
+        },
       ],
     },
   ];
+
   const reportItems: MenuItem[] = [
     {
       key: "sub2",
@@ -388,7 +432,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
       label: <span style={{ color: "black" }}>Reports</span>,
       style: { background: "none", color: "black", fontFamily: "Roboto"  },
       children: [
-        ...(authState?.user?.role === UserRole.RETAILER
+        ...(isRetailer
           ? [
             {
               key: "1r",
@@ -441,7 +485,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               ),
             },
             {
-              key: "2",
+              key: "3",
               label: (
                 <Link to="/report/mr-analysis" onClick={toggleSidebar}>
                   MR Analysis
@@ -465,7 +509,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                 },
               ],
             },
-            ...(authState?.user?.role !== UserRole.SSM
+            ...(!isSSM
               ? [
                 {
                   key: "5",
@@ -524,35 +568,35 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                   ),
                 },
               ],
-                },
-                {
-                  key: "7",
-                  label: (
-                    <Link
-                      to="/report/employee-performance"
-                      onClick={toggleSidebar}
-                    >
-                      Performance
-                    </Link>
-                  ),
-                },
-                {
-                  key: "8",
-                  label: (
-                    <Link to="/report/unbilled-store" onClick={toggleSidebar}>
-                      Unbilled Store
-                    </Link>
-                  ),
-                },
-                {
-                  key: "9",
-                  label: (
-                    <Link to="/report/monthly-no-order" onClick={toggleSidebar}>
-                      No Order Report
-                    </Link>
-                  ),
-                },
-              ]),
+            },
+            {
+              key: "7",
+              label: (
+                <Link
+                  to="/report/employee-performance"
+                  onClick={toggleSidebar}
+                >
+                  Performance
+                </Link>
+              ),
+            },
+            {
+              key: "8",
+              label: (
+                <Link to="/report/unbilled-store" onClick={toggleSidebar}>
+                  Unbilled Store
+                </Link>
+              ),
+            },
+            {
+              key: "9",
+              label: (
+                <Link to="/report/monthly-no-order" onClick={toggleSidebar}>
+                  No Order Report
+                </Link>
+              ),
+            },
+          ]),
       ],
     },
   ];
@@ -588,7 +632,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             </Link>
           ),
         },
-        ...(authState?.user?.role !== UserRole.SSM ? [{
+        ...(!isSSM ? [{
           key: "2",
           label: (
             <Link to="/hr/expense" onClick={toggleSidebar}>
@@ -604,7 +648,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             </Link>
           ),
         },
-        ...(authState?.user?.role !== UserRole.SSM ? [{
+        ...(!isSSM ? [{
           key: "4",
           label: (
             <Link to="/hr/leave-approval" onClick={toggleSidebar}>
@@ -612,7 +656,6 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             </Link>
           ),
         }] : []),
-
         {
           key: "5",
           label: (
@@ -622,8 +665,968 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
       ],
     },
   ];
+
   const onClicks: MenuProps["onClick"] | any = (e: any) => {
     // console.log('click', e);
+  };
+
+  // Main render function with clear role-based logic
+  const renderMenuContent = () => {
+    // Super Admin - All menus (including the new ones)
+    if (isSuperAdmin) {
+      return (
+        <>
+          {/* Dashboard */}
+          <SidebarLink
+            className={pathname.includes("/dashboard") ? "active" : ""}
+            style={{ zIndex: 9999999 }}
+          >
+            <Menu
+              onClick={onClicks}
+              style={{
+                width: "200px",
+                background: "none",
+                color: "white",
+                padding: 0,
+              }}
+              mode="vertical"
+              items={dashboardItems}
+            />
+          </SidebarLink>
+
+          {/* Beat */}
+          <Link
+            to="/admin/beat"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/beat") ||
+                  pathname.includes("/create-beat")
+                  ? "active"
+                  : ""
+              }
+            >
+              <DeploymentUnitOutlined className="adminMenuTxt" />
+              Beat
+            </SidebarLink>
+          </Link>
+
+          {/* Inventory */}
+          <Link
+            to="/InventoryDashboard"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/InventoryDashboard") ||
+                  pathname.includes("/addInventoryDashboard")
+                  ? "active"
+                  : ""
+              }
+            >
+              <DatabaseOutlined className="adminMenuTxt" />
+              Inventory
+            </SidebarLink>
+          </Link>
+
+          {/* Customer */}
+          <Link to="/stores" className="linkto" onClick={toggleSidebar}>
+            <SidebarLink
+              style={{ color: "black" }}
+              className={pathname.includes("/stores") ? "active" : ""}
+            >
+              <InsertRowAboveOutlined className="adminMenuTxt" />
+              Customer
+            </SidebarLink>
+          </Link>
+
+          {/* Visit - Only for Super Admin */}
+          <Link
+            to="/admin/visit"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/visit") ||
+                pathname.includes("/create-visit")
+                  ? "active"
+                  : ""
+              }
+            >
+              <EnvironmentOutlined className="adminMenuTxt" />
+              Visit
+            </SidebarLink>
+          </Link>
+
+          {/* Order */}
+          <SidebarLink
+            className={pathname.includes("/order") ? "active" : ""}
+            style={{ zIndex: 9999999 }}
+          >
+            <Menu
+              onClick={onClicks}
+              style={{
+                width: "200px",
+                background: "none",
+                color: "white",
+                padding: 0,
+              }}
+              mode="vertical"
+              items={orderItems}
+            />
+          </SidebarLink>
+
+          {/* Purchase Order */}
+          <Link
+            to="/purchaseOrder"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/purchaseOrder") ||
+                  pathname.includes("/addPurchaseOrder")
+                  ? "active"
+                  : ""
+              }
+            >
+              <ShoppingOutlined className="adminMenuTxt" />
+              Purchase Order
+            </SidebarLink>
+          </Link>
+
+          {/* Warehouse */}
+          <Link
+            to="/warehouse"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/warehouse") ||
+                  pathname.includes("/warehouse")
+                  ? "active"
+                  : ""
+              }
+            >
+              <BankOutlined className="adminMenuTxt" />
+              WareHouse
+            </SidebarLink>
+          </Link>
+
+          <Link
+            to={
+              authState?.user?.role === UserRole.RETAILER
+                ? "/payment"
+                : "/collection"
+            }
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/collection") ||
+                  pathname.includes("/payment")
+                  ? "active"
+                  : ""
+              }
+            >
+              <MoneyCollectOutlined className="adminMenuTxt" />
+              {authState?.user?.role === UserRole.RETAILER
+                ? "Payment"
+                : "Collection"}
+            </SidebarLink>
+          </Link>
+
+          {/* Scheme & Discount */}
+          <Link
+            to="/SchemeAndDiscount"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/SchemeAndDiscount") ||
+                  pathname.includes("/SchemeAndDiscount")
+                  ? "active"
+                  : ""
+              }
+            >
+              <GiftOutlined className="adminMenuTxt" />
+              Scheme and Discount
+            </SidebarLink>
+          </Link>
+
+          {/* Sales Return */}
+          <Link
+            to="/salesreturn"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/salesreturn") ||
+                  pathname.includes("/salesreturn")
+                  ? "active"
+                  : ""
+              }
+            >
+              <RollbackOutlined className="adminMenuTxt" />
+              Sales Return
+            </SidebarLink>
+          </Link>
+
+          {/* SKUs */}
+          <Link
+            to="/sku"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/sku") ||
+                  pathname.includes("/sku")
+                  ? "active"
+                  : ""
+              }
+            >
+              <InboxOutlined className="adminMenuTxt" />
+              SKUs
+            </SidebarLink>
+          </Link>
+
+          {/* POSM */}
+          <Link
+            to="/posm"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/posm") ||
+                  pathname.includes("/posm")
+                  ? "active"
+                  : ""
+              }
+            >
+              <SoundOutlined className="adminMenuTxt" />
+              POSM
+            </SidebarLink>
+          </Link>
+
+          {/* Store */}
+          <Link
+            to="/storeinfo"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/storeinfo") ||
+                  pathname.includes("/storeinfo")
+                  ? "active"
+                  : ""
+              }
+            >
+              <ShopOutlined className="adminMenuTxt" />
+              Stores
+            </SidebarLink>
+          </Link>
+
+          {/* Target vs Achievement */}
+          <Link
+            to="/target-data-table"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/target-data-table") ||
+                  pathname.includes("/target-achievement")
+                  ? "active"
+                  : ""
+              }
+            >
+              <TrophyOutlined className="adminMenuTxt" />
+              Target Vs Achievement
+            </SidebarLink>
+          </Link>
+
+          {/* E-Detailing - Only for Super Admin */}
+          <Link
+            to="/e-detailing"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/e-detailing") ||
+                pathname.includes("/e-detailing")
+                  ? "active"
+                  : ""
+              }
+            >
+              <FileAddOutlined className="adminMenuTxt" />
+              E-Detailing
+            </SidebarLink>
+          </Link>
+
+          {/* Products */}
+          <Link
+            to="/admin/product"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={pathname.includes("/product") ? "active" : ""}
+            >
+              <MedicineBoxOutlined className="adminMenuTxt" />
+              Product
+            </SidebarLink>
+          </Link>
+
+          {/* HR Process */}
+          <SidebarLink
+            className={pathname.includes("/hr") ? "active" : ""}
+            style={{ zIndex: 9999999 }}
+          >
+            <Menu
+              onClick={onClicks}
+              style={{
+                width: "200px",
+                background: "none",
+                color: "white",
+                padding: 0,
+              }}
+              mode="vertical"
+              items={HRProcessItems}
+            />
+          </SidebarLink>
+
+          {/* Reports */}
+          <SidebarLink
+            className={pathname.includes("/report") ? "active" : ""}
+            style={{ zIndex: 9999999 }}
+          >
+            <Menu
+              onClick={onClicks}
+              style={{
+                width: "200px",
+                background: "none",
+                color: "white",
+                padding: 0,
+                zIndex: 9999999,
+              }}
+              mode="vertical"
+              items={reportItems}
+            />
+          </SidebarLink>
+
+          {/* Marketing Material - Only for Super Admin */}
+          <Link
+            to="/admin/scheme"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/scheme") ||
+                pathname.includes("/add-new-scheme")
+                  ? "active"
+                  : ""
+              }
+            >
+              <CreditCardOutlined className="adminMenuTxt" />
+              Marketing Material
+            </SidebarLink>
+          </Link>
+
+          {/* Configuration -*/}
+          <SidebarLink
+            className={
+              pathname.includes("/brand") ||
+                pathname.includes("/category") ||
+                pathname.includes("/config")
+                ? "active"
+                : ""
+            }
+            style={{ zIndex: 9999999 }}
+          >
+            <Menu
+              onClick={onClicks}
+              style={{
+                width: "200px",
+                background: "none",
+                color: "white",
+                padding: 0,
+              }}
+              mode="vertical"
+              items={superAdminCategoryItems}
+            />
+          </SidebarLink>
+        </>
+      );
+    }
+
+    // Admin - Limited menus (HR Process, Reports, Configuration removed)
+    if (isAdmin) {
+      return (
+        <>
+          {/* Dashboard */}
+          <Link to="/DistributorDashboard" className="linkto" onClick={toggleSidebar}>
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname === "/DistributorDashboard" || 
+                pathname.includes("/DistributorDashboard") ||       
+                pathname === "/"
+                  ? "active" 
+                  : ""
+              }
+            >
+              <DashboardOutlined className="adminMenuTxt" />
+              Dashboard
+            </SidebarLink>
+          </Link>
+
+          {/* Customer */}
+          <Link to="/stores" className="linkto" onClick={toggleSidebar}>
+            <SidebarLink
+              style={{ color: "black" }}
+              className={pathname.includes("/stores") ? "active" : ""}
+            >
+              <InsertRowAboveOutlined className="adminMenuTxt" />
+              Customer
+            </SidebarLink>
+          </Link>
+
+          {/* Order */}
+          <SidebarLink
+            className={pathname.includes("/order") ? "active" : ""}
+            style={{ zIndex: 9999999 }}
+          >
+            <Menu
+              onClick={onClicks}
+              style={{
+                width: "200px",
+                background: "none",
+                color: "white",
+                padding: 0,
+              }}
+              mode="vertical"
+              items={orderItems}
+            />
+          </SidebarLink>
+
+          {/* Purchase Order */}
+          <Link
+            to="/purchaseOrder"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/purchaseOrder") ||
+                  pathname.includes("/addPurchaseOrder")
+                  ? "active"
+                  : ""
+              }
+            >
+              <ShoppingOutlined className="adminMenuTxt" />
+              Purchase Order
+            </SidebarLink>
+          </Link>
+
+          {/* Scheme & Discount */}
+          <Link
+            to="/SchemeAndDiscount"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/SchemeAndDiscount") ||
+                  pathname.includes("/SchemeAndDiscount")
+                  ? "active"
+                  : ""
+              }
+            >
+              <GiftOutlined className="adminMenuTxt" />
+              Scheme and Discount
+            </SidebarLink>
+          </Link>
+
+          {/* Sales Return */}
+          <Link
+            to="/salesreturn"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/salesreturn") ||
+                  pathname.includes("/salesreturn")
+                  ? "active"
+                  : ""
+              }
+            >
+              <RollbackOutlined className="adminMenuTxt" />
+              Sales Return
+            </SidebarLink>
+          </Link>
+
+          {/* Products */}
+          <Link
+            to="/admin/product"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={pathname.includes("/product") ? "active" : ""}
+            >
+              <MedicineBoxOutlined className="adminMenuTxt" />
+              Product
+            </SidebarLink>
+          </Link>
+
+          {/* SKUs */}
+          <Link
+            to="/sku"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/sku") ||
+                  pathname.includes("/sku")
+                  ? "active"
+                  : ""
+              }
+            >
+              <InboxOutlined className="adminMenuTxt" />
+              SKUs
+            </SidebarLink>
+          </Link>
+
+          {/* Store */}
+          <Link
+            to="/storeinfo"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/storeinfo") ||
+                  pathname.includes("/storeinfo")
+                  ? "active"
+                  : ""
+              }
+            >
+              <ShopOutlined className="adminMenuTxt" />
+              Stores
+            </SidebarLink>
+          </Link>
+
+          {/* Warehouse */}
+          <Link
+            to="/warehouse"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/warehouse") ||
+                  pathname.includes("/warehouse")
+                  ? "active"
+                  : ""
+              }
+            >
+              <BankOutlined className="adminMenuTxt" />
+              WareHouse
+            </SidebarLink>
+          </Link>
+
+          {/* Target vs Achievement */}
+          <Link
+            to="/target-data-table"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/target-data-table") ||
+                  pathname.includes("/target-achievement")
+                  ? "active"
+                  : ""
+              }
+            >
+              <TrophyOutlined className="adminMenuTxt" />
+              Target Vs Achievement
+            </SidebarLink>
+          </Link>
+
+          {/* POSM */}
+          <Link
+            to="/posm"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/posm") ||
+                  pathname.includes("/posm")
+                  ? "active"
+                  : ""
+              }
+            >
+              <SoundOutlined className="adminMenuTxt" />
+              POSM
+            </SidebarLink>
+          </Link>
+        </>
+      );
+    }
+
+    // Other roles (SSM, RETAILER, CHANNEL)
+    return (
+      <>
+        {isSSM && (
+          <Link to={"/home"} className="linkto" onClick={toggleSidebar}>
+            <SidebarLink
+              className={
+                pathname.includes("/home")
+                  ? "active adminSideLink"
+                  : "adminSideLink"
+              }
+            >
+              <HomeOutlined className="adminMenuTxt" />
+              Home
+            </SidebarLink>
+          </Link>
+        )}
+        
+        {/* Dashboard for other roles */}
+        <SidebarLink
+          className={pathname.includes("/dashboard") ? "active" : ""}
+          style={{ zIndex: 9999999 }}
+        >
+          <Menu
+            onClick={onClicks}
+            style={{
+              width: "200px",
+              background: "none",
+              color: "white",
+              padding: 0,
+            }}
+            mode="vertical"
+            items={dashboardItems}
+          />
+        </SidebarLink>
+
+        {/* Visit for SSM role */}
+        {isSSM && (
+          <Link
+            to="/visit"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/visit") ||
+                pathname.includes("/create-visit")
+                  ? "active"
+                  : ""
+              }
+            >
+              <EnvironmentOutlined className="adminMenuTxt" />
+              Visit
+            </SidebarLink>
+          </Link>
+        )}
+
+        {/* Beat for other roles except SSM, RETAILER, CHANNEL */}
+        {!isSSM && !isRetailer && !isChannel && (
+          <Link
+            to="/admin/beat"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/beat") ||
+                  pathname.includes("/create-beat")
+                  ? "active"
+                  : ""
+              }
+            >
+              <DeploymentUnitOutlined className="adminMenuTxt" />
+              Beat
+            </SidebarLink>
+          </Link>
+        )}
+
+        {!isSSM && !isRetailer && !isChannel && (
+          <Link
+            to="/InventoryDashboard"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/InventoryDashboard") ||
+                  pathname.includes("/addInventoryDashboard")
+                  ? "active"
+                  : ""
+              }
+            >
+              <DatabaseOutlined className="adminMenuTxt" />
+              Inventory
+            </SidebarLink>
+          </Link>
+        )}
+
+        {!isRetailer && (
+          <Link to="/stores" className="linkto" onClick={toggleSidebar}>
+            <SidebarLink
+              style={{ color: "black" }}
+              className={pathname.includes("/stores") ? "active" : ""}
+            >
+              <InsertRowAboveOutlined className="adminMenuTxt" />
+              Customer
+            </SidebarLink>
+          </Link>
+        )}
+
+        {isChannel ? (
+          <Link to="/order" className="linkto" onClick={toggleSidebar}>
+            <SidebarLink
+              style={{ color: "black" }}
+              className={pathname.includes("/order") ? "active" : ""}
+            >
+              <ShoppingCartOutlined className="adminMenuTxt" />
+              Order
+            </SidebarLink>
+          </Link>
+        ) : (
+          <SidebarLink
+            className={pathname.includes("/order") ? "active" : ""}
+            style={{ zIndex: 9999999 }}
+          >
+            <Menu
+              onClick={onClicks}
+              style={{
+                width: "200px",
+                background: "none",
+                color: "white",
+                padding: 0,
+              }}
+              mode="vertical"
+              items={orderItems}
+            />
+          </SidebarLink>
+        )}
+
+        {!isChannel && (
+          <>
+            <Link
+              to="/warehouse"
+              className="linkto"
+              onClick={toggleSidebar}
+            >
+              <SidebarLink
+                style={{ color: "black" }}
+                className={
+                  pathname.includes("/warehouse") ||
+                    pathname.includes("/warehouse")
+                    ? "active"
+                    : ""
+                }
+              >
+                <BankOutlined className="adminMenuTxt" />
+                WareHouse
+              </SidebarLink>
+            </Link>
+
+            <Link
+              to="/SchemeAndDiscount"
+              className="linkto"
+              onClick={toggleSidebar}
+            >
+              <SidebarLink
+                style={{ color: "black" }}
+                className={
+                  pathname.includes("/SchemeAndDiscount") ||
+                    pathname.includes("/SchemeAndDiscount")
+                    ? "active"
+                    : ""
+                }
+              >
+                <GiftOutlined className="adminMenuTxt" />
+                Scheme and Discount
+              </SidebarLink>
+            </Link>
+
+            <Link
+              to="/salesreturn"
+              className="linkto"
+              onClick={toggleSidebar}
+            >
+              <SidebarLink
+                style={{ color: "black" }}
+                className={
+                  pathname.includes("/salesreturn") ||
+                    pathname.includes("/salesreturn")
+                    ? "active"
+                    : ""
+                }
+              >
+                <RollbackOutlined className="adminMenuTxt" />
+                Sales Return
+              </SidebarLink>
+            </Link>
+
+            <Link
+              to="/posm"
+              className="linkto"
+              onClick={toggleSidebar}
+            >
+              <SidebarLink
+                style={{ color: "black" }}
+                className={
+                  pathname.includes("/posm") ||
+                    pathname.includes("/posm")
+                    ? "active"
+                    : ""
+                }
+              >
+                <SoundOutlined className="adminMenuTxt" />
+                POSM
+              </SidebarLink>
+            </Link>
+
+            <Link
+              to="/storeinfo"
+              className="linkto"
+              onClick={toggleSidebar}
+            >
+              <SidebarLink
+                style={{ color: "black" }}
+                className={
+                  pathname.includes("/storeinfo") ||
+                    pathname.includes("/storeinfo")
+                    ? "active"
+                    : ""
+                }
+              >
+                <ShopOutlined className="adminMenuTxt" />
+                Stores
+              </SidebarLink>
+            </Link>
+
+            <Link
+              to="/target-data-table"
+              className="linkto"
+              onClick={toggleSidebar}
+            >
+              <SidebarLink
+                style={{ color: "black" }}
+                className={
+                  pathname.includes("/target-data-table") ||
+                    pathname.includes("/target-achievement")
+                    ? "active"
+                    : ""
+                }
+              >
+                <TrophyOutlined className="adminMenuTxt" />
+                Target Vs Achievement
+              </SidebarLink>
+            </Link>
+          </>
+        )}
+
+        <Link
+          to="/admin/product"
+          className="linkto"
+          onClick={toggleSidebar}
+        >
+          <SidebarLink
+            style={{ color: "black" }}
+            className={pathname.includes("/product") ? "active" : ""}
+          >
+            <MedicineBoxOutlined className="adminMenuTxt" />
+            Product
+          </SidebarLink>
+        </Link>
+
+        <SidebarLink
+          className={pathname.includes("/hr") ? "active" : ""}
+          style={{ zIndex: 9999999 }}
+        >
+          <Menu
+            onClick={onClicks}
+            style={{
+              width: "200px",
+              background: "none",
+              color: "white",
+              padding: 0,
+            }}
+            mode="vertical"
+            items={HRProcessItems}
+          />
+        </SidebarLink>
+
+        {!isChannel && (
+          <SidebarLink
+            className={pathname.includes("/report") ? "active" : ""}
+            style={{ zIndex: 9999999 }}
+          >
+            <Menu
+              onClick={onClicks}
+              style={{
+                width: "200px",
+                background: "none",
+                color: "white",
+                padding: 0,
+                zIndex: 9999999,
+              }}
+              mode="vertical"
+              items={reportItems}
+            />
+          </SidebarLink>
+        )}
+      </>
+    );
   };
 
   return (
@@ -650,462 +1653,15 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               borderRight: "1px solid #dddddd"
             }}
           >
-            {authState?.user?.role === UserRole.SSM && (
-              <Link to={"/home"} className="linkto" onClick={toggleSidebar}>
-                <SidebarLink
-                  className={
-                    pathname.includes("/home")
-                      ? "active adminSideLink"
-                      : "adminSideLink"
-                  }
-                >
-                  <HomeOutlined className="adminMenuTxt" />
-                  Home
-                </SidebarLink>
-              </Link>
-            )}
-            
-            {/* Dashboard with Admin Dashboard as submenu */}
-            <SidebarLink
-              className={pathname.includes("/dashboard") ? "active" : ""}
-              style={{ zIndex: 9999999 }}
-            >
-              <Menu
-                onClick={onClicks}
-                style={{
-                  width: "200px",
-                  background: "none",
-                  color: "white",
-                  padding: 0,
-                }}
-                mode="vertical"
-                items={dashboardItems}
-              />
-            </SidebarLink>
+            {renderMenuContent()}
 
-            {authState?.user?.role !== UserRole.SSM &&
-              authState?.user?.role !== UserRole.RETAILER &&
-              authState?.user?.role !== UserRole.CHANNEL && (
-                <Link
-                  to="/admin/beat"
-                  className="linkto"
-                  onClick={toggleSidebar}
-                >
-                  <SidebarLink
-                    style={{ color: "black" }}
-                    className={
-                      pathname.includes("/beat") ||
-                        pathname.includes("/create-beat")
-                        ? "active"
-                        : ""
-                    }
-                  >
-                    <DeploymentUnitOutlined className="adminMenuTxt" />
-                    Beat
-                  </SidebarLink>
-                </Link>
-              )}
-            {authState?.user?.role !== UserRole.SSM &&
-              authState?.user?.role !== UserRole.RETAILER &&
-              authState?.user?.role !== UserRole.CHANNEL && (
-                <Link
-                  to="/purchaseOrder"
-                  className="linkto"
-                >
-                  <SidebarLink
-                    style={{ color: "black" }}
-                    className={
-                      pathname.includes("/purchaseOrder") ||
-                        pathname.includes("/addPurchaseOrder")
-                        ? "active"
-                        : ""
-                    }
-                  >
-                    <ShoppingOutlined className="adminMenuTxt" />
-                    Purchase Order
-                  </SidebarLink>
-                </Link>
-              )}
-            {authState?.user?.role !== UserRole.SSM &&
-              authState?.user?.role !== UserRole.RETAILER &&
-              authState?.user?.role !== UserRole.CHANNEL && (
-                <Link
-                  to="/InventoryDashboard"
-                  className="linkto"
-                >
-                  <SidebarLink
-                    style={{ color: "black" }}
-                    className={
-                      pathname.includes("/InventoryDashboard") ||
-                        pathname.includes("/addInventoryDashboard")
-                        ? "active"
-                        : ""
-                    }
-                  >
-                    <DatabaseOutlined className="adminMenuTxt" />
-                    Inventory
-                  </SidebarLink>
-                </Link>
-              )}
-            {authState?.user?.role !== UserRole.RETAILER &&
-              authState?.user?.role !== UserRole.CHANNEL && (
-                <Link
-                  to={
-                    authState?.user?.role === UserRole.SSM
-                      ? "/visit"
-                      : "/admin/visit"
-                  }
-                  className="linkto"
-                  onClick={toggleSidebar}
-                >
-                  <SidebarLink
-                    style={{ color: "black" }}
-                    className={
-                      pathname.includes("/visit") ||
-                        pathname.includes("/create-visit")
-                        ? "active"
-                        : ""
-                    }
-                  >
-                    <EnvironmentOutlined className="adminMenuTxt" />
-                    Visit
-                  </SidebarLink>
-                </Link>
-              )}
-            {authState?.user?.role !== UserRole.RETAILER && (
-              <Link to="/stores" className="linkto" onClick={toggleSidebar}>
-                <SidebarLink
-                  style={{ color: "black" }}
-                  className={pathname.includes("/stores") ? "active" : ""}
-                >
-                  <InsertRowAboveOutlined className="adminMenuTxt" />
-                  Customer
-                </SidebarLink>
-              </Link>
-            )}
-            {authState?.user?.role === UserRole.CHANNEL ? (
-              <Link to="/order" className="linkto" onClick={toggleSidebar}>
-                <SidebarLink
-                  style={{ color: "black" }}
-                  className={pathname.includes("/order") ? "active" : ""}
-                >
-                  <ShoppingCartOutlined className="adminMenuTxt" />
-                  Order
-                </SidebarLink>
-              </Link>
-            ) : (
-              <SidebarLink
-                className={pathname.includes("/order") ? "active" : ""}
-                style={{ zIndex: 9999999 }}
-              >
-                <Menu
-                  onClick={onClicks}
-                  style={{
-                    width: "200px",
-                    background: "none",
-                    color: "white",
-                    padding: 0,
-                  }}
-                  mode="vertical"
-                  items={orderItems}
-                />
-              </SidebarLink>
-            )}
-
-            <Link
-              to={
-                authState?.user?.role === UserRole.RETAILER
-                  ? "/payment"
-                  : "/collection"
-              }
-              className="linkto"
-              onClick={toggleSidebar}
-            >
-              <SidebarLink
-                style={{ color: "black" }}
-                className={
-                  pathname.includes("/collection") ||
-                    pathname.includes("/payment")
-                    ? "active"
-                    : ""
-                }
-              >
-                <MoneyCollectOutlined className="adminMenuTxt" />
-                {authState?.user?.role === UserRole.RETAILER
-                  ? "Payment"
-                  : "Collection"}
-              </SidebarLink>
-            </Link>
-            {/* warehouse */}
-            {authState?.user?.role !== UserRole.CHANNEL && (
-              <Link
-                to="/warehouse"
-                className="linkto"
-                onClick={toggleSidebar}
-              >
-                <SidebarLink
-                  style={{ color: "black" }}
-                  className={
-                    pathname.includes("/warehouse") ||
-                      pathname.includes("/warehouse")
-                      ? "active"
-                      : ""
-                  }
-                >
-                  <BankOutlined className="adminMenuTxt" />
-                  WareHouse
-                </SidebarLink>
-              </Link>
-            )}
-              {authState?.user?.role !== UserRole.CHANNEL && (
-              <Link
-                to="/SchemeAndDiscount"
-                className="linkto"
-                onClick={toggleSidebar}
-              >
-                <SidebarLink
-                  style={{ color: "black" }}
-                  className={
-                    pathname.includes("/SchemeAndDiscount") ||
-                      pathname.includes("/SchemeAndDiscount")
-                      ? "active"
-                      : ""
-                  }
-                >
-                  <GiftOutlined className="adminMenuTxt" />
-                  Scheme and Discount
-                </SidebarLink>
-              </Link>
-            )}
-            {/* sales Return */}
-            {authState?.user?.role !== UserRole.CHANNEL && (
-              <Link
-                to="/salesreturn"
-                className="linkto"
-                onClick={toggleSidebar}
-              >
-                <SidebarLink
-                  style={{ color: "black" }}
-                  className={
-                    pathname.includes("/salesreturn") ||
-                      pathname.includes("/salesreturn")
-                      ? "active"
-                      : ""
-                  }
-                >
-                  <RollbackOutlined className="adminMenuTxt" />
-                  Sales Return
-                </SidebarLink>
-              </Link>
-            )}
-            {authState?.user?.role !== UserRole.CHANNEL && (
-              <Link
-                to="/sku"
-                className="linkto"
-                onClick={toggleSidebar}
-              >
-                <SidebarLink
-                  style={{ color: "black" }}
-                  className={
-                    pathname.includes("/sku") ||
-                      pathname.includes("/sku")
-                      ? "active"
-                      : ""
-                  }
-                >
-                  <InboxOutlined className="adminMenuTxt" />
-                  SKUs
-                </SidebarLink>
-              </Link>
-            )}
-            {authState?.user?.role !== UserRole.CHANNEL && (
-              <Link
-                to="/posm"
-                className="linkto"
-                onClick={toggleSidebar}
-              >
-                <SidebarLink
-                  style={{ color: "black" }}
-                  className={
-                    pathname.includes("/posm") ||
-                      pathname.includes("/posm")
-                      ? "active"
-                      : ""
-                  }
-                >
-                  <SoundOutlined className="adminMenuTxt" />
-                  POSM
-                </SidebarLink>
-              </Link>
-            )}
-            {authState?.user?.role !== UserRole.CHANNEL && (
-              <Link
-                to="/storeinfo"
-                className="linkto"
-                onClick={toggleSidebar}
-              >
-                <SidebarLink
-                  style={{ color: "black" }}
-                  className={
-                    pathname.includes("/storeinfo") ||
-                      pathname.includes("/storeinfo")
-                      ? "active"
-                      : ""
-                  }
-                >
-                  <ShopOutlined className="adminMenuTxt" />
-                  Stores
-                </SidebarLink>
-              </Link>
-            )}
-
-
-            {authState?.user?.role !== UserRole.CHANNEL && (
-              <Link
-                to="/target-data-table"
-                className="linkto"
-                onClick={toggleSidebar}
-              >
-                <SidebarLink
-                  style={{ color: "black" }}
-                  className={
-                    pathname.includes("/target-data-table") ||
-                      pathname.includes("/target-achievement")
-                      ? "active"
-                      : ""
-                  }
-                >
-                  <TrophyOutlined className="adminMenuTxt" />
-                  Target Vs Achievement
-                </SidebarLink>
-              </Link>
-            )}
-
-            {authState?.user?.role !== UserRole.CHANNEL && (
-              <Link
-                to="/e-detailing"
-                className="linkto"
-                onClick={toggleSidebar}
-              >
-
-                <SidebarLink
-                  style={{ color: "black" }}
-                  className={
-                    pathname.includes("/e-detailing") ||
-                      pathname.includes("/e-detailing")
-                      ? "active" : ""
-                  }
-                >
-
-                  <FileAddOutlined className="adminMenuTxt" />
-                  E-Detailing
-                </SidebarLink>
-              </Link>
-            )}
-
-            <Link
-              to="/admin/product"
-              className="linkto"
-              onClick={toggleSidebar}
-            >
-              <SidebarLink
-                style={{ color: "black" }}
-                className={pathname.includes("/product") ? "active" : ""}
-              >
-                <MedicineBoxOutlined className="adminMenuTxt" />
-                Product
-              </SidebarLink>
-            </Link>
-
-            <SidebarLink
-              className={pathname.includes("/hr") ? "active" : ""}
-              style={{ zIndex: 9999999 }}
-            >
-              <Menu
-                onClick={onClicks}
-                style={{
-                  width: "200px",
-                  background: "none",
-                  color: "white",
-                  padding: 0,
-                }}
-                mode="vertical"
-                items={HRProcessItems}
-              />
-            </SidebarLink>
-            <Link
-              to={"/admin/scheme"}
-              className="linkto"
-              onClick={toggleSidebar}
-            >
-              <SidebarLink
-                style={{ color: "black" }}
-                className={
-                  pathname.includes("/scheme") ||
-                    pathname.includes("/add-new-scheme")
-                    ? "active"
-                    : ""
-                }
-              >
-                <CreditCardOutlined className="adminMenuTxt" />
-                Marketing Material
-              </SidebarLink>
-            </Link>
-            {authState?.user?.role !== UserRole.CHANNEL && (
-              <SidebarLink
-                className={pathname.includes("/report") ? "active" : ""}
-                style={{ zIndex: 9999999 }}
-              >
-                <Menu
-                  onClick={onClicks}
-                  style={{
-                    width: "200px",
-                    background: "none",
-                    color: "white",
-                    padding: 0,
-                    zIndex: 9999999,
-                  }}
-                  mode="vertical"
-                  items={reportItems}
-                />
-              </SidebarLink>
-            )}
-            {(authState?.user?.role === UserRole.ADMIN ||
-              authState?.user?.role === UserRole.SUPER_ADMIN) && (
-                <SidebarLink
-                  className={
-                    pathname.includes("/brand") ||
-                      pathname.includes("/category") ||
-                      pathname.includes("/add-new-category") ||
-                      pathname.includes("/store-category") ||
-                      pathname.includes("/add-update-category")
-                      ? "active"
-                      : pathname.includes("/config")
-                        ? "active"
-                        : ""
-                  }
-                  style={{ zIndex: 9999999 }}
-                >
-                  <Menu
-                    onClick={onClicks}
-                    style={{
-                      width: "200px",
-                      background: "none",
-                      color: "white",
-                      padding: 0,
-                    }}
-                    mode="vertical"
-                    items={categoryItems}
-                  />
-                </SidebarLink>
-              )}
             <div className="border-line" style={{ paddingTop: "8px" }}></div>
             <div className="detail-content">
               <span className="quickLink" style={{ color: "black" }}>Quick Links</span>
               <div className="setting-content">
                 <Link
                   to={
-                    authState?.user?.role === UserRole.SSM
+                    isSSM
                       ? "/visit"
                       : "/admin/visit"
                   }
@@ -1116,7 +1672,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                     <EnvironmentOutlined />
                   </span>
                 </Link>
-                {authState?.user?.role !== UserRole.SSM && (
+                {!isSSM && (
                   <Link
                     to="/target-data-table"
                     className="linkto"
@@ -1146,7 +1702,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
                     <InsertRowAboveOutlined />
                   </span>
                 </Link>
-                {authState?.user?.role !== UserRole.SSM && (
+                {!isSSM && (
                   <Link
                     to="/admin/beat"
                     className="linkto"
@@ -1180,7 +1736,8 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
         </Fragment>
       </SidebarWrapperAdmin>
       <Overlay isOpen={isOpen} onClick={toggleSidebar} style={{ marginTop: '60px' }} />
-      <style>
+      {/* ... rest of the style code ... */}
+ <style>
         {`
         @media only screen and (max-width: 30em) {
            :where(.css-af4yj3).ant-menu-submenu-popup .ant-menu-vertical.ant-menu-sub{

@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import FullPageLoaderWithState from 'component/FullPageLoaderWithState';
 import { dateFormatter } from 'utils/common';
 import RupeeSymbol from 'component/RupeeSymbol';
-import { ArrowLeftOutlined, CheckCircleFilled, DownloadOutlined, PhoneFilled } from '@ant-design/icons';
+import { ArrowLeftOutlined, CheckCircleFilled, DownloadOutlined, PhoneFilled, ClockCircleFilled, CloseCircleFilled } from '@ant-design/icons';
 import { format } from 'date-fns';
 import "../style/orderSummary.css"
 import previousPage from 'utils/previousPage';
@@ -15,13 +15,14 @@ import { getPaymentRecordByOrderIdService } from 'services/paymentService';
 import { setLoaderAction } from 'redux-store/action/appActions';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-import { Button, Steps, Row, Col, Modal, Skeleton, Table } from 'antd';
+import { Button, Steps, Row, Col, Modal, Skeleton, Table, Tag } from 'antd';
 import { InvoiceTemplate } from './invoiceTemplate';
 import { OrderStatus } from 'enum/order';
 import ReactDOM from 'react-dom';
 import { VisitTypeEnum } from 'enum/common';
 import { ReturnOfObjet } from './returnOfOrder';
 import { getSizeService } from 'services/productService';
+
 export default function OrderSummary() {
 	const dispatch = useDispatch<AppDispatch>();
 	const params = useParams<{ orderId: string }>();
@@ -87,6 +88,12 @@ export default function OrderSummary() {
 		const date = new Date(dateString);
 		return format(date, "eee, do MMM yyyy");
 	};
+	
+	const formatTime = (dateString: string) => {
+		const date = new Date(dateString);
+		return format(date, "h:mm a");
+	};
+
 	const getLatestStatuses = (statusHistory: any) => {
 		const statusMap = new Map();
 
@@ -105,7 +112,7 @@ export default function OrderSummary() {
 	};
 
 	const latestStatuses = orderSummaryData ? getLatestStatuses(orderSummaryData.statusHistory) : [];
-    // console.log({latestStatuses})
+    
 	const stepItems = [
 		{
 			title: 'Order Confirmed',
@@ -128,6 +135,184 @@ export default function OrderSummary() {
 				`${formatDate(latestStatuses.find(item => item.status === OrderStatus.DELIVERED)?.timestamp)}` : null,
 		},
 	];
+
+	// Improved Delivery Status Component
+	const DeliveryStatus = ({ status, currentStep }: { status: string, currentStep: number }) => {
+		const getStatusColor = (status: string) => {
+			switch (status) {
+				case OrderStatus.DELIVERED:
+					return '#52c41a';
+				case OrderStatus.CANCELLED:
+					return '#ff4d4f';
+				case OrderStatus.OUTFORDELIVERY:
+					return '#fa8c16';
+				case OrderStatus.SHIPPED:
+					return '#1890ff';
+				case OrderStatus.ORDERPLACED:
+					return '#722ed1';
+				default:
+					return '#8488BF';
+			}
+		};
+
+		const getStatusIcon = (status: string) => {
+			switch (status) {
+				case OrderStatus.DELIVERED:
+					return <CheckCircleFilled style={{ color: '#52c41a', fontSize: '20px' }} />;
+				case OrderStatus.CANCELLED:
+					return <CloseCircleFilled style={{ color: '#ff4d4f', fontSize: '20px' }} />;
+				default:
+					return <ClockCircleFilled style={{ color: getStatusColor(status), fontSize: '20px' }} />;
+			}
+		};
+
+		const getStatusText = (status: string) => {
+			switch (status) {
+				case OrderStatus.ORDERPLACED:
+					return 'Order Confirmed';
+				case OrderStatus.SHIPPED:
+					return 'Shipped';
+				case OrderStatus.OUTFORDELIVERY:
+					return 'Out for Delivery';
+				case OrderStatus.DELIVERED:
+					return 'Delivered';
+				case OrderStatus.CANCELLED:
+					return 'Cancelled';
+				default:
+					return status;
+			}
+		};
+
+		const steps = [
+			{ 
+				title: 'Order Confirmed', 
+				status: OrderStatus.ORDERPLACED,
+				completed: currentStep >= 0,
+				active: currentStep === 0,
+				date: latestStatuses.find(item => item.status === OrderStatus.ORDERPLACED)?.timestamp 
+			},
+			{ 
+				title: 'Shipped', 
+				status: OrderStatus.SHIPPED,
+				completed: currentStep >= 1,
+				active: currentStep === 1,
+				date: latestStatuses.find(item => item.status === OrderStatus.SHIPPED)?.timestamp 
+			},
+			{ 
+				title: 'Out for Delivery', 
+				status: OrderStatus.OUTFORDELIVERY,
+				completed: currentStep >= 2,
+				active: currentStep === 2,
+				date: latestStatuses.find(item => item.status === OrderStatus.OUTFORDELIVERY)?.timestamp 
+			},
+			{ 
+				title: 'Delivered', 
+				status: OrderStatus.DELIVERED,
+				completed: currentStep >= 3,
+				active: currentStep === 3,
+				date: latestStatuses.find(item => item.status === OrderStatus.DELIVERED)?.timestamp 
+			},
+		];
+
+		return (
+			<div className="delivery-section-improved">
+				<div className="delivery-header">
+					<div className="header-left">
+						<h3>Delivery Status</h3>
+						<div className="current-status">
+							{getStatusIcon(status)}
+							<span className="status-text-large">{getStatusText(status)}</span>
+							<Tag 
+								color={status === OrderStatus.CANCELLED ? 'red' : 
+									   status === OrderStatus.DELIVERED ? 'green' : 
+									   status === OrderStatus.OUTFORDELIVERY ? 'orange' : 'blue'}
+								className="status-tag"
+							>
+								{getStatusText(status)}
+							</Tag>
+						</div>
+					</div>
+					{(orderSummaryData as any)?.estimatedDeliveryDate && (
+						<div className="estimated-delivery-card">
+							<ClockCircleFilled style={{ color: '#fa8c16', marginRight: '8px' }} />
+							<div>
+								<div className="estimated-label">Estimated Delivery</div>
+								<div className="estimated-date">{formatDate((orderSummaryData as any).estimatedDeliveryDate)}</div>
+							</div>
+						</div>
+					)}
+				</div>
+
+				{/* Progress Bar */}
+				<div className="progress-container">
+					<div className="progress-bar">
+						<div 
+							className="progress-fill" 
+							style={{ 
+								width: `${Math.max(0, (currentStep / (steps.length - 1)) * 100)}%`,
+								backgroundColor: getStatusColor(status)
+							}}
+						/>
+					</div>
+					
+					<div className="steps-container">
+						{steps.map((step, index) => (
+							<div key={step.status} className={`step-item ${step.completed ? 'completed' : ''} ${step.active ? 'active' : ''}`}>
+								<div className="step-indicator">
+									{step.completed ? (
+										<CheckCircleFilled style={{ color: '#52c41a', fontSize: '20px' }} />
+									) : (
+										<div 
+											className="step-dot" 
+											style={{ 
+												backgroundColor: step.active ? getStatusColor(status) : '#d9d9d9',
+												borderColor: step.active ? getStatusColor(status) : '#d9d9d9'
+											}}
+										>
+											{index + 1}
+										</div>
+									)}
+								</div>
+								<div className="step-content-improved">
+									<div className="step-title-improved">{step.title}</div>
+									{step.date && (
+										<div className="step-date-improved">
+											{formatDate(step.date)}
+										</div>
+									)}
+									{step.active && (
+										<div className="step-badge">Current</div>
+									)}
+								</div>
+								{index < steps.length - 1 && (
+									<div className={`step-connector-improved ${step.completed ? 'completed' : ''}`} />
+								)}
+							</div>
+						))}
+					</div>
+				</div>
+
+				{/* Status Timeline */}
+				<div className="status-timeline">
+					<h4>Status History</h4>
+					<div className="timeline-items">
+						{latestStatuses.map((statusItem, index) => (
+							<div key={index} className="timeline-item">
+								<div className="timeline-marker" style={{ backgroundColor: getStatusColor(statusItem.status) }} />
+								<div className="timeline-content">
+									<div className="timeline-status">{getStatusText(statusItem.status)}</div>
+									<div className="timeline-date">
+										{formatDate(statusItem.timestamp)} at {formatTime(statusItem.timestamp)}
+									</div>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+		);
+	};
+
 	const generateInvoiceHtml = (): HTMLDivElement => {
 		const container = document.createElement('div');
 		container.style.position = 'fixed';
@@ -213,12 +398,13 @@ export default function OrderSummary() {
 			document.body.removeChild(invoiceElement);
 		}
 	};
-	/*----------------------------------------------*/
+	
 	const [returnObject, setReturnObject] = useState<boolean>(false)
 	function setReturnOfOrder() {
 		setReturnObject(true)
 	}
-    const [sizeData, setSizeData] = useState<any>([]);
+    
+	const [sizeData, setSizeData] = useState<any>([]);
 
 	async function fetchSizeData() {
 		try {
@@ -237,10 +423,11 @@ export default function OrderSummary() {
 			setIsLoading(false)
 		}
 	  }
-		useEffect(() => {
+	  
+	useEffect(() => {
 		  fetchSizeData();
 	  }, []);
-	//{console.log(orderSummaryData?.orderStatus),"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"}
+	  
 	const [open, setOpen] = useState<boolean>(false);
 	const [loading, setLoading] = useState<any>(true);
 	let [dataSource, setDataSource] = useState<any[]>([]);
@@ -254,7 +441,7 @@ export default function OrderSummary() {
 		setLoading(false);
 	  }, 1000);
 	};
-	// let dataSource: any[] = [];
+	
 	const calculateTotals = (data: any[]) => {
 		const totalRow: any = {
 		  key: 'total',
@@ -263,15 +450,9 @@ export default function OrderSummary() {
 		  price: 0,
 		};
 	
-		// Initialize size totals
-		// sizeData?.forEach((size: any) => {
-		//   totalRow[size.name] = 0;
-		// });
-	
 		data.forEach((row) => {
 		  totalRow.total += row.total || 0;
 		  totalRow.price += row.price || 0;
-	
 		});
 	
 		return totalRow;
@@ -279,7 +460,6 @@ export default function OrderSummary() {
 	
 	if (orderSummaryData && orderSummaryData.products) {
 		dataSource = orderSummaryData.products.map((data: any, index: number) => {
-		  // Create a base object with common fields
 		  const baseObject = {
 			sn: index + 1,
 			product: data?.productName,
@@ -288,23 +468,19 @@ export default function OrderSummary() {
 			price: Number(data?.noOfPiece) * Number(data?.rlp),
 		  };
 	  
-		  // Dynamically add size fields based on sizeData
 		  const sizeFields = sizeData.reduce((acc: any, sizeItem: any) => {
 			const sizeKey = sizeItem.name;
-			// Match the sizeKey with the API data
-			acc[sizeKey] = data?.size?.[sizeKey] || 0; // Default to 0 if size not found
+			acc[sizeKey] = data?.size?.[sizeKey] || 0;
 			return acc;
 		  }, {});
 		
-		  // Combine the base object with dynamic size fields
 		  return { ...baseObject, ...sizeFields };
-		  
 		});
-
-		
 	  }
+	  
 	  const totalRow = calculateTotals(dataSource);
 	  dataSource.push(totalRow);
+	  
 	const defaultColumns: (any & { dataIndex: string })[] = [
 		{
 		  title: 'SN',
@@ -313,7 +489,6 @@ export default function OrderSummary() {
 		  width: 60,
 		  fixed: "left",
 		  render: (text: any, record: any, index: number) => {
-			// Render blank for the last row (total row)
 			if (index === dataSource?.length - 1) {
 			  return {
 				children: <span></span>,
@@ -357,27 +532,27 @@ export default function OrderSummary() {
 		},
 		
 	  ];
+	  
 	  const rowClassName = (record: any, index: number) => {
-		return index === dataSource.length - 1 ? 'table-row-total' : ''; // Apply class for the last row
+		return index === dataSource.length - 1 ? 'table-row-total' : '';
 	  };
+	  
 	  const downloadPDF = (reportName: string) => {
-		const input: any = document.getElementById('pdf-content'); // ID of the element to capture
+		const input: any = document.getElementById('pdf-content');
 		html2canvas(input).then((canvas: any) => {
 			const imgData = canvas.toDataURL('image/png');
-			const pdf = new jsPDF('p', 'mm', 'a4'); // Create a new PDF document
-			const imgWidth = 210 - 20; // A4 width in mm minus the left and right margin (10mm each)
-			const pageHeight = 295 - 20; // A4 height in mm minus the top and bottom margin (10mm each)
+			const pdf = new jsPDF('p', 'mm', 'a4');
+			const imgWidth = 210 - 20;
+			const pageHeight = 295 - 20;
 			const margin = 10;
 			const imgHeight = (canvas.height * imgWidth) / canvas.width;
 			let heightLeft = imgHeight;
 			
 			let position = margin;
 	
-			// Add the first image
 			pdf.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
 			heightLeft -= pageHeight;
 	
-			// Add subsequent pages if needed
 			while (heightLeft > 0) {
 				pdf.addPage();
 				position = heightLeft - imgHeight;
@@ -388,6 +563,7 @@ export default function OrderSummary() {
 			pdf.save(`${reportName}.pdf`);
 		});
 	};
+	
 	return (
 		<div className='bgSumm'>
 			<FullPageLoaderWithState isLoading={isLoading} />
@@ -396,12 +572,9 @@ export default function OrderSummary() {
 				<h1 className="page-title pr-18">Order Summary</h1>
 			</header>
 			<Modal
-				// title={<p>Order Details</p>}
-				// footer={}
 				footer={[
 					<Button key="back" 
 					onClick={() => setOpen(false)}
-
 					>
 					  Cancel
 					</Button>,
@@ -416,15 +589,13 @@ export default function OrderSummary() {
 				width={"90%"}
 			>
 				{!loading? 
-				<main 
-					    id="pdf-content">
+				<main id="pdf-content">
 					<Table
 					   title={() => <span className='dflex-center' style={{fontWeight:"bold", textAlign:"center"}}>Order Details (Id: {orderSummaryData?.orderId})</span>}
                         scroll={{ x: "100%" }}
                         rowClassName={rowClassName}
                         bordered
-                        dataSource={dataSource
-                      }
+                        dataSource={dataSource}
                         columns={defaultColumns}
                         pagination={false}
                     />
@@ -435,6 +606,14 @@ export default function OrderSummary() {
 			{
 				orderSummaryData &&
 				<section className="main_cls orderSummDesk">
+					{/* Delivery Status Section - Improved UI */}
+					<div className="order_summary_card">
+						<DeliveryStatus 
+							status={orderSummaryData.orderStatus} 
+							currentStep={orderTrack(orderSummaryData.orderStatus)}
+						/>
+					</div>
+
 					<div className="order_summary_card">
 						<div className="left_card_inside">
 							<h3>Order ID: {orderSummaryData.orderId}</h3>
@@ -470,11 +649,9 @@ export default function OrderSummary() {
 							items={[
 								{
 									title: 'Initiate',
-									// description: formatDate(latestStatuses?.find(item => item.status === OrderStatus.ORDERSAVED)?.timestamp),
 								},
 								{
 									title: 'Order Saved',
-									// description: formatDate(latestStatuses?.find(item => item.status === OrderStatus.ORDERSAVED)?.timestamp),
 								},
 							]}
 						/> :
@@ -500,7 +677,6 @@ export default function OrderSummary() {
 								size="small"
 								current={orderTrack(orderSummaryData?.orderStatus)}
 								items={stepItems}
-
 							/>
 						}
 						{(orderSummaryData?.orderStatus === OrderStatus.DELIVERED && <Button onClick={setReturnOfOrder}>Return</Button>)
@@ -672,13 +848,11 @@ export default function OrderSummary() {
 										<th className="fwtNor txtC">Invoice Reference</th>
 										<th className="fwtNor txtC">Date</th>
 										<th className="fwtNor txtC">Remarks</th>
-										
 									</tr>
 								</thead>
 								<tbody className="table-body attDetailContent">
 									{
 										(paymentRecord && paymentRecord.length > 0) ? paymentRecord.map((item: any, ind: number) => {
-
 											return (
 												<tr className="storeData txtC" key={ind}>
 													<td className="txtC">{item?.paymentMode === "CASH" ? item?.paymentId : item?.transactionId} </td>
@@ -730,10 +904,262 @@ export default function OrderSummary() {
                     color: rgba(0, 0, 0, 0.88);
                    }
                 .table-row-total {
-                    background-color: #fafafa !important; /* Sets the background color to yellow */
+                    background-color: #fafafa !important;
                    }
+                
+                /* Improved Delivery Section Styles */
+                .delivery-section-improved {
+                    background: white;
+                    padding: 24px;
+                    border-radius: 12px;
+                    margin-bottom: 24px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                    border: 1px solid #f0f0f0;
+                }
+                
+                .delivery-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    margin-bottom: 24px;
+                    flex-wrap: wrap;
+                    gap: 16px;
+                }
+                
+                .header-left h3 {
+                    margin: 0 0 12px 0;
+                    color: #1f2937;
+                    font-size: 20px;
+                    font-weight: 700;
+                }
+                
+                .current-status {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                }
+                
+                .status-text-large {
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #1f2937;
+                }
+                
+                .status-tag {
+                    font-size: 12px;
+                    font-weight: 600;
+                    padding: 4px 8px;
+                    border-radius: 6px;
+                }
+                
+                .estimated-delivery-card {
+                    display: flex;
+                    align-items: center;
+                    background: #fff7ed;
+                    padding: 12px 16px;
+                    border-radius: 8px;
+                    border: 1px solid #fed7aa;
+                    min-width: 200px;
+                }
+                
+                .estimated-label {
+                    font-size: 12px;
+                    color: #9ca3af;
+                    font-weight: 500;
+                }
+                
+                .estimated-date {
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #1f2937;
+                }
+                
+                /* Progress Bar */
+                .progress-container {
+                    margin-bottom: 24px;
+                }
+                
+                .progress-bar {
+                    width: 100%;
+                    height: 6px;
+                    background: #f3f4f6;
+                    border-radius: 3px;
+                    margin-bottom: 32px;
+                    overflow: hidden;
+                }
+                
+                .progress-fill {
+                    height: 100%;
+                    border-radius: 3px;
+                    transition: width 0.3s ease;
+                }
+                
+                /* Steps Container */
+                .steps-container {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 8px;
+                    position: relative;
+                }
+                
+                .step-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    position: relative;
+                    text-align: center;
+                }
+                
+                .step-indicator {
+                    margin-bottom: 8px;
+                    z-index: 2;
+                }
+                
+                .step-dot {
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    background: white;
+                    border: 2px solid;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: white;
+                }
+                
+                .step-item.completed .step-dot {
+                    background: #10b981;
+                    border-color: #10b981;
+                }
+                
+                .step-item.active .step-dot {
+                    color: white;
+                }
+                
+                .step-content-improved {
+                    max-width: 120px;
+                }
+                
+                .step-title-improved {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #1f2937;
+                    margin-bottom: 4px;
+                }
+                
+                .step-date-improved {
+                    font-size: 11px;
+                    color: #6b7280;
+                    margin-bottom: 4px;
+                }
+                
+                .step-badge {
+                    background: #3b82f6;
+                    color: white;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    font-size: 10px;
+                    font-weight: 600;
+                }
+                
+                .step-connector-improved {
+                    position: absolute;
+                    top: 16px;
+                    left: 60%;
+                    width: 100%;
+                    height: 2px;
+                    background: #e5e7eb;
+                    z-index: 1;
+                }
+                
+                .step-connector-improved.completed {
+                    background: #10b981;
+                }
+                
+                /* Status Timeline */
+                .status-timeline {
+                    border-top: 1px solid #f3f4f6;
+                    padding-top: 20px;
+                }
+                
+                .status-timeline h4 {
+                    margin: 0 0 16px 0;
+                    color: #1f2937;
+                    font-size: 16px;
+                    font-weight: 600;
+                }
+                
+                .timeline-items {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                }
+                
+                .timeline-item {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 12px;
+                }
+                
+                .timeline-marker {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    margin-top: 6px;
+                    flex-shrink: 0;
+                }
+                
+                .timeline-content {
+                    flex: 1;
+                }
+                
+                .timeline-status {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #1f2937;
+                    margin-bottom: 2px;
+                }
+                
+                .timeline-date {
+                    font-size: 12px;
+                    color: #6b7280;
+                }
+                
+                /* Responsive Design */
+                @media (max-width: 768px) {
+                    .delivery-header {
+                        flex-direction: column;
+                        align-items: flex-start;	
+                    }
+                    
+                    .estimated-delivery-card {
+                        width: 100%;
+                    }
+                    
+                    .steps-container {
+                        grid-template-columns: 1fr;
+                        gap: 16px;
+                    }
+                    
+                    .step-item {
+                        flex-direction: row;
+                        text-align: left;
+                        gap: 12px;
+                    }
+                    
+                    .step-content-improved {
+                        max-width: none;
+                        flex: 1;
+                    }
+                    
+                    .step-connector-improved {
+                        display: none;
+                    }
+                }
                 `}
-				</style>
+			</style>
 		</div>
 	)
 }
