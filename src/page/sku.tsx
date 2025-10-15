@@ -226,9 +226,9 @@ const Sku = () => {
                                 size="large"
                                 block={screens.xs}
                                 style={{
-                                    width: screens.xs ? '100%' : '180px',
-                                    height: '48px',
-                                    fontSize: '16px',
+                                    width: screens.xs ? '100%' : '120px',
+                                    height: '35px',
+                                    fontSize: '14px',
                                     fontWeight: 'bold',
                                     background: '#6164A5',
                                     borderColor: '#4B6CB7',

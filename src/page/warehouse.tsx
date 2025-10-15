@@ -209,12 +209,12 @@ const Warehouse = () => {
                         >
                             <Button
                                 type="primary"
-                                size="large"
+                                size="small"
                                 block={screens.xs}
                                 style={{
-                                    width: screens.xs ? '100%' : '180px',
-                                    height: '48px',
-                                    fontSize: '16px',
+                                    width: screens.xs ? '100%' : '150px',
+                                    height: '38px',
+                                    fontSize: '14px',
                                     fontWeight: 'bold',
                                     background: '#6164A5',
                                     borderColor: '#4B6CB7',
@@ -255,7 +255,7 @@ const Warehouse = () => {
 
                 {/* Table Section */}
                 <div style={{ marginTop: '32px' }}>
-                    <h2 style={{ fontSize: '20px', marginBottom: '16px' }}>
+                    <h2 style={{ fontSize: '20px', marginBottom: '16px', marginLeft: '15px' }}>
                         Warehouses ({data.length})
                     </h2>
                     <div style={{ overflowX: 'auto' }}>

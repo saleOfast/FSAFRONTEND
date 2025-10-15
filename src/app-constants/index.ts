@@ -4,7 +4,8 @@
 
 // const BASE_URL = 'http://localhost:8449/api/v1';
 
-const BASE_URL =  'https://mrapp.saleofast.com/api/v1';
+// const BASE_URL = 'https://mrapp.saleofast.com/api/v1';
+const BASE_URL = 'https://dms.saleofast.com/api/v1';
 const RAZORPAY_KEY_ID = 'rzp_test_3IH6WrX7jqS91g';
 const RAZORPAY_KEY_SECRET = 'L2cU3hOSi3OBwaoNggCkpbrG';
 
@@ -26,7 +27,7 @@ const API_ENDPOINTS = {
     getStoreBeat: "/beat/beatList",
     markAttendance: "/attendance/mark",
     getAttendanceList: "/attendance/list",
-    
+
     getAttendanceInOut: "/attendance/inAndOutTime",
     getStoreCategory: "/store/categoryList",
     getCategory: "/store/categoryList",
@@ -61,9 +62,9 @@ const API_ENDPOINTS = {
     updateProductBrand: "/brand/update",
     getProductBrandById: "/brand/getById",
     createOrder: "/order/create",
-    
+
     getOrderListByStoreId: "/order/list",
-                                                     
+
     getOrderCounttByVisitId: "/order/isList",
     createHoliday: "/holiday/create",
 
@@ -130,8 +131,8 @@ const API_ENDPOINTS = {
     getYearlyTarget: "/target/yearly-chart",
 
     getAllPendingApprovalOrder: "/order/allPendingApproval",
-   
-    getAllTargetByEmpId:"/target/getAllByEmpId",
+
+    getAllTargetByEmpId: "/target/getAllByEmpId",
 
     getAttendanceReport: "/attendance/report",
     getDayTrackingReport: "/visit/day-track-report",
@@ -159,7 +160,7 @@ const API_ENDPOINTS = {
     getHomeTodayAchievement: "/profile/home/today-achievement",
     getHomeTodayOrderValue: "/profile/home/today-order-value",
     getHomeMonthAchievement: "/profile/home/month-achievement",
-    
+
     getColour: "/colour/list",
     addColour: "/colour/add",
     deleteColour: "/colour/delete",
@@ -193,21 +194,21 @@ const API_ENDPOINTS = {
     getPaymentModeById: "/paymentMode/getById",
 
     // import/export
-    createProductRequest:"/product/import",
-    addImportProductBrand:"/brand/add/importBrand",
-    createStoreImport:"/store/add/importStore",
-    createStoreCategoryImport:"/store/importStoreCategories",
+    createProductRequest: "/product/import",
+    addImportProductBrand: "/brand/add/importBrand",
+    createStoreImport: "/store/add/importStore",
+    createStoreCategoryImport: "/store/importStoreCategories",
     createUserImport: "/users/importUser",
     addImportBrandCategory: "/brand/import",
     addImportProductCategory: "/product/category/import",
     getImportNoOrderReason: "/order/import",
     createImportVisits: "/visit/import",
-	importNoOrderReason: "/reason/import",
-	addImportColour: "/colour/import",
-	addImportSize: "/size/import",
+    importNoOrderReason: "/reason/import",
+    addImportColour: "/colour/import",
+    addImportSize: "/size/import",
     importStore: "store/import",
-	
-	//  policy Head
+
+    //  policy Head
     getPolicyHead: "/policyHead/getPolicyHead",
     addPolicyHead: "/policyHead/addPolicyHead",
     deletePolicyHead: "/policyHead/deletePolicyHead",
@@ -243,73 +244,73 @@ const API_ENDPOINTS = {
     updateLeaveHeadCount: "/leaveCount/updateLeaveCount",
     getLeaveHeadCountById: "/leaveCount/getLeaveCountById",
 
-    getWorkPlaceData:'/workplace/getWorkplace',
-    getActivityData:'/activity/getActivities',
-    getActivityById:'/getActivitiesById',
-    postActivityData:'/activity/addActivities',
+    getWorkPlaceData: '/workplace/getWorkplace',
+    getActivityData: '/activity/getActivities',
+    getActivityById: '/getActivitiesById',
+    postActivityData: '/activity/addActivities',
 
     getUserPendingLeaves: "/userLeave/get",
-    addLeaveApplication:"/leaveApplicaton/add",
-    getLeaveApplication:"/leaveApplicaton/get",
-    updateLeaveApplication:"/leaveApplicaton/update",
+    addLeaveApplication: "/leaveApplicaton/add",
+    getLeaveApplication: "/leaveApplicaton/get",
+    updateLeaveApplication: "/leaveApplicaton/update",
 
 
-    getSessionData:"/sessions/getSessions",
-    postSessionData:"/sessions/addSessions",
+    getSessionData: "/sessions/getSessions",
+    postSessionData: "/sessions/addSessions",
 
-    getFeedbackData:"/feedback/getFeedback",
-    postFeedbackData:"/feedback/addFeedback",
+    getFeedbackData: "/feedback/getFeedback",
+    postFeedbackData: "/feedback/addFeedback",
 
-    addHolidayApplication:"/holidays/addHoliday",
-    getHoliday:"/holidays/getHoliday",
+    addHolidayApplication: "/holidays/addHoliday",
+    getHoliday: "/holidays/getHoliday",
     deleteHoliday: "/holidays/deleteHoliday",
 
-    getSampleData:"/samples/getSamples",
-    postSampleData:'/samples/addSamples',
+    getSampleData: "/samples/getSamples",
+    postSampleData: '/samples/addSamples',
 
-    getGiftdata:'/gifts/getGifts',
-    postGiftData:'/gifts/addGifts',
-    getGiftDataByDate:'/gifts/getGiftsByDate',  
+    getGiftdata: '/gifts/getGifts',
+    postGiftData: '/gifts/addGifts',
+    getGiftDataByDate: '/gifts/getGiftsByDate',
 
-    postOtherWorkPlaceData:"/workplace/addWorkplace",
-    getOtherWorkPlaceData:"/workplace/getWorkplace",
-    getOtherWorkPlaceDataByDate:"/samples/getSamplesByDate",
-   
-    
-    updateWorkPlaceData:"/workplace/updateWorkplace",
-    deleteWorkPlaceData:"/workplace/deleteWorkplace",
+    postOtherWorkPlaceData: "/workplace/addWorkplace",
+    getOtherWorkPlaceData: "/workplace/getWorkplace",
+    getOtherWorkPlaceDataByDate: "/samples/getSamplesByDate",
 
-    postRcpaData:"/rcpa/addRCPA",
-    getRcpaData:"/rcpa/getRCPA",
-    getPendingAmount:"/order/report/getPendingCollectionByStoreId",
 
-    getVisitReport:"/visit/visitReport",
-   
-    
+    updateWorkPlaceData: "/workplace/updateWorkplace",
+    deleteWorkPlaceData: "/workplace/deleteWorkplace",
+
+    postRcpaData: "/rcpa/addRCPA",
+    getRcpaData: "/rcpa/getRCPA",
+    getPendingAmount: "/order/report/getPendingCollectionByStoreId",
+
+    getVisitReport: "/visit/visitReport",
+
+
 
     // Dar Configuration
     getActivityType: "/dar/config/activityType/list",
-    addActivityType:"/dar/config/activityType/add",
-    deleteActivityType:"/dar/config/activityType/delete",
-    updateActivityType:"/dar/config/activityType/update",
+    addActivityType: "/dar/config/activityType/add",
+    deleteActivityType: "/dar/config/activityType/delete",
+    updateActivityType: "/dar/config/activityType/update",
     getActivityTypeById: "/dar/config/activityType/getById",
-    
+
     getActivityRelTo: "/dar/config/activityRelTo/list",
-    addActivityRelTo:"/dar/config/activityRelTo/add",
-    deleteActivityRelTo:"/dar/config/activityRelTo/delete",
-    updateActivityRelTo:"/dar/config/activityRelTo/update",
+    addActivityRelTo: "/dar/config/activityRelTo/add",
+    deleteActivityRelTo: "/dar/config/activityRelTo/delete",
+    updateActivityRelTo: "/dar/config/activityRelTo/update",
     getActivityRelToById: "/dar/config/activityRelTo/getById",
 
     getNextActionOn: "/dar/config/nextActionOn/list",
-    addNextActionOn:"/dar/config/nextActionOn/add",
-    deleteNextActionOn:"/dar/config/nextActionOn/delete",
-    updateNextActionOn:"/dar/config/nextActionOn/update",
+    addNextActionOn: "/dar/config/nextActionOn/add",
+    deleteNextActionOn: "/dar/config/nextActionOn/delete",
+    updateNextActionOn: "/dar/config/nextActionOn/update",
     getNextActionOnById: "/dar/config/nextActionOn/getById",
 
     getStatus: "/dar/config/status/list",
-    addStatus:"/dar/config/status/add",
-    deleteStatus:"/dar/config/status/delete",
-    updateStatus:"/dar/config/status/update",
+    addStatus: "/dar/config/status/add",
+    deleteStatus: "/dar/config/status/delete",
+    updateStatus: "/dar/config/status/update",
     getStatusById: "/dar/config/status/getById",
 
     //Dar
