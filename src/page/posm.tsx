@@ -1,4 +1,4 @@
-import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, PlusOutlined, AppstoreOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import {
     Button,
     Card,
@@ -25,6 +25,7 @@ import type { Breakpoint } from 'antd/es/_util/responsiveObserver';
 import { SearchOutlined } from "@ant-design/icons";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import moment from 'moment';
+import '../style/stores.css';
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -56,6 +57,9 @@ const PointOfSalesMaterial = () => {
     const [form] = Form.useForm();
     const [editForm] = Form.useForm();
     const screens = useBreakpoint();
+    const [gridView, setGridView] = useState(true);
+    const [searchValue, setSearchValue] = useState('');
+    const [statusFilter, setStatusFilter] = useState('all');
     const [data, setData] = useState<POSM[]>([
         {
             key: '1',
@@ -74,6 +78,186 @@ const PointOfSalesMaterial = () => {
             status: "Active",
             assignedTo: "John Doe",
             remarks: "Displayed at entrance"
+        },
+        {
+            key: '2',
+            posmId: "P002",
+            posmCode: "POSM-1002",
+            posmName: "Winter Promotion Standee",
+            posmType: "Standee",
+            quantityAllocated: 150,
+            quantityDistributed: 140,
+            quantityReturned: 10,
+            distributorId: "D124",
+            outletId: "O457",
+            campaignId: "C790",
+            startDate: "2025-10-01",
+            endDate: "2025-12-31",
+            status: "Active",
+            assignedTo: "Jane Smith",
+            remarks: "Near checkout counter"
+        },
+        {
+            key: '3',
+            posmId: "P003",
+            posmCode: "POSM-1003",
+            posmName: "Product Launch Flyer",
+            posmType: "Flyer",
+            quantityAllocated: 500,
+            quantityDistributed: 450,
+            quantityReturned: 50,
+            distributorId: "D125",
+            outletId: "O458",
+            campaignId: "C791",
+            startDate: "2025-08-15",
+            endDate: "2025-09-15",
+            status: "Inactive",
+            assignedTo: "Mike Johnson",
+            remarks: "Distributed to customers"
+        },
+        {
+            key: '4',
+            posmId: "P004",
+            posmCode: "POSM-1004",
+            posmName: "Festival Sale Banner",
+            posmType: "Banner",
+            quantityAllocated: 100,
+            quantityDistributed: 95,
+            quantityReturned: 5,
+            distributorId: "D126",
+            outletId: "O459",
+            campaignId: "C792",
+            startDate: "2025-10-20",
+            endDate: "2025-11-20",
+            status: "Active",
+            assignedTo: "Sarah Williams",
+            remarks: "Hanging at storefront"
+        },
+        {
+            key: '5',
+            posmId: "P005",
+            posmCode: "POSM-1005",
+            posmName: "Shelf Ticker - New Arrival",
+            posmType: "Shelf Ticker",
+            quantityAllocated: 300,
+            quantityDistributed: 280,
+            quantityReturned: 20,
+            distributorId: "D127",
+            outletId: "O460",
+            campaignId: "C793",
+            startDate: "2025-09-10",
+            endDate: "2025-10-10",
+            status: "Returned",
+            assignedTo: "David Brown",
+            remarks: "Placed on product shelves"
+        },
+        {
+            key: '6',
+            posmId: "P006",
+            posmCode: "POSM-1006",
+            posmName: "Clearance Sale Poster",
+            posmType: "Poster",
+            quantityAllocated: 250,
+            quantityDistributed: 200,
+            quantityReturned: 50,
+            distributorId: "D128",
+            outletId: "O461",
+            campaignId: "C794",
+            startDate: "2025-07-01",
+            endDate: "2025-07-31",
+            status: "Inactive",
+            assignedTo: "Emily Davis",
+            remarks: "Displayed in store windows"
+        },
+        {
+            key: '7',
+            posmId: "P007",
+            posmCode: "POSM-1007",
+            posmName: "Brand Awareness Standee",
+            posmType: "Standee",
+            quantityAllocated: 180,
+            quantityDistributed: 175,
+            quantityReturned: 5,
+            distributorId: "D129",
+            outletId: "O462",
+            campaignId: "C795",
+            startDate: "2025-11-01",
+            endDate: "2025-12-31",
+            status: "Active",
+            assignedTo: "Robert Wilson",
+            remarks: "At store entrance"
+        },
+        {
+            key: '8',
+            posmId: "P008",
+            posmCode: "POSM-1008",
+            posmName: "Holiday Special Flyer",
+            posmType: "Flyer",
+            quantityAllocated: 400,
+            quantityDistributed: 380,
+            quantityReturned: 20,
+            distributorId: "D130",
+            outletId: "O463",
+            campaignId: "C796",
+            startDate: "2025-12-01",
+            endDate: "2025-12-31",
+            status: "Active",
+            assignedTo: "Lisa Anderson",
+            remarks: "Handed out to customers"
+        },
+        {
+            key: '9',
+            posmId: "P009",
+            posmCode: "POSM-1009",
+            posmName: "Product Demo Banner",
+            posmType: "Banner",
+            quantityAllocated: 120,
+            quantityDistributed: 100,
+            quantityReturned: 20,
+            distributorId: "D131",
+            outletId: "O464",
+            campaignId: "C797",
+            startDate: "2025-08-01",
+            endDate: "2025-08-31",
+            status: "Lost",
+            assignedTo: "James Martinez",
+            remarks: "Used for product demonstration"
+        },
+        {
+            key: '10',
+            posmId: "P010",
+            posmCode: "POSM-1010",
+            posmName: "Seasonal Sale Shelf Ticker",
+            posmType: "Shelf Ticker",
+            quantityAllocated: 350,
+            quantityDistributed: 320,
+            quantityReturned: 30,
+            distributorId: "D132",
+            outletId: "O465",
+            campaignId: "C798",
+            startDate: "2025-10-15",
+            endDate: "2025-11-15",
+            status: "Active",
+            assignedTo: "Maria Garcia",
+            remarks: "Attached to product displays"
+        },
+        {
+            key: '11',
+            posmId: "P011",
+            posmCode: "POSM-1011",
+            posmName: "New Product Launch Poster",
+            posmType: "Poster",
+            quantityAllocated: 220,
+            quantityDistributed: 200,
+            quantityReturned: 20,
+            distributorId: "D133",
+            outletId: "O466",
+            campaignId: "C799",
+            startDate: "2025-09-20",
+            endDate: "2025-10-20",
+            status: "Active",
+            assignedTo: "Thomas Lee",
+            remarks: "Promoting new arrivals"
         }
     ]);
 
@@ -83,6 +267,35 @@ const PointOfSalesMaterial = () => {
         setData(newData);
         message.success('POSM deleted successfully');
     };
+
+    const handleGridView = () => {
+        setGridView(true);
+    };
+
+    const handleListView = () => {
+        setGridView(false);
+    };
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.target.value);
+    };
+
+    const handleStatusFilter = (value: string) => {
+        setStatusFilter(value);
+    };
+
+    const filteredData = data.filter((item) => {
+        const matchesSearch = !searchValue || 
+            item.posmId?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.posmCode?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.posmName?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.posmType?.toLowerCase().includes(searchValue.toLowerCase());
+        
+        const matchesStatus = statusFilter === 'all' || 
+            item.status?.toLowerCase() === statusFilter.toLowerCase();
+        
+        return matchesSearch && matchesStatus;
+    });
 
     const posmColumns: ColumnsType<POSM> = [
         {
@@ -182,7 +395,16 @@ const PointOfSalesMaterial = () => {
         });
     };
 
-    const handleEditClick = () => {
+    const handleEditClick = (record?: POSM) => {
+        if (record) {
+            handleViewClick(record);
+            setIsEditing(true);
+        } else {
+            setIsEditing(true);
+        }
+    };
+
+    const handleEditClickFromModal = () => {
         setIsEditing(true);
     };
 
@@ -472,7 +694,7 @@ const PointOfSalesMaterial = () => {
     };
 
     return (
-        <div style={{ backgroundColor: '#f4f6fa', minHeight: '100vh', overflowX: 'hidden' }}>
+        <div  style={{ fontFamily: 'roboto' }}>
             {/* Header */}
             <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
                 <ArrowLeftOutlined onClick={previousPage} className="back-button" />
@@ -490,7 +712,7 @@ const PointOfSalesMaterial = () => {
                         backgroundColor: '#ffffff',
                     }}
                     bodyStyle={{
-                        padding: '24px',
+                        padding: '4px',
                     }}
                 >
                     <Row gutter={[16, 16]} align="middle">
@@ -542,49 +764,193 @@ const PointOfSalesMaterial = () => {
                         </Col>
                     </Row>
                 </Card>
-                <Row gutter={12} style={{ marginBottom: 16 }}>
-                    {/* Search Input */}
-                    <Col flex="auto">
-                        <Input
-                            prefix={<SearchOutlined style={{ color: "#B0B0B0", padding: '18px' }} />}
-                            placeholder="Search POSM by name, ID, or city..."
-                            size="large"
-                            allowClear
-                        />
-                    </Col>
 
-                    {/* Status Filter */}
-                    <Col>
+                <div className="search">
+                    <Input
+                        prefix={<SearchOutlined />}
+                        placeholder="Search POSM by Name, Code, ID, Type"
+                        allowClear
+                        value={searchValue}
+                        onChange={handleSearch}
+                    />
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                            <AppstoreOutlined style={{ fontSize: '15px' }} onClick={handleGridView} />
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', marginRight: '10px' }}>
+                            <UnorderedListOutlined style={{ fontSize: '15px' }} onClick={handleListView} />
+                        </div>
+                    </div>
+                    <div className="filterdiv">
                         <Select
                             defaultValue="all"
-                            size="large"
-                            style={{ minWidth: 150, height: '50px' }}
-                            suffixIcon={<span style={{ fontSize: "12px" }}>▼</span>}
+                            className="w-130"
+                            value={statusFilter}
+                            onChange={handleStatusFilter}
                         >
                             <Option value="all">All Status</Option>
                             <Option value="active">Active</Option>
                             <Option value="inactive">Inactive</Option>
-                            <Option value="archived">Archived</Option>
+                            <Option value="returned">Returned</Option>
+                            <Option value="lost">Lost</Option>
                         </Select>
-                    </Col>
-                </Row>
-
-                {/* Table Section */}
-                <div style={{ marginTop: '32px' }}>
-                    <h2 style={{ fontSize: '20px', marginBottom: '16px' }}>
-                        POSM ({data.length})
-                    </h2>
-                    <div style={{ width: '100%', overflowX: 'auto' }}>
-                        <Table
-                            columns={posmColumns}
-                            dataSource={data}
-                            pagination={{ pageSize: 5 }}
-                            bordered
-                            scroll={{ x: 'max-content' }}
-                            size="middle"
-                        />
                     </div>
                 </div>
+
+                {/* Grid/List View Section */}
+                {gridView ? (
+                    <div
+                        className="content"
+                        style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: "20px",
+                            marginTop: "24px",
+                            marginBottom: "10px",
+                        }}
+                    >
+                        {filteredData && filteredData.length > 0 && filteredData.map((item, index) => {
+                            const getStatusColor = (status: string) => {
+                                switch (status) {
+                                    case "Active":
+                                        return "#52c41a";
+                                    case "Inactive":
+                                        return "#ff4d4f";
+                                    case "Returned":
+                                        return "#faad14";
+                                    case "Lost":
+                                        return "#ff4d4f";
+                                    default:
+                                        return "#d9d9d9";
+                                }
+                            };
+
+                            return (
+                                <div key={index}>
+                                    <div 
+                                        className="store-list"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => handleViewClick(item)}
+                                    >
+                                        <div className="shoptitle">
+                                            <div className="fontb">{item?.posmName}</div>
+                                            <div
+                                                style={{
+                                                    background: getStatusColor(item?.status || ''),
+                                                    padding: '4px 8px',
+                                                    borderRadius: '4px',
+                                                    color: 'white',
+                                                    fontSize: '12px'
+                                                }}
+                                            >
+                                                {item?.status}
+                                            </div>
+                                        </div>
+                                        <div className="storeConlist">
+                                            <div>
+                                                <div className="storeIdTxt">
+                                                    {item?.posmType} | POSM ID: {item?.posmId}
+                                                </div>
+                                                <div className="fs-13">Code: <span className="fw-bold">{item?.posmCode}</span></div>
+                                                <div className="fs-13">Allocated: <span className="fw-bold">{item?.quantityAllocated}</span></div>
+                                                <div className="fs-13">Distributed: <span className="fw-bold">{item?.quantityDistributed}</span></div>
+                                                <div className="fs-13">Assigned To: <span className="fw-bold">{item?.assignedTo}</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <table className="store-table" style={{ textDecoration: 'none', fontSize: '13px', width: '100%', marginTop: '20px' }}>
+                        <thead>
+                            <tr>
+                                <th>POSM ID</th>
+                                <th>POSM Code</th>
+                                <th>POSM Name</th>
+                                <th>Type</th>
+                                <th>Quantity Allocated</th>
+                                <th>Quantity Distributed</th>
+                                <th>Status</th>
+                                <th>Assigned To</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredData?.map((item: POSM, index: number) => {
+                                const getStatusColor = (status: string) => {
+                                    switch (status) {
+                                        case "Active":
+                                            return "#52c41a";
+                                        case "Inactive":
+                                            return "#ff4d4f";
+                                        case "Returned":
+                                            return "#faad14";
+                                        case "Lost":
+                                            return "#ff4d4f";
+                                        default:
+                                            return "#d9d9d9";
+                                    }
+                                };
+
+                                return (
+                                    <tr key={index}>
+                                        <td>
+                                            <a
+                                                onClick={() => handleViewClick(item)}
+                                                style={{ textDecoration: 'none', color: '#1890ff', cursor: 'pointer' }}
+                                            >
+                                                {item?.posmId}
+                                            </a>
+                                        </td>
+                                        <td>{item?.posmCode}</td>
+                                        <td>{item?.posmName}</td>
+                                        <td>{item?.posmType}</td>
+                                        <td>{item?.quantityAllocated}</td>
+                                        <td>{item?.quantityDistributed}</td>
+                                        <td>
+                                            <span
+                                                style={{
+                                                    background: getStatusColor(item?.status || ''),
+                                                    padding: '4px 8px',
+                                                    borderRadius: '4px',
+                                                    color: 'white',
+                                                    fontSize: '12px'
+                                                }}
+                                            >
+                                                {item?.status}
+                                            </span>
+                                        </td>
+                                        <td>{item?.assignedTo}</td>
+                                        <td>
+                                            <Space>
+                                                <EyeOutlined
+                                                    onClick={() => handleViewClick(item)}
+                                                    style={{ cursor: 'pointer', color: '#1890ff' }}
+                                                />
+                                                <EditOutlined
+                                                    onClick={() => handleEditClick(item)}
+                                                    style={{ cursor: 'pointer', color: '#52c41a' }}
+                                                />
+                                                <Popconfirm
+                                                    title="Are you sure you want to delete this POSM?"
+                                                    onConfirm={() => handleDelete(item)}
+                                                    okText="Yes"
+                                                    cancelText="No"
+                                                >
+                                                    <DeleteOutlined
+                                                        style={{ cursor: 'pointer', color: '#ff4d4f' }}
+                                                    />
+                                                </Popconfirm>
+                                            </Space>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                )}
             </div>
 
             {/* Add New POSM Modal */}
@@ -599,8 +965,8 @@ const PointOfSalesMaterial = () => {
                 style={{ top: 20 }}
                 bodyStyle={{
                     maxHeight: '70vh',
-                    overflowY: 'auto',
-                    paddingRight: '8px'
+                    paddingRight: '8px',
+                    overflowY: 'auto'
                 }}
                 maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 getContainer={false}
@@ -800,15 +1166,15 @@ const PointOfSalesMaterial = () => {
                 style={{ top: 20 }}
                 bodyStyle={{
                     maxHeight: '70vh',
-                    overflowY: 'auto',
-                    paddingRight: '8px'
+                    paddingRight: '8px',
+                    overflowY: 'auto'
                 }}
                 maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 getContainer={false}
                 forceRender
                 footer={[
                     !isEditing && (
-                        <Button key="edit" type="primary" onClick={handleEditClick}>
+                        <Button key="edit" type="primary" onClick={handleEditClickFromModal}>
                             <EditOutlined /> Edit
                         </Button>
                     ),

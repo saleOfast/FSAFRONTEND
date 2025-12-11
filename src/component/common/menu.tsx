@@ -203,7 +203,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
     {
       key: "sub0",
       icon: <ShoppingCartOutlined />,
-      label: <span style={{ color: "black" }}>Order</span>,
+      label: <span style={{ color: "black" }}>Sales Order</span>,
       style: { background: "none", color: "black",fontFamily: "Roboto"  },
       children: [
         {
@@ -312,21 +312,21 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             },
           ],
         },
-        {
-          key: "110",
-          label: <span className="white-text">E-Detailing</span>,
-          style: { background: "none" },
-          children: [
-            {
-              key: "110a",
-              label: (
-                <Link to="/admin/dashboard/course" onClick={toggleSidebar}>
-                  Learning Material
-                </Link>
-              ),
-            },
-          ],
-        },
+        // {
+        //   key: "110",
+        //   label: <span className="white-text">E-Detailing</span>,
+        //   style: { background: "none" },
+        //   children: [
+        //     {
+        //       key: "110a",
+        //       label: (
+        //         <Link to="/admin/dashboard/course" onClick={toggleSidebar}>
+        //           Learning Material
+        //         </Link>
+        //       ),
+        //     },
+        //   ],
+        // },
         {
           key: "10",
           label: <span className="white-text">DAR</span>,
@@ -695,7 +695,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
           </SidebarLink>
 
           {/* Beat */}
-          <Link
+          {/* <Link
             to="/admin/beat"
             className="linkto"
             onClick={toggleSidebar}
@@ -712,10 +712,10 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               <DeploymentUnitOutlined className="adminMenuTxt" />
               Beat
             </SidebarLink>
-          </Link>
+          </Link> */}
 
           {/* Inventory */}
-          <Link
+          {/* <Link
             to="/InventoryDashboard"
             className="linkto"
             onClick={toggleSidebar}
@@ -732,7 +732,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               <DatabaseOutlined className="adminMenuTxt" />
               Inventory
             </SidebarLink>
-          </Link>
+          </Link> */}
 
           {/* Customer */}
           <Link to="/stores" className="linkto" onClick={toggleSidebar}>
@@ -745,45 +745,27 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             </SidebarLink>
           </Link>
 
-          {/* Visit - Only for Super Admin */}
+              {/* Store */}
           <Link
-            to="/admin/visit"
+            to="/storeinfo"
             className="linkto"
             onClick={toggleSidebar}
           >
             <SidebarLink
               style={{ color: "black" }}
               className={
-                pathname.includes("/visit") ||
-                pathname.includes("/create-visit")
+                pathname.includes("/storeinfo") ||
+                  pathname.includes("/storeinfo")
                   ? "active"
                   : ""
               }
             >
-              <EnvironmentOutlined className="adminMenuTxt" />
-              Visit
+              <ShopOutlined className="adminMenuTxt" />
+              Stores
             </SidebarLink>
           </Link>
 
-          {/* Order */}
-          <SidebarLink
-            className={pathname.includes("/order") ? "active" : ""}
-            style={{ zIndex: 9999999 }}
-          >
-            <Menu
-              onClick={onClicks}
-              style={{
-                width: "200px",
-                background: "none",
-                color: "white",
-                padding: 0,
-              }}
-              mode="vertical"
-              items={orderItems}
-            />
-          </SidebarLink>
-
-          {/* Purchase Order */}
+              {/* Purchase Order */}
           <Link
             to="/purchaseOrder"
             className="linkto"
@@ -803,25 +785,47 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             </SidebarLink>
           </Link>
 
-          {/* Warehouse */}
-          <Link
-            to="/warehouse"
+          {/* Visit - Only for Super Admin */}
+          {/* <Link
+            to="/admin/visit"
             className="linkto"
             onClick={toggleSidebar}
           >
             <SidebarLink
               style={{ color: "black" }}
               className={
-                pathname.includes("/warehouse") ||
-                  pathname.includes("/warehouse")
+                pathname.includes("/visit") ||
+                pathname.includes("/create-visit")
                   ? "active"
                   : ""
               }
             >
-              <BankOutlined className="adminMenuTxt" />
-              WareHouse
+              <EnvironmentOutlined className="adminMenuTxt" />
+              Visit
             </SidebarLink>
-          </Link>
+          </Link> */}
+
+          {/* Order */}
+          <SidebarLink
+            className={pathname.includes("/order") ? "active" : ""}
+            style={{ zIndex: 9999999 }}
+          >
+            <Menu
+              onClick={onClicks}
+              style={{
+                width: "200px",
+                background: "none",
+                color: "white",
+                padding: 0,
+              }}
+              mode="vertical"
+              items={orderItems}
+            />
+          </SidebarLink>
+
+          
+
+          
 
           <Link
             to={
@@ -848,6 +852,26 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             </SidebarLink>
           </Link>
 
+                {/* Sales Return */}
+          <Link
+            to="/salesreturn"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/salesreturn") ||
+                  pathname.includes("/salesreturn")
+                  ? "active"
+                  : ""
+              }
+            >
+              <RollbackOutlined className="adminMenuTxt" />
+              Sales Return
+            </SidebarLink>
+          </Link>
+
           {/* Scheme & Discount */}
           <Link
             to="/SchemeAndDiscount"
@@ -868,83 +892,23 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             </SidebarLink>
           </Link>
 
-          {/* Sales Return */}
+              {/* Warehouse */}
           <Link
-            to="/salesreturn"
+            to="/warehouse"
             className="linkto"
             onClick={toggleSidebar}
           >
             <SidebarLink
               style={{ color: "black" }}
               className={
-                pathname.includes("/salesreturn") ||
-                  pathname.includes("/salesreturn")
+                pathname.includes("/warehouse") ||
+                  pathname.includes("/warehouse")
                   ? "active"
                   : ""
               }
             >
-              <RollbackOutlined className="adminMenuTxt" />
-              Sales Return
-            </SidebarLink>
-          </Link>
-
-          {/* SKUs */}
-          <Link
-            to="/sku"
-            className="linkto"
-            onClick={toggleSidebar}
-          >
-            <SidebarLink
-              style={{ color: "black" }}
-              className={
-                pathname.includes("/sku") ||
-                  pathname.includes("/sku")
-                  ? "active"
-                  : ""
-              }
-            >
-              <InboxOutlined className="adminMenuTxt" />
-              SKUs
-            </SidebarLink>
-          </Link>
-
-          {/* POSM */}
-          <Link
-            to="/posm"
-            className="linkto"
-            onClick={toggleSidebar}
-          >
-            <SidebarLink
-              style={{ color: "black" }}
-              className={
-                pathname.includes("/posm") ||
-                  pathname.includes("/posm")
-                  ? "active"
-                  : ""
-              }
-            >
-              <SoundOutlined className="adminMenuTxt" />
-              POSM
-            </SidebarLink>
-          </Link>
-
-          {/* Store */}
-          <Link
-            to="/storeinfo"
-            className="linkto"
-            onClick={toggleSidebar}
-          >
-            <SidebarLink
-              style={{ color: "black" }}
-              className={
-                pathname.includes("/storeinfo") ||
-                  pathname.includes("/storeinfo")
-                  ? "active"
-                  : ""
-              }
-            >
-              <ShopOutlined className="adminMenuTxt" />
-              Stores
+              <BankOutlined className="adminMenuTxt" />
+              WareHouse
             </SidebarLink>
           </Link>
 
@@ -968,8 +932,71 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
             </SidebarLink>
           </Link>
 
-          {/* E-Detailing - Only for Super Admin */}
+              {/* POSM */}
           <Link
+            to="/posm"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/posm") ||
+                  pathname.includes("/posm")
+                  ? "active"
+                  : ""
+              }
+            >
+              <SoundOutlined className="adminMenuTxt" />
+              POSM
+            </SidebarLink>
+          </Link>
+
+{/* Products */}
+          <Link
+            to="/admin/product"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={pathname.includes("/product") ? "active" : ""}
+            >
+              <MedicineBoxOutlined className="adminMenuTxt" />
+              Product
+            </SidebarLink>
+          </Link>
+
+              
+          
+
+          {/* SKUs */}
+          <Link
+            to="/sku"
+            className="linkto"
+            onClick={toggleSidebar}
+          >
+            <SidebarLink
+              style={{ color: "black" }}
+              className={
+                pathname.includes("/sku") ||
+                  pathname.includes("/sku")
+                  ? "active"
+                  : ""
+              }
+            >
+              <InboxOutlined className="adminMenuTxt" />
+              SKUs
+            </SidebarLink>
+          </Link>
+
+
+
+
+          
+
+          {/* E-Detailing - Only for Super Admin */}
+          {/* <Link
             to="/e-detailing"
             className="linkto"
             onClick={toggleSidebar}
@@ -986,25 +1013,12 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               <FileAddOutlined className="adminMenuTxt" />
               E-Detailing
             </SidebarLink>
-          </Link>
+          </Link> */}
 
-          {/* Products */}
-          <Link
-            to="/admin/product"
-            className="linkto"
-            onClick={toggleSidebar}
-          >
-            <SidebarLink
-              style={{ color: "black" }}
-              className={pathname.includes("/product") ? "active" : ""}
-            >
-              <MedicineBoxOutlined className="adminMenuTxt" />
-              Product
-            </SidebarLink>
-          </Link>
+          
 
           {/* HR Process */}
-          <SidebarLink
+          {/* <SidebarLink
             className={pathname.includes("/hr") ? "active" : ""}
             style={{ zIndex: 9999999 }}
           >
@@ -1019,10 +1033,10 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               mode="vertical"
               items={HRProcessItems}
             />
-          </SidebarLink>
+          </SidebarLink> */}
 
           {/* Reports */}
-          <SidebarLink
+          {/* <SidebarLink
             className={pathname.includes("/report") ? "active" : ""}
             style={{ zIndex: 9999999 }}
           >
@@ -1038,10 +1052,10 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               mode="vertical"
               items={reportItems}
             />
-          </SidebarLink>
+          </SidebarLink> */}
 
           {/* Marketing Material - Only for Super Admin */}
-          <Link
+          {/* <Link
             to="/admin/scheme"
             className="linkto"
             onClick={toggleSidebar}
@@ -1058,7 +1072,7 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               <CreditCardOutlined className="adminMenuTxt" />
               Marketing Material
             </SidebarLink>
-          </Link>
+          </Link> */}
 
           {/* Configuration -*/}
           <SidebarLink
@@ -1118,6 +1132,8 @@ const SideMenu = ({ isOpen = false, toggleSidebar }: IMenu) => {
               Customer
             </SidebarLink>
           </Link>
+
+
 
           {/* Order */}
           <SidebarLink

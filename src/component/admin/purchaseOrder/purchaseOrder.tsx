@@ -15,6 +15,7 @@ import {
   InputNumber,
   Modal,
 } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
 import React, { useState, useEffect, useMemo } from 'react';
 import previousPage from 'utils/previousPage';
 
@@ -24,43 +25,89 @@ const { useBreakpoint } = Grid;
 
 const masters = {
   accounts: [
-    { id: 'acc1', name: 'Account 1' },
-    { id: 'acc2', name: 'Account 2' },
+    { id: 'acc1', name: 'Saraswati Paper' },
   ],
   outlets: [
-    { id: 'out1', name: 'Outlet 1' },
-    { id: 'out2', name: 'Outlet 2' },
+    { id: 'out1', name: 'Karol Bagh' },
+    { id: 'out2', name: 'Chawri Bazar' },
   ],
   billingAddresses: [
-    { id: 'b1', name: 'Billing Address 1' },
-    { id: 'b2', name: 'Billing Address 2' },
+    { id: 'b1', name: 'Noida' },
+    { id: 'b2', name: 'Greater Noida' },
   ],
   shippingAddresses: [
-    { id: 's1', name: 'Shipping Address 1' },
-    { id: 's2', name: 'Shipping Address 2' },
+    { id: 's1', name: 'Noida ' },
+    { id: 's2', name: 'Greater Noida' },
   ],
   orderTypes: ['General Trade', 'Modern Trade'],
   units: ['Box', 'Packet', 'piece'],
-
   productCategories: [
-    'Beverages',
-    'Snacks',
-    'Dairy',
-    'Bakery',
-    'Personal Care',
-    'Household',
-    'Frozen Foods'
+    'Office and Copier Paper',
+    'Writing and Printing Paper'
   ]
 };
 
 const allProducts = [
-  { id: 'P101', name: 'Parle G Biscuits', unitPrice: 20, tax: 2, category: 'Snacks' },
-  { id: 'P102', name: 'Coca-Cola 500ml', unitPrice: 50, tax: 5, category: 'Beverages' },
-  { id: 'P103', name: 'Dabur Honey 250g', unitPrice: 150, tax: 15, category: 'Personal Care' },
-  { id: 'P104', name: 'Maggi Noodles 2-Minute', unitPrice: 12, tax: 1.2, category: 'Snacks' },
-  { id: 'P105', name: 'Britannia Marie Gold', unitPrice: 25, tax: 2.5, category: 'Bakery' },
-  { id: 'P106', name: 'Amul Milk 1L', unitPrice: 60, tax: 6, category: 'Dairy' },
-  { id: 'P107', name: 'Surf Excel', unitPrice: 200, tax: 20, category: 'Household' },
+  { 
+    id: 'P001', 
+    name: 'JK Cedar', 
+    unitPrice: 450, 
+    tax: 5, 
+    category: 'Office and Copier Paper',
+    description: 'Premium office paper with 100gsm weight and 96% brightness',
+    sizes: ['A4', 'A3', 'Folio'],
+    grammage: '100g/m2',
+    brightness: '96% (Min)',
+    packSize: '500 Sheets'
+  },
+  { 
+    id: 'P002', 
+    name: 'JK Copier Plus Anti-Microbial', 
+    unitPrice: 380, 
+    tax: 5, 
+    category: 'Office and Copier Paper',
+    description: 'Anti-microbial copier paper with protection',
+    sizes: ['A4', 'A5', 'Folio'],
+    grammage: '75g/m2, 80g/m2',
+    brightness: '94% (Min)',
+    packSize: '100 Sheets, 500 Sheets'
+  },
+  { 
+    id: 'P003', 
+    name: 'JK Copier', 
+    unitPrice: 320, 
+    tax: 5, 
+    category: 'Office and Copier Paper',
+    description: 'Standard copier paper for everyday use',
+    sizes: ['A4', 'A3', 'A5', 'FS', 'US Letter Size(11"x8.5")', 'Folio', 'B4'],
+    grammage: '75g/m2, 80g/m2',
+    brightness: '92% (Min)',
+    packSize: '500 Sheets'
+  },
+  { 
+    id: 'P004', 
+    name: 'JK Finesse', 
+    unitPrice: 520, 
+    tax: 5, 
+    category: 'Writing and Printing Paper',
+    description: 'High-quality writing and printing paper',
+    sizes: ['Reel & Sheet'],
+    grammage: '58 - 120g/m2',
+    brightness: '91% (Min)',
+    packSize: 'Custom'
+  },
+  { 
+    id: 'P005', 
+    name: 'JK Elektra', 
+    unitPrice: 480, 
+    tax: 5, 
+    category: 'Writing and Printing Paper',
+    description: 'Reliable writing and printing paper',
+    sizes: ['Reel & Sheet'],
+    grammage: '58 - 120g/m2',
+    brightness: '88% (Min)',
+    packSize: 'Custom'
+  },
 ];
 
 const PurchaseOrder: React.FC = () => {
@@ -86,7 +133,8 @@ const PurchaseOrder: React.FC = () => {
 
     if (modalSearchText) {
       filtered = filtered.filter(product =>
-        product.name.toLowerCase().includes(modalSearchText.toLowerCase())
+        product.name.toLowerCase().includes(modalSearchText.toLowerCase()) ||
+        product.description.toLowerCase().includes(modalSearchText.toLowerCase())
       );
     }
 
@@ -112,10 +160,9 @@ const PurchaseOrder: React.FC = () => {
   };
 
   const handleModalSubmit = () => {
-    // Add the editing products to the main products list with unique keys
     const productsWithUniqueKeys = editingProducts.map(product => ({
       ...product,
-      key: `${Date.now()}-${product.id}` // Create unique key using timestamp and product ID
+      key: `${Date.now()}-${product.id}`
     }));
 
     setProducts([...products, ...productsWithUniqueKeys]);
@@ -136,22 +183,23 @@ const PurchaseOrder: React.FC = () => {
         category: product.category,
         unitPrice: product.unitPrice,
         tax: product.tax,
+        description: product.description,
       };
       setSelectedProducts([...selectedProducts, newSelectedProduct]);
 
-      // Also add to editing products with default values
       const newEditingProduct = {
         key: `${Date.now()}-${editingProducts.length}`,
         id: product.id,
         name: product.name,
+        description: product.description,
         qty: 1,
-        piece: 0, // Add missing piece field
+        piece: 0,
         unit: masters.units[0],
         unitPrice: product.unitPrice,
         discountPercentage: 10,
         discountAmount: (product.unitPrice * 0.1),
         tax: product.tax,
-        distributorPrice: product.unitPrice - (product.unitPrice * 0.1), // Add distributor price calculation
+        distributorPrice: product.unitPrice - (product.unitPrice * 0.1),
       };
       setEditingProducts([...editingProducts, newEditingProduct]);
     }
@@ -168,19 +216,16 @@ const PurchaseOrder: React.FC = () => {
         if (p.key === key) {
           const updatedProduct = { ...p, [field]: value };
 
-          // If discount percentage changes, recalculate discount amount
           if (field === 'discountPercentage') {
             updatedProduct.discountAmount = (updatedProduct.unitPrice * (value || 0)) / 100;
           }
 
-          // If discount amount changes, recalculate discount percentage
           if (field === 'discountAmount') {
             updatedProduct.discountPercentage = updatedProduct.unitPrice > 0
               ? ((value || 0) / updatedProduct.unitPrice) * 100
               : 0;
           }
 
-          // Recalculate distributor price when unit price or discount changes
           if (field === 'unitPrice' || field === 'discountPercentage' || field === 'discountAmount') {
             updatedProduct.distributorPrice = updatedProduct.unitPrice - (updatedProduct.discountAmount || 0);
           }
@@ -202,19 +247,16 @@ const PurchaseOrder: React.FC = () => {
         if (p.key === key) {
           const updatedProduct = { ...p, [field]: value };
 
-          // If discount percentage changes, recalculate discount amount
           if (field === 'discountPercentage') {
             updatedProduct.discountAmount = (updatedProduct.unitPrice * (value || 0)) / 100;
           }
 
-          // If discount amount changes, recalculate discount percentage
           if (field === 'discountAmount') {
             updatedProduct.discountPercentage = updatedProduct.unitPrice > 0
-              ? ((value || 0) / updatedProduct.unitPrice) * 100
+              ? ((updatedProduct.discountAmount || 0) / updatedProduct.unitPrice) * 100
               : 0;
           }
 
-          // If unit price changes, recalculate discount amounts
           if (field === 'unitPrice') {
             if (discountType === 'percentage') {
               updatedProduct.discountAmount = (value * (updatedProduct.discountPercentage || 0)) / 100;
@@ -225,7 +267,6 @@ const PurchaseOrder: React.FC = () => {
             }
           }
 
-          // Recalculate distributor price
           updatedProduct.distributorPrice = updatedProduct.unitPrice - (updatedProduct.discountAmount || 0);
 
           return updatedProduct;
@@ -273,7 +314,6 @@ const PurchaseOrder: React.FC = () => {
     };
   }, [products]);
 
-  // Fix the parser functions to return numbers
   const currencyParser = (value: string | undefined): number => {
     return Number(value?.replace('₹', '') || 0);
   };
@@ -282,166 +322,289 @@ const PurchaseOrder: React.FC = () => {
     return Number(value?.replace('%', '') || 0);
   };
 
-  const productColumns = [
-    { title: 'Product Name', dataIndex: 'name', key: 'name' },
-    {
-      title: 'Unit',
-      dataIndex: 'unit',
-      key: 'unit',
-      render: (val: string, record: any) => (
-        <Select
-          value={val}
-          style={{ width: 100 }}
-          onChange={(value) => handleEditProduct(record.key, 'unit', value)}
-        >
-          {masters.units.map((u) => (
-            <Option key={u} value={u}>
-              {u}
-            </Option>
-          ))}
-        </Select>
-      ),
-    },
-    {
-      title: 'Quantity',
-      dataIndex: 'qty',
-      key: 'qty',
-      render: (val: number, record: any) => (
-        <Input
-          type="number"
-          value={val}
-          min={0}
-          onChange={(e) =>
-            handleEditProduct(record.key, 'qty', Number(e.target.value || 0))
+  // Fixed responsive product columns for main table - Desktop only improvements
+  const getProductColumns = (): ColumnsType<any> => {
+    const baseColumns: ColumnsType<any> = [
+      { 
+        title: 'Product Name', 
+        dataIndex: 'name', 
+        key: 'name',
+        width: screens.md ? 200 : 120,
+        ellipsis: true,
+        fixed: screens.md ? 'left' : false,
+        render: (text: string) => (
+          <Text strong style={{ fontSize: screens.md ? '14px' : '13px' }}>{text}</Text>
+        )
+      },
+      {
+        title: 'Unit',
+        dataIndex: 'unit',
+        key: 'unit',
+        width: screens.md ? 120 : 80,
+        align: screens.md ? 'center' : 'left',
+        render: (val: string, record: any) => (
+          <Select
+            value={val}
+            style={{ width: screens.md ? '100%' : '100%', minWidth: screens.md ? 100 : 80 }}
+            onChange={(value) => handleEditProduct(record.key, 'unit', value)}
+            size={screens.md ? 'middle' : 'small'}
+            variant={screens.md ? 'outlined' : 'outlined'}
+          >
+            {masters.units.map((u) => (
+              <Option key={u} value={u}>
+                {u}
+              </Option>
+            ))}
+          </Select>
+        ),
+      },
+      {
+        title: 'Qty',
+        dataIndex: 'qty',
+        key: 'qty',
+        width: screens.md ? 100 : 60,
+        align: screens.md ? 'center' : 'left',
+        render: (val: number, record: any) => (
+          <InputNumber
+            value={val}
+            min={0}
+            onChange={(value) =>
+              handleEditProduct(record.key, 'qty', Number(value || 0))
+            }
+            size={screens.md ? 'middle' : 'small'}
+            style={{ width: screens.md ? '90%' : '100%' }}
+            controls={screens.md ? true : true}
+          />
+        ),
+      },
+      {
+        title: 'Unit Price',
+        dataIndex: 'unitPrice',
+        key: 'unitPrice',
+        width: screens.md ? 140 : 100,
+        align: screens.md ? 'right' : 'left',
+        render: (val: number, record: any) => (
+          <InputNumber
+            value={val}
+            min={0}
+            formatter={value => `₹${value}`}
+            parser={currencyParser}
+            onChange={(value) => handleEditProduct(record.key, 'unitPrice', Number(value || 0))}
+            size={screens.md ? 'middle' : 'small'}
+            style={{ width: screens.md ? '95%' : '100%' }}
+            controls={screens.md ? true : true}
+          />
+        ),
+      },
+      {
+        title: screens.md ? 'Discount Type' : 'D.Type',
+        key: 'discountType',
+        width: screens.md ? 130 : 100,
+        align: screens.md ? 'center' : 'left',
+        render: () => (
+          <Select
+            value={discountType}
+            style={{ width: screens.md ? '90%' : '100%', minWidth: screens.md ? 120 : 100 }}
+            onChange={(value) => setDiscountType(value)}
+            size={screens.md ? 'middle' : 'small'}
+            variant={screens.md ? 'outlined' : 'outlined'}
+          >
+            <Option value="percentage">%</Option>
+            <Option value="amount">Amount</Option>
+          </Select>
+        ),
+      },
+      {
+        title: discountType === 'percentage' ? 'Disc. %' : 'Disc. Amt',
+        key: 'discount',
+        width: screens.md ? 130 : 100,
+        align: screens.md ? 'right' : 'left',
+        render: (_: any, record: any) => {
+          if (discountType === 'percentage') {
+            return (
+              <InputNumber
+                value={record.discountPercentage}
+                min={0}
+                max={100}
+                formatter={value => `${value}%`}
+                parser={percentageParser}
+                onChange={(value) => handleEditProduct(record.key, 'discountPercentage', Number(value || 0))}
+                size={screens.md ? 'middle' : 'small'}
+                style={{ width: screens.md ? '95%' : '100%' }}
+                controls={screens.md ? true : true}
+              />
+            );
+          } else {
+            return (
+              <InputNumber
+                value={record.discountAmount}
+                min={0}
+                formatter={value => `₹${value}`}
+                parser={currencyParser}
+                onChange={(value) => handleEditProduct(record.key, 'discountAmount', Number(value || 0))}
+                size={screens.md ? 'middle' : 'small'}
+                style={{ width: screens.md ? '95%' : '100%' }}
+                controls={screens.md ? true : true}
+              />
+            );
           }
-        />
-      ),
-    },
-    {
-      title: 'Unit Price',
-      dataIndex: 'unitPrice',
-      key: 'unitPrice',
-      render: (val: number, record: any) => (
-        <InputNumber
-          value={val}
-          min={0}
-          formatter={value => `₹${value}`}
-          parser={currencyParser}
-          onChange={(value) => handleEditProduct(record.key, 'unitPrice', Number(value || 0))}
-        />
-      ),
-    },
-    {
-      title: 'Discount Type',
-      key: 'discountType',
-      render: () => (
-        <Select
-          value={discountType}
-          style={{ width: 120 }}
-          onChange={(value) => setDiscountType(value)}
-        >
-          <Option value="percentage">Percentage</Option>
-          <Option value="amount">Amount</Option>
-        </Select>
-      ),
-    },
-    {
-      title: discountType === 'percentage' ? 'Discount (%)' : 'Discount Amount',
-      key: 'discount',
-      render: (_: any, record: any) => {
-        if (discountType === 'percentage') {
-          return (
-            <InputNumber
-              value={record.discountPercentage}
-              min={0}
-              max={100}
-              formatter={value => `${value}%`}
-              parser={percentageParser}
-              onChange={(value) => handleEditProduct(record.key, 'discountPercentage', Number(value || 0))}
-            />
-          );
-        } else {
-          return (
-            <InputNumber
-              value={record.discountAmount}
-              min={0}
-              formatter={value => `₹${value}`}
-              parser={currencyParser}
-              onChange={(value) => handleEditProduct(record.key, 'discountAmount', Number(value || 0))}
-            />
-          );
-        }
+        },
       },
-    },
-    {
-      title: 'Distributor Price',
-      dataIndex: 'distributorPrice',
-      key: 'distributorPrice',
-      render: (val: number) => <span>₹{val ? val.toFixed(2) : '0.00'}</span>,
-    },
-    {
-      title: 'Total Price',
-      key: 'total',
-      render: (_: any, record: any) => {
-        const total =
-          (record.qty + (record.piece || 0)) * record.unitPrice - (record.discountAmount || 0);
-        return <span>₹{Math.max(total, 0).toFixed(2)}</span>;
+      {
+        title: screens.md ? 'Dist. Price' : 'Dist.Price',
+        dataIndex: 'distributorPrice',
+        key: 'distributorPrice',
+        width: screens.md ? 140 : 100,
+        align: screens.md ? 'right' : 'left',
+        render: (val: number) => <Text strong>₹{val ? val.toFixed(2) : '0.00'}</Text>,
       },
-    },
-    {
+      {
+        title: 'Total',
+        key: 'total',
+        width: screens.md ? 140 : 80,
+        align: screens.md ? 'right' : 'left',
+        render: (_: any, record: any) => {
+          const total =
+            (record.qty + (record.piece || 0)) * record.unitPrice - (record.discountAmount || 0);
+          return <Text strong style={{ color: '#1890ff' }}>₹{Math.max(total, 0).toFixed(2)}</Text>;
+        },
+      },
+    ];
+
+    const actionColumn: any = {
       title: 'Action',
       key: 'action',
+      width: screens.md ? 120 : 80,
+      fixed: screens.md ? 'right' : false,
+      align: screens.md ? 'center' : 'left',
       render: (_: any, record: any) => (
-        <div style={{ display: 'flex', gap: 12 }}>
+        <div style={{ display: 'flex', gap: screens.md ? 12 : 8, justifyContent: screens.md ? 'center' : 'flex-start' }}>
           <EditOutlined
-            style={{ color: '#1677ff', fontSize: 18, cursor: 'pointer' }}
+            style={{ 
+              color: '#1677ff', 
+              fontSize: screens.md ? 18 : 16, 
+              cursor: 'pointer',
+              padding: screens.md ? '4px' : '2px',
+              borderRadius: '4px',
+              backgroundColor: screens.md ? '#f0f8ff' : 'transparent'
+            }}
             onClick={() => {
               console.log("Edit clicked for:", record);
             }}
           />
           <DeleteOutlined
-            style={{ color: 'red', fontSize: 18, cursor: 'pointer' }}
+            style={{ 
+              color: 'red', 
+              fontSize: screens.md ? 18 : 16, 
+              cursor: 'pointer',
+              padding: screens.md ? '4px' : '2px',
+              borderRadius: '4px',
+              backgroundColor: screens.md ? '#fff2f0' : 'transparent'
+            }}
             onClick={() => handleRemoveProduct(record.key)}
           />
         </div>
       ),
-    },
-  ];
+    };
 
-  // Columns for the product selection table in modal
-  const modalProductColumns = [
-    { title: 'Product Name', dataIndex: 'name', key: 'name' },
-    { title: 'Product ID', dataIndex: 'id', key: 'id' },
-    { title: 'Category', dataIndex: 'category', key: 'category' },
+    return [...baseColumns, actionColumn];
+  };
+
+  // Columns for product selection in modal - Desktop improvements only
+  const modalProductColumns: ColumnsType<any> = [
+    { 
+      title: 'Product Name', 
+      dataIndex: 'name', 
+      key: 'name',
+      width: screens.md ? 200 : 150,
+      ellipsis: true,
+      fixed: screens.md ? 'left' : false,
+      render: (text: string) => screens.md ? <Text strong>{text}</Text> : text
+    },
+    { 
+      title: 'Product ID', 
+      dataIndex: 'id', 
+      key: 'id',
+      width: screens.md ? 120 : 100,
+      align: screens.md ? 'center' : 'left',
+    },
+    { 
+      title: 'Category', 
+      dataIndex: 'category', 
+      key: 'category',
+      width: screens.md ? 180 : 120,
+      ellipsis: true
+    },
+    { 
+      title: 'Description', 
+      dataIndex: 'description', 
+      key: 'description', 
+      ellipsis: true,
+      width: screens.md ? 250 : 200
+    },
+    {
+      title: 'Unit Price',
+      dataIndex: 'unitPrice',
+      key: 'unitPrice',
+      width: screens.md ? 120 : 100,
+      align: screens.md ? 'right' : 'left',
+      render: (val: number) => `₹${val}`
+    },
     {
       title: 'Select',
       key: 'select',
+      width: screens.md ? 120 : 100,
+      fixed: screens.md ? 'right' : false,
+      align: screens.md ? 'center' : 'left',
       render: (_: any, record: any) => (
         <Button
           type="primary"
-          size="small"
+          size={screens.md ? 'middle' : 'small'}
           onClick={() => handleModalProductSelect(record)}
           disabled={selectedProducts.some(p => p.id === record.id)}
+          style={{ 
+            fontSize: screens.md ? '13px' : '12px',
+            padding: screens.md ? '4px 12px' : '2px 8px',
+          }}
         >
-          Select
+          {selectedProducts.some(p => p.id === record.id) ? 'Selected' : 'Select'}
         </Button>
       ),
     },
   ];
 
-  // Columns for the editing table in modal - Removed Edit icon
-  const modalEditColumns = [
-    { title: 'Product Name', dataIndex: 'name', key: 'name' },
-    { title: 'Product ID', dataIndex: 'id', key: 'id' },
+  // Columns for editing in modal - Desktop improvements only
+  const modalEditColumns: ColumnsType<any> = [
+    { 
+      title: 'Product Name', 
+      dataIndex: 'name', 
+      key: 'name',
+      width: screens.md ? 180 : 150,
+      ellipsis: true,
+      fixed: screens.md ? 'left' : false,
+      render: (text: string) => screens.md ? <Text strong>{text}</Text> : text
+    },
+    { 
+      title: 'Product ID', 
+      dataIndex: 'id', 
+      key: 'id',
+      width: screens.md ? 120 : 100,
+      align: screens.md ? 'center' : 'left',
+    },
     {
       title: 'Quantity',
       dataIndex: 'qty',
       key: 'qty',
+      width: screens.md ? 120 : 100,
+      align: screens.md ? 'center' : 'left',
       render: (val: number, record: any) => (
         <InputNumber
           value={val}
           min={1}
           onChange={(value) => handleEditProductInModal(record.key, 'qty', Number(value || 1))}
+          size={screens.md ? 'middle' : 'small'}
+          style={{ width: screens.md ? '90%' : '100%' }}
+          controls={screens.md ? true : true}
         />
       ),
     },
@@ -449,11 +612,15 @@ const PurchaseOrder: React.FC = () => {
       title: 'Unit',
       dataIndex: 'unit',
       key: 'unit',
+      width: screens.md ? 120 : 100,
+      align: screens.md ? 'center' : 'left',
       render: (val: string, record: any) => (
         <Select
           value={val}
-          style={{ width: 100 }}
+          style={{ width: screens.md ? '90%' : '100%' }}
           onChange={(value) => handleEditProductInModal(record.key, 'unit', value)}
+          size={screens.md ? 'middle' : 'small'}
+          variant={screens.md ? 'outlined' : 'outlined'}
         >
           {masters.units.map((u) => (
             <Option key={u} value={u}>
@@ -467,6 +634,8 @@ const PurchaseOrder: React.FC = () => {
       title: 'Unit Price',
       dataIndex: 'unitPrice',
       key: 'unitPrice',
+      width: screens.md ? 140 : 120,
+      align: screens.md ? 'right' : 'left',
       render: (val: number, record: any) => (
         <InputNumber
           value={val}
@@ -474,6 +643,9 @@ const PurchaseOrder: React.FC = () => {
           formatter={value => `₹${value}`}
           parser={currencyParser}
           onChange={(value) => handleEditProductInModal(record.key, 'unitPrice', Number(value || 0))}
+          size={screens.md ? 'middle' : 'small'}
+          style={{ width: screens.md ? '95%' : '100%' }}
+          controls={screens.md ? true : true}
         />
       ),
     },
@@ -481,6 +653,8 @@ const PurchaseOrder: React.FC = () => {
       title: 'Discount (%)',
       dataIndex: 'discountPercentage',
       key: 'discountPercentage',
+      width: screens.md ? 140 : 120,
+      align: screens.md ? 'right' : 'left',
       render: (val: number, record: any) => (
         <InputNumber
           value={val}
@@ -489,15 +663,36 @@ const PurchaseOrder: React.FC = () => {
           formatter={value => `${value}%`}
           parser={percentageParser}
           onChange={(value) => handleEditProductInModal(record.key, 'discountPercentage', Number(value || 0))}
+          size={screens.md ? 'middle' : 'small'}
+          style={{ width: screens.md ? '95%' : '100%' }}
+          controls={screens.md ? true : true}
         />
       ),
     },
     {
+      title: 'Dist. Price',
+      dataIndex: 'distributorPrice',
+      key: 'distributorPrice',
+      width: screens.md ? 140 : 120,
+      align: screens.md ? 'right' : 'left',
+      render: (val: number) => <Text strong>₹{val ? val.toFixed(2) : '0.00'}</Text>,
+    },
+    {
       title: 'Action',
       key: 'action',
+      width: screens.md ? 100 : 80,
+      fixed: screens.md ? 'right' : false,
+      align: screens.md ? 'center' : 'left',
       render: (_: any, record: any) => (
         <DeleteOutlined
-          style={{ color: 'red', fontSize: 18, cursor: 'pointer' }}
+          style={{ 
+            color: 'red', 
+            fontSize: screens.md ? 18 : 16, 
+            cursor: 'pointer',
+            padding: screens.md ? '4px' : '2px',
+            borderRadius: '4px',
+            backgroundColor: screens.md ? '#fff2f0' : 'transparent'
+          }}
           onClick={() => handleModalProductRemove(record.id)}
         />
       ),
@@ -530,14 +725,14 @@ const PurchaseOrder: React.FC = () => {
                 <Row gutter={[16, 16]}>
                   {[
                     {
-                      label: 'Account Name',
+                      label: 'Customer Name',
                       name: 'account',
                       options: masters.accounts,
                       placeholder: 'Select Account',
                       required: true,
                     },
                     {
-                      label: 'Outlet Name',
+                      label: 'Store Name',
                       name: 'outlet',
                       options: masters.outlets,
                       placeholder: 'Select Outlet',
@@ -549,7 +744,6 @@ const PurchaseOrder: React.FC = () => {
                       placeholder: 'Enter PO Number',
                       required: false,
                     },
-
                     {
                       label: 'PO Expiry Date',
                       name: 'poExpiryDate',
@@ -557,7 +751,6 @@ const PurchaseOrder: React.FC = () => {
                       placeholder: 'Select Expiry Date',
                       required: false,
                     },
-
                     {
                       label: 'Order Type',
                       name: 'orderType',
@@ -582,7 +775,7 @@ const PurchaseOrder: React.FC = () => {
                         }
                       >
                         {field.options ? (
-                          <Select placeholder={field.placeholder}>
+                          <Select placeholder={field.placeholder} size={screens.md ? 'middle' : 'small'}>
                             {field.options.map((opt: any) =>
                               typeof opt === 'string' ? (
                                 <Option key={opt} value={opt}>
@@ -599,16 +792,17 @@ const PurchaseOrder: React.FC = () => {
                           <DatePicker
                             placeholder={field.placeholder}
                             style={{ width: '100%' }}
+                            size={screens.md ? 'middle' : 'small'}
                           />
                         ) : (
-                          <Input placeholder={field.placeholder} />
+                          <Input placeholder={field.placeholder} size={screens.md ? 'middle' : 'small'} />
                         )}
                       </Form.Item>
                     </Col>
                   ))}
                 </Row>
 
-                {/* ---- Product Table ---- */}
+                {/* ---- Product Table - Desktop improvements only ---- */}
                 <Card type="inner" style={{ borderRadius: 8, marginTop: 16 }}>
                   <Row gutter={8} style={{ marginBottom: 16 }}>
                     <Col span={24} style={{ textAlign: "right" }}>
@@ -616,6 +810,7 @@ const PurchaseOrder: React.FC = () => {
                         type="primary"
                         icon={<PlusOutlined />}
                         onClick={showModal}
+                        size={screens.md ? 'middle' : 'small'}
                       >
                         Add Product
                       </Button>
@@ -623,14 +818,42 @@ const PurchaseOrder: React.FC = () => {
                   </Row>
                   {products.length > 0 ? (
                     screens.md ? (
-                      <Table
-                        columns={productColumns as any}
-                        dataSource={products}
-                        pagination={false}
-                        bordered
-                        size="middle"
-                      />
+                      // Desktop table with improved styling
+                      <div style={{ 
+                        width: '100%', 
+                        overflowX: 'auto',
+                        border: '1px solid #f0f0f0',
+                        borderRadius: '8px'
+                      }}>
+                        <Table
+                          columns={getProductColumns()}
+                          dataSource={products}
+                          pagination={false}
+                          bordered
+                          size="middle"
+                          scroll={{ x: screens.md ? 1200 : 800 }}
+                          style={{ 
+                            minWidth: screens.md ? '100%' : 800,
+                            tableLayout: 'fixed'
+                          }}
+                          components={{
+                            body: {
+                              cell: (props: any) => (
+                                <td 
+                                  {...props} 
+                                  style={{ 
+                                    ...props.style,
+                                    padding: screens.md ? '12px 8px' : '8px 4px',
+                                    fontSize: screens.md ? '14px' : '13px'
+                                  }}
+                                />
+                              ),
+                            },
+                          }}
+                        />
+                      </div>
                     ) : (
+                      // Mobile view - unchanged
                       <div
                         style={{
                           display: 'flex',
@@ -643,10 +866,9 @@ const PurchaseOrder: React.FC = () => {
                           <Card
                             key={p.key}
                             size="small"
-                            className='ant-card ant-card-body'
                             style={{
-                              border: '1px solid ',
-                              backgroundColor: '#f0f2f7',
+                              border: '1px solid #d9d9d9',
+                              backgroundColor: '#fafafa',
                               width: '100%',
                             }}
                           >
@@ -661,19 +883,21 @@ const PurchaseOrder: React.FC = () => {
                                 />
                               </Col>
                             </Row>
-                            <Row style={{ marginTop: 8 }}>
+                            <Row style={{ marginTop: 8 }} gutter={8}>
                               <Col span={12}>
-                                <Text>Price:</Text>
+                                <Text style={{ fontSize: 12 }}>Price:</Text>
                                 <InputNumber
                                   value={p.unitPrice}
                                   min={0}
                                   formatter={value => `₹${value}`}
                                   parser={currencyParser}
                                   onChange={(value) => handleEditProduct(p.key, 'unitPrice', Number(value || 0))}
+                                  size="small"
+                                  style={{ width: '100%' }}
                                 />
                               </Col>
                               <Col span={12}>
-                                <Text>Discount:</Text>
+                                <Text style={{ fontSize: 12 }}>Discount:</Text>
                                 {discountType === 'percentage' ? (
                                   <InputNumber
                                     value={p.discountPercentage}
@@ -682,6 +906,8 @@ const PurchaseOrder: React.FC = () => {
                                     formatter={value => `${value}%`}
                                     parser={percentageParser}
                                     onChange={(value) => handleEditProduct(p.key, 'discountPercentage', Number(value || 0))}
+                                    size="small"
+                                    style={{ width: '100%' }}
                                   />
                                 ) : (
                                   <InputNumber
@@ -690,67 +916,42 @@ const PurchaseOrder: React.FC = () => {
                                     formatter={value => `₹${value}`}
                                     parser={currencyParser}
                                     onChange={(value) => handleEditProduct(p.key, 'discountAmount', Number(value || 0))}
+                                    size="small"
+                                    style={{ width: '100%' }}
                                   />
                                 )}
                               </Col>
                             </Row>
-                            <Row style={{ marginTop: 8 }} gutter={12}>
+                            <Row style={{ marginTop: 8 }} gutter={8}>
                               <Col span={12}>
-                                <Text>Qty:</Text>
-                                <Input
-                                  type="number"
+                                <Text style={{ fontSize: 12 }}>Qty:</Text>
+                                <InputNumber
                                   value={p.qty}
                                   min={0}
                                   onChange={(e) =>
                                     handleEditProduct(
                                       p.key,
                                       'qty',
-                                      Number(e.target.value || 0)
+                                      Number(e || 0)
                                     )
                                   }
+                                  size="small"
+                                  style={{ width: '100%' }}
                                 />
                               </Col>
                               <Col span={12}>
-                                <Text>Piece:</Text>
-                                <Input
-                                  type="number"
-                                  value={p.piece || 0}
-                                  min={0}
-                                  onChange={(e) =>
-                                    handleEditProduct(
-                                      p.key,
-                                      'piece',
-                                      Number(e.target.value || 0)
-                                    )
-                                  }
-                                />
-                              </Col>
-                            </Row>
-                            {/* Unit and Discount Type in a single row on mobile */}
-                            <Row style={{ marginTop: 8 }} gutter={12}>
-                              <Col span={12}>
-                                <Text>Unit:</Text>
+                                <Text style={{ fontSize: 12 }}>Unit:</Text>
                                 <Select
                                   value={p.unit}
                                   style={{ width: '100%' }}
                                   onChange={(value) => handleEditProduct(p.key, 'unit', value)}
+                                  size="small"
                                 >
                                   {masters.units.map((u) => (
                                     <Option key={u} value={u}>
                                       {u}
                                     </Option>
                                   ))}
-                                </Select>
-                              </Col>
-                              <Col span={12}>
-                                <Text>Discount Type:</Text>
-                                <Select
-                                  value={discountType}
-                                  style={{ width: '100%' }}
-                                  onChange={(value) => setDiscountType(value)}
-                                >
-                                  <Option value="percentage">Percentage</Option>
-                                  <Option value="amount">Amount</Option>
                                 </Select>
                               </Col>
                             </Row>
@@ -771,7 +972,11 @@ const PurchaseOrder: React.FC = () => {
             <Card title="Billing & Shipping" style={{ marginTop: 16 }}>
               <Row gutter={[16, 16]}>
                 <Col xs={24} md={12}>
-                  <Select placeholder="Select Billing Address" style={{ width: '100%' }}>
+                  <Select 
+                    placeholder="Select Billing Address" 
+                    style={{ width: '100%' }}
+                    size={screens.md ? 'middle' : 'small'}
+                  >
                     {masters.billingAddresses.map((addr) => (
                       <Option key={addr.id} value={addr.id}>
                         {addr.name}
@@ -780,7 +985,11 @@ const PurchaseOrder: React.FC = () => {
                   </Select>
                 </Col>
                 <Col xs={24} md={12}>
-                  <Select placeholder="Select Shipping Address" style={{ width: '100%' }}>
+                  <Select 
+                    placeholder="Select Shipping Address" 
+                    style={{ width: '100%' }}
+                    size={screens.md ? 'middle' : 'small'}
+                  >
                     {masters.shippingAddresses.map((addr) => (
                       <Option key={addr.id} value={addr.id}>
                         {addr.name}
@@ -798,6 +1007,7 @@ const PurchaseOrder: React.FC = () => {
                   <DatePicker
                     style={{ width: '100%', marginTop: 8 }}
                     placeholder="Select date"
+                    size={screens.md ? 'middle' : 'small'}
                   />
                 </Col>
               </Row>
@@ -817,10 +1027,6 @@ const PurchaseOrder: React.FC = () => {
               <Row justify="space-between">
                 <Col>Total Qty:</Col>
                 <Col>{summary.totalQty}</Col>
-              </Row>
-              <Row justify="space-between">
-                {/* <Col>Total Pieces:</Col> */}
-                {/* <Col>{summary.totalPieces}</Col> */}
               </Row>
               <Row justify="space-between">
                 <Col>Total Basic Value:</Col>
@@ -860,10 +1066,15 @@ const PurchaseOrder: React.FC = () => {
                 type="primary"
                 block
                 style={{ marginTop: 12, backgroundColor: '#8488BF' }}
+                size={screens.md ? 'middle' : 'small'}
               >
                 Save as Draft
               </Button>
-              <Button block style={{ marginTop: 8 }}>
+              <Button 
+                block 
+                style={{ marginTop: 8 }}
+                size={screens.md ? 'middle' : 'small'}
+              >
                 Preview Order
               </Button>
               <Button
@@ -871,6 +1082,7 @@ const PurchaseOrder: React.FC = () => {
                 type="primary"
                 block
                 style={{ marginTop: 8, backgroundColor: '#f9595eff' }}
+                size={screens.md ? 'middle' : 'small'}
               >
                 Submit Order
               </Button>
@@ -882,11 +1094,12 @@ const PurchaseOrder: React.FC = () => {
       {/* Add Product Modal */}
       <Modal
         title="Add Products"
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={handleModalCancel}
-        width={900}
+        width={screens.md ? 1000 : '95%'}
+        style={{ maxWidth: '95vw' }}
         footer={[
-          <Button key="cancel" onClick={handleModalCancel}>
+          <Button key="cancel" onClick={handleModalCancel} size={screens.md ? 'middle' : 'small'}>
             Cancel
           </Button>,
           <Button
@@ -894,77 +1107,70 @@ const PurchaseOrder: React.FC = () => {
             type="primary"
             onClick={handleModalSubmit}
             icon={<SaveOutlined />}
+            size={screens.md ? 'middle' : 'small'}
           >
             Submit
           </Button>,
         ]}
       >
-        {/* Category filter and search bar in a single row on mobile */}
         <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
-          {screens.md ? (
-            <>
-              <Col xs={24} sm={5}>
-                <Select
-                  value={selectedCategory}
-                  onChange={setSelectedCategory}
-                  style={{ width: '100%' }}
-                >
-                  <Option value="All">All Categories</Option>
-                  {masters.productCategories.map(category => (
-                    <Option key={category} value={category}>
-                      {category}
-                    </Option>
-                  ))}
-                </Select>
-              </Col>
-              <Col xs={24} sm={19}>
-                <Input
-                  placeholder="Search products by name"
-                  value={modalSearchText}
-                  onChange={(e) => setModalSearchText(e.target.value)}
-                />
-              </Col>
-            </>
-          ) : (
-            <Col xs={24}>
-              <Row gutter={8}>
-                <Col span={10}>
-                  <Select
-                    value={selectedCategory}
-                    onChange={setSelectedCategory}
-                    style={{ width: '100%' }}
-                  >
-                    <Option value="All">All Categories</Option>
-                    {masters.productCategories.map(category => (
-                      <Option key={category} value={category}>
-                        {category}
-                      </Option>
-                    ))}
-                  </Select>
-                </Col>
-                <Col span={14}>
-                  <Input
-                    placeholder="Search products"
-                    value={modalSearchText}
-                    onChange={(e) => setModalSearchText(e.target.value)}
-                  />
-                </Col>
-              </Row>
-            </Col>
-          )}
+          <Col xs={24} sm={screens.md ? 8 : 10}>
+            <Select
+              value={selectedCategory}
+              onChange={setSelectedCategory}
+              style={{ width: '100%' }}
+              size={screens.md ? 'middle' : 'small'}
+            >
+              <Option value="All">All Categories</Option>
+              {masters.productCategories.map(category => (
+                <Option key={category} value={category}>
+                  {category}
+                </Option>
+              ))}
+            </Select>
+          </Col>
+          <Col xs={24} sm={screens.md ? 16 : 14}>
+            <Input
+              placeholder="Search products by name or description"
+              value={modalSearchText}
+              onChange={(e) => setModalSearchText(e.target.value)}
+              size={screens.md ? 'middle' : 'small'}
+            />
+          </Col>
         </Row>
 
-        {/* Product Selection Table - Mobile Card View */}
         <Text strong style={{ display: 'block', marginBottom: 12 }}>Available Products:</Text>
         {screens.md ? (
-          <Table
-            columns={modalProductColumns}
-            dataSource={filteredProducts}
-            pagination={{ pageSize: 5 }}
-            size="small"
-            style={{ marginBottom: 16 }}
-          />
+          // Desktop table in modal
+          <div style={{ width: '100%', overflowX: 'auto', marginBottom: 16 }}>
+            <Table
+              columns={modalProductColumns}
+              dataSource={filteredProducts}
+              pagination={{ pageSize: 5 }}
+              size="middle"
+              scroll={{ x: 1000 }}
+              style={{ 
+                border: '1px solid #f0f0f0',
+                borderRadius: '8px'
+              }}
+              components={{
+                body: {
+                  cell: (props: any) => (
+                    <td 
+                      {...props} 
+                      style={{ 
+                        ...props.style,
+                        padding: '12px 8px',
+                        fontSize: '14px'
+                      }}
+                    />
+                  ),
+                },
+              }}
+            />
+          </div>
         ) : (
+          // Mobile view in modal - unchanged
           <div
             style={{
               display: 'flex',
@@ -988,8 +1194,9 @@ const PurchaseOrder: React.FC = () => {
                 <Row justify="space-between" align="middle">
                   <Col span={18}>
                     <div><strong>{product.name}</strong></div>
-                    <div>ID: {product.id}</div>
-                    <div>Category: {product.category}</div>
+                    <div style={{ fontSize: 12 }}>ID: {product.id}</div>
+                    <div style={{ fontSize: 12 }}>Category: {product.category}</div>
+                    <div style={{ fontSize: 11, color: '#666' }}>{product.description}</div>
                   </Col>
                   <Col span={6} style={{ textAlign: 'right' }}>
                     <Button
@@ -1007,21 +1214,42 @@ const PurchaseOrder: React.FC = () => {
           </div>
         )}
 
-        {/* Selected Products Editing Table - Mobile Card View */}
         {editingProducts.length > 0 && (
           <div>
             <Text strong style={{ display: 'block', marginBottom: 12, fontWeight: 600, fontSize: 16 }}>
               Selected Products:
             </Text>
             {screens.md ? (
-              <Table
-                columns={modalEditColumns}
-                dataSource={editingProducts}
-                pagination={false}
-                size="small"
-                style={{ marginTop: 16 }}
-              />
+              // Desktop table for editing products
+              <div style={{ width: '100%', overflowX: 'auto' }}>
+                <Table
+                  columns={modalEditColumns}
+                  dataSource={editingProducts}
+                  pagination={false}
+                  size="middle"
+                  scroll={{ x: 1100 }}
+                  style={{ 
+                    border: '1px solid #f0f0f0',
+                    borderRadius: '8px'
+                  }}
+                  components={{
+                    body: {
+                      cell: (props: any) => (
+                        <td 
+                          {...props} 
+                          style={{ 
+                            ...props.style,
+                            padding: '12px 8px',
+                            fontSize: '14px'
+                          }}
+                        />
+                      ),
+                    },
+                  }}
+                />
+              </div>
             ) : (
+              // Mobile view for editing products - unchanged
               <div
                 style={{
                   display: 'flex',
@@ -1042,7 +1270,7 @@ const PurchaseOrder: React.FC = () => {
                     <Row justify="space-between" align="middle">
                       <Col>
                         <div><strong>{p.name}</strong></div>
-                        <div>ID: {p.id}</div>
+                        <div style={{ fontSize: 12 }}>ID: {p.id}</div>
                       </Col>
                       <Col>
                         <DeleteOutlined
@@ -1052,22 +1280,24 @@ const PurchaseOrder: React.FC = () => {
                       </Col>
                     </Row>
 
-                    <Row style={{ marginTop: 8 }} gutter={12}>
+                    <Row style={{ marginTop: 8 }} gutter={8}>
                       <Col span={12}>
-                        <Text>Quantity:</Text>
+                        <Text style={{ fontSize: 12 }}>Quantity:</Text>
                         <InputNumber
                           value={p.qty}
                           min={1}
                           onChange={(value) => handleEditProductInModal(p.key, 'qty', Number(value || 1))}
                           style={{ width: '100%' }}
+                          size="small"
                         />
                       </Col>
                       <Col span={12}>
-                        <Text>Unit:</Text>
+                        <Text style={{ fontSize: 12 }}>Unit:</Text>
                         <Select
                           value={p.unit}
                           style={{ width: '100%' }}
                           onChange={(value) => handleEditProductInModal(p.key, 'unit', value)}
+                          size="small"
                         >
                           {masters.units.map((u) => (
                             <Option key={u} value={u}>
@@ -1078,10 +1308,9 @@ const PurchaseOrder: React.FC = () => {
                       </Col>
                     </Row>
 
-                    {/* Unit and Discount Type in a single row on mobile */}
-                    <Row style={{ marginTop: 8 }} gutter={12}>
+                    <Row style={{ marginTop: 8 }} gutter={8}>
                       <Col span={12}>
-                        <Text>Unit Price:</Text>
+                        <Text style={{ fontSize: 12 }}>Unit Price:</Text>
                         <InputNumber
                           value={p.unitPrice}
                           min={0}
@@ -1089,35 +1318,22 @@ const PurchaseOrder: React.FC = () => {
                           parser={currencyParser}
                           onChange={(value) => handleEditProductInModal(p.key, 'unitPrice', Number(value || 0))}
                           style={{ width: '100%' }}
+                          size="small"
                         />
                       </Col>
                       <Col span={12}>
-                        <Text>Discount Type:</Text>
-                        <Select
-                          value={discountType}
-                          style={{ width: '100%' }}
-                          onChange={(value) => setDiscountType(value)}
-                        >
-                          <Option value="percentage">Percentage</Option>
-                          <Option value="amount">Amount</Option>
-                        </Select>
-                      </Col>
-                    </Row>
-                    <Row style={{ marginTop: 8 }} gutter={12}>
-                      <Col span={12}>
-                        <Text>Discount (%):</Text>
+                        <Text style={{ fontSize: 12 }}>Discount (%):</Text>
                         <InputNumber
                           value={p.discountPercentage}
                           min={0}
                           max={100}
                           formatter={value => `${value}%`}
                           parser={percentageParser}
-
                           onChange={(value) => handleEditProductInModal(p.key, 'discountPercentage', Number(value || 0))}
                           style={{ width: '100%' }}
+                          size="small"
                         />
                       </Col>
-                      <Col span={12} style={{ marginTop: 8 }}></Col>
                     </Row>
                   </Card>
                 ))}
@@ -1126,19 +1342,6 @@ const PurchaseOrder: React.FC = () => {
           </div>
         )}
       </Modal>
-
-      <style>
-        {
-          `
-          @media (max-width: 768px) {
-            .ant-card .ant-card-body {
-              padding: 4px;
-              border-radius: 8px 8px 8px 8px;
-            }
-          }
-          `
-        }
-      </style>
     </div>
   );
 };

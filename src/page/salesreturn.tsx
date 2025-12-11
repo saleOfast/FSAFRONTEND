@@ -8,7 +8,10 @@ import {
     ArrowLeftOutlined,
     CheckCircleOutlined,
     PlusOutlined,
-    EditOutlined
+    EditOutlined,
+    AppstoreOutlined,
+    UnorderedListOutlined,
+    SearchOutlined
 } from "@ant-design/icons";
 import previousPage from "utils/previousPage";
 import { setLoaderAction } from "redux-store/action/appActions";
@@ -20,6 +23,7 @@ import { DEFAULT_PAGE_SIZE } from "app-constants";
 import { DurationEnum } from "enum/common";
 import { useLocation } from "react-router-dom";
 import dayjs from "dayjs";
+import "../style/stores.css";
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -126,6 +130,44 @@ const Salesreturn: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [selectedProductId, setSelectedProductId] = useState<any | null>(null);
     const screens = useBreakpoint();
+    
+    // Load gridView preference from localStorage or default to true
+    const getDefaultGridView = () => {
+        const saved = localStorage.getItem('salesReturnPageGridView');
+        if (saved !== null) {
+            return saved === 'true';
+        }
+        return true; // Default to grid view
+    };
+    
+    const [gridView, setGridView] = useState(getDefaultGridView());
+    const [searchValue, setSearchValue] = useState("");
+    
+    const handleGridView = () => {
+        setGridView(true);
+        localStorage.setItem('salesReturnPageGridView', 'true');
+    };
+    
+    const handleListView = () => {
+        setGridView(false);
+        localStorage.setItem('salesReturnPageGridView', 'false');
+    };
+    
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSearchValue(value);
+    };
+    
+    const filteredData = data.filter((item) => {
+        if (!searchValue) return true;
+        const searchTerm = searchValue.toLowerCase();
+        return (
+            item.returnId?.toLowerCase().includes(searchTerm) ||
+            item.orderNumber?.toLowerCase().includes(searchTerm) ||
+            item.customer?.toLowerCase().includes(searchTerm) ||
+            item.status?.toLowerCase().includes(searchTerm)
+        );
+    });
 
     useEffect(() => {
         getOrderList(filter);
@@ -490,7 +532,7 @@ const Salesreturn: React.FC = () => {
     };
 
     return (
-        <div style={{ overflowX: 'hidden' }}>
+        <div  style={{ overflowX: 'hidden', fontFamily: 'roboto' }}>
             <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
                 <ArrowLeftOutlined onClick={previousPage} className="back-button" />
                 <h1 className="page-title pr-18">Sales & Return</h1>
@@ -550,16 +592,145 @@ const Salesreturn: React.FC = () => {
                 </div>
                 <p style={{ marginBottom: 10 }}>Manage and track all return requests</p>
 
-                <div style={{ overflowX: 'auto' }}>
-                    <Table
-                        columns={columns}
-                        dataSource={data}
-                        pagination={false}
-                        bordered={false}
-                        scroll={{ x: 'max-content' }}
-                        style={{ minWidth: '600px' }}
+                <div className="search">
+                    <Input
+                        prefix={<SearchOutlined />}
+                        placeholder="Search by Return ID, Order Number, Customer, Status"
+                        value={searchValue}
+                        onChange={handleSearch}
+                        allowClear
                     />
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                            <AppstoreOutlined style={{ fontSize: '15px' }} onClick={handleGridView} />
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', marginRight: '10px' }}>
+                            <UnorderedListOutlined style={{ fontSize: '15px' }} onClick={handleListView} />
+                        </div>
+                    </div>
                 </div>
+
+                {gridView ? (
+                    <div
+                        className="content"
+                        style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: "20px",
+                            marginTop: "24px",
+                            marginBottom: "10px",
+                        }}
+                    >
+                        {filteredData && filteredData.length > 0 && filteredData.map((item, index) => {
+                            const getStatusColor = (status: string) => {
+                                switch (status) {
+                                    case "Completed":
+                                        return "#2DB83D";
+                                    case "Approved":
+                                        return "#1890ff";
+                                    case "Processing":
+                                        return "#faad14";
+                                    default:
+                                        return "#e61b23";
+                                }
+                            };
+
+                            return (
+                                <div key={index}>
+                                    <div
+                                        className="store-list"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => handleViewClick(item)}
+                                    >
+                                        <div className="shoptitle">
+                                            <div className="fontb">{item?.returnId}</div>
+                                            <div
+                                                style={{
+                                                    background: getStatusColor(item?.status),
+                                                    padding: '4px 8px',
+                                                    borderRadius: '4px',
+                                                    color: 'white',
+                                                    fontSize: '12px'
+                                                }}
+                                            >
+                                                {item?.status}
+                                            </div>
+                                        </div>
+                                        <div className="storeConlist">
+                                            <div>
+                                                <div className="storeIdTxt">
+                                                    Order: {item?.orderNumber}
+                                                </div>
+                                                <div className="fs-13">Customer: <span className="fw-bold">{item?.customer}</span></div>
+                                                <div className="fs-13">Date: <span className="fw-bold">{item?.date}</span></div>
+                                                <div className="fs-13">Value: <span className="fw-bold">{item?.value}</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <table className="store-table" style={{ textDecoration: 'none', fontSize: '13px', width: '100%', marginTop: '20px' }}>
+                        <thead>
+                            <tr>
+                                <th>Return ID</th>
+                                <th>Order Number</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredData?.map((item, index) => {
+                                const getStatusColor = (status: string) => {
+                                    switch (status) {
+                                        case "Completed":
+                                            return "#2DB83D";
+                                        case "Approved":
+                                            return "#1890ff";
+                                        case "Processing":
+                                            return "#faad14";
+                                        default:
+                                            return "#e61b23";
+                                    }
+                                };
+
+                                return (
+                                    <tr key={index}>
+                                        <td>
+                                            <a
+                                                onClick={() => handleViewClick(item)}
+                                                style={{ textDecoration: 'none', color: '#1890ff', cursor: 'pointer' }}
+                                            >
+                                                {item?.returnId}
+                                            </a>
+                                        </td>
+                                        <td>{item?.orderNumber}</td>
+                                        <td>{item?.customer}</td>
+                                        <td>{item?.date}</td>
+                                        <td>
+                                            <span
+                                                style={{
+                                                    background: getStatusColor(item?.status),
+                                                    padding: '4px 8px',
+                                                    borderRadius: '4px',
+                                                    color: 'white',
+                                                    fontSize: '12px'
+                                                }}
+                                            >
+                                                {item?.status}
+                                            </span>
+                                        </td>
+                                        <td>{item?.value}</td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                )}
             </div>
             
             <Modal
@@ -647,8 +818,8 @@ const Salesreturn: React.FC = () => {
                 style={{ top: 20 }}
                 bodyStyle={{
                     maxHeight: '70vh',
-                    overflowY: 'auto',
-                    padding: '16px'
+                    padding: '16px',
+                    overflowY: 'auto'
                 }}
                 maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 getContainer={false}

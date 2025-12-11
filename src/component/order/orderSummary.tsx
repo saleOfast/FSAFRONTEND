@@ -136,33 +136,34 @@ export default function OrderSummary() {
 		},
 	];
 
-	// Improved Delivery Status Component
+	// Enhanced Delivery Status Component
 	const DeliveryStatus = ({ status, currentStep }: { status: string, currentStep: number }) => {
 		const getStatusColor = (status: string) => {
 			switch (status) {
 				case OrderStatus.DELIVERED:
-					return '#52c41a';
-				case OrderStatus.CANCELLED:
-					return '#ff4d4f';
-				case OrderStatus.OUTFORDELIVERY:
-					return '#fa8c16';
-				case OrderStatus.SHIPPED:
-					return '#1890ff';
-				case OrderStatus.ORDERPLACED:
-					return '#722ed1';
-				default:
 					return '#8488BF';
+				case OrderStatus.CANCELLED:
+					return '#ef4444';
+				case OrderStatus.OUTFORDELIVERY:
+					return '#f59e0b';
+				case OrderStatus.SHIPPED:
+					return '#3b82f6';
+				case OrderStatus.ORDERPLACED:
+					return '#8b5cf6';
+				default:
+					return '#6b7280';
 			}
 		};
 
 		const getStatusIcon = (status: string) => {
+			const iconStyle = { fontSize: '24px' };
 			switch (status) {
 				case OrderStatus.DELIVERED:
-					return <CheckCircleFilled style={{ color: '#52c41a', fontSize: '20px' }} />;
+					return <CheckCircleFilled style={{ ...iconStyle, color: '#8488BF' }} />;
 				case OrderStatus.CANCELLED:
-					return <CloseCircleFilled style={{ color: '#ff4d4f', fontSize: '20px' }} />;
+					return <CloseCircleFilled style={{ ...iconStyle, color: '#ef4444' }} />;
 				default:
-					return <ClockCircleFilled style={{ color: getStatusColor(status), fontSize: '20px' }} />;
+					return <ClockCircleFilled style={{ ...iconStyle, color: getStatusColor(status) }} />;
 			}
 		};
 
@@ -175,11 +176,28 @@ export default function OrderSummary() {
 				case OrderStatus.OUTFORDELIVERY:
 					return 'Out for Delivery';
 				case OrderStatus.DELIVERED:
-					return 'Delivered';
+					return 'Delivered Successfully';
 				case OrderStatus.CANCELLED:
-					return 'Cancelled';
+					return 'Order Cancelled';
 				default:
 					return status;
+			}
+		};
+
+		const getStatusDescription = (status: string) => {
+			switch (status) {
+				case OrderStatus.ORDERPLACED:
+					return 'Your order has been confirmed and is being processed';
+				case OrderStatus.SHIPPED:
+					return 'Your order has been shipped and is on its way';
+				case OrderStatus.OUTFORDELIVERY:
+					return 'Your order is out for delivery today';
+				case OrderStatus.DELIVERED:
+					return 'Your order has been delivered successfully';
+				case OrderStatus.CANCELLED:
+					return 'Your order has been cancelled';
+				default:
+					return 'Tracking your order status';
 			}
 		};
 
@@ -189,119 +207,147 @@ export default function OrderSummary() {
 				status: OrderStatus.ORDERPLACED,
 				completed: currentStep >= 0,
 				active: currentStep === 0,
-				date: latestStatuses.find(item => item.status === OrderStatus.ORDERPLACED)?.timestamp 
+				date: latestStatuses.find(item => item.status === OrderStatus.ORDERPLACED)?.timestamp,
+				description: 'Order confirmed and processing started'
 			},
 			{ 
 				title: 'Shipped', 
 				status: OrderStatus.SHIPPED,
 				completed: currentStep >= 1,
 				active: currentStep === 1,
-				date: latestStatuses.find(item => item.status === OrderStatus.SHIPPED)?.timestamp 
+				date: latestStatuses.find(item => item.status === OrderStatus.SHIPPED)?.timestamp,
+				description: 'Items shipped from warehouse'
 			},
 			{ 
 				title: 'Out for Delivery', 
 				status: OrderStatus.OUTFORDELIVERY,
 				completed: currentStep >= 2,
 				active: currentStep === 2,
-				date: latestStatuses.find(item => item.status === OrderStatus.OUTFORDELIVERY)?.timestamp 
+				date: latestStatuses.find(item => item.status === OrderStatus.OUTFORDELIVERY)?.timestamp,
+				description: 'Out for delivery in your area'
 			},
 			{ 
 				title: 'Delivered', 
 				status: OrderStatus.DELIVERED,
 				completed: currentStep >= 3,
 				active: currentStep === 3,
-				date: latestStatuses.find(item => item.status === OrderStatus.DELIVERED)?.timestamp 
+				date: latestStatuses.find(item => item.status === OrderStatus.DELIVERED)?.timestamp,
+				description: 'Package delivered successfully'
 			},
 		];
 
+		const activeStep = steps.find(step => step.active) || steps[Math.max(0, currentStep)];
+
 		return (
-			<div className="delivery-section-improved">
-				<div className="delivery-header">
-					<div className="header-left">
-						<h3>Delivery Status</h3>
-						<div className="current-status">
+			<div className="delivery-section-enhanced">
+				{/* Header Section */}
+				<div className="delivery-header-enhanced">
+					<div className="status-overview">
+						<div className="status-icon-title">
 							{getStatusIcon(status)}
-							<span className="status-text-large">{getStatusText(status)}</span>
-							<Tag 
-								color={status === OrderStatus.CANCELLED ? 'red' : 
-									   status === OrderStatus.DELIVERED ? 'green' : 
-									   status === OrderStatus.OUTFORDELIVERY ? 'orange' : 'blue'}
-								className="status-tag"
-							>
-								{getStatusText(status)}
-							</Tag>
-						</div>
-					</div>
-					{(orderSummaryData as any)?.estimatedDeliveryDate && (
-						<div className="estimated-delivery-card">
-							<ClockCircleFilled style={{ color: '#fa8c16', marginRight: '8px' }} />
-							<div>
-								<div className="estimated-label">Estimated Delivery</div>
-								<div className="estimated-date">{formatDate((orderSummaryData as any).estimatedDeliveryDate)}</div>
+							<div className="status-text-container">
+								<h2 className="status-title">{getStatusText(status)}</h2>
+								<p className="status-description">{getStatusDescription(status)}</p>
 							</div>
+						</div>
+						<Tag 
+							color={status === OrderStatus.CANCELLED ? 'red' : 
+								   status === OrderStatus.DELIVERED ? 'green' : 
+								   status === OrderStatus.OUTFORDELIVERY ? 'orange' : 
+								   status === OrderStatus.SHIPPED ? 'blue' : 'purple'}
+							className="status-badge-large"
+						>
+							{getStatusText(status)}
+						</Tag>
+					</div>
+
+					{/* Estimated Delivery Card */}
+					{(orderSummaryData as any)?.estimatedDeliveryDate && status !== OrderStatus.CANCELLED && (
+						<div className="delivery-info-card">
+							<div className="info-card-header">
+								<ClockCircleFilled className="info-card-icon" />
+								<span>Estimated Delivery</span>
+							</div>
+							<div className="estimated-date-highlight">
+								{formatDate((orderSummaryData as any).estimatedDeliveryDate)}
+							</div>
+							{status === OrderStatus.OUTFORDELIVERY && (
+								<div className="delivery-today-badge">Delivering Today</div>
+							)}
 						</div>
 					)}
 				</div>
 
-				{/* Progress Bar */}
-				<div className="progress-container">
-					<div className="progress-bar">
-						<div 
-							className="progress-fill" 
-							style={{ 
-								width: `${Math.max(0, (currentStep / (steps.length - 1)) * 100)}%`,
-								backgroundColor: getStatusColor(status)
-							}}
-						/>
-					</div>
-					
-					<div className="steps-container">
-						{steps.map((step, index) => (
-							<div key={step.status} className={`step-item ${step.completed ? 'completed' : ''} ${step.active ? 'active' : ''}`}>
-								<div className="step-indicator">
-									{step.completed ? (
-										<CheckCircleFilled style={{ color: '#52c41a', fontSize: '20px' }} />
-									) : (
-										<div 
-											className="step-dot" 
-											style={{ 
-												backgroundColor: step.active ? getStatusColor(status) : '#d9d9d9',
-												borderColor: step.active ? getStatusColor(status) : '#d9d9d9'
-											}}
-										>
-											{index + 1}
-										</div>
-									)}
-								</div>
-								<div className="step-content-improved">
-									<div className="step-title-improved">{step.title}</div>
-									{step.date && (
-										<div className="step-date-improved">
-											{formatDate(step.date)}
-										</div>
-									)}
-									{step.active && (
-										<div className="step-badge">Current</div>
-									)}
-								</div>
-								{index < steps.length - 1 && (
-									<div className={`step-connector-improved ${step.completed ? 'completed' : ''}`} />
-								)}
+				{/* Progress Tracking */}
+				{status !== OrderStatus.CANCELLED && (
+					<div className="progress-tracking-section">
+						<div className="progress-header">
+							<h4>Delivery Progress</h4>
+							<div className="progress-text">
+								Step {currentStep + 1} of {steps.length}
 							</div>
-						))}
+						</div>
+						
+						{/* Progress Bar */}
+						<div className="progress-container-enhanced">
+							<div className="progress-bar-enhanced">
+								<div 
+									className="progress-fill-enhanced" 
+									style={{ 
+										width: `${Math.max(0, (currentStep / (steps.length - 1)) * 100)}%`,
+										backgroundColor: getStatusColor(status)
+									}}
+								/>
+							</div>
+							
+							{/* Steps */}
+							<div className="steps-grid">
+								{steps.map((step, index) => (
+									<div key={step.status} className={`step-item-enhanced ${step.completed ? 'completed' : ''} ${step.active ? 'active' : ''}`}>
+										<div className="step-indicator-enhanced">
+											{step.completed ? (
+												<CheckCircleFilled className="step-icon-completed" />
+											) : (
+												<div 
+													className="step-dot-enhanced" 
+													style={{ 
+														backgroundColor: step.active ? getStatusColor(status) : '#e5e7eb',
+														borderColor: step.active ? getStatusColor(status) : '#e5e7eb'
+													}}
+												>
+													{index + 1}
+												</div>
+											)}
+										</div>
+										<div className="step-content-enhanced">
+											<div className="step-title-enhanced">{step.title}</div>
+											{step.date && (
+												<div className="step-date-enhanced">
+													{formatDate(step.date)}
+												</div>
+											)}
+											<div className="step-description">{step.description}</div>
+											{step.active && (
+												<div className="step-badge-current">Current</div>
+											)}
+										</div>
+									</div>
+								))}
+							</div>
+						</div>
 					</div>
-				</div>
+				)}
 
 				{/* Status Timeline */}
-				<div className="status-timeline">
+				<div className="status-timeline-enhanced">
 					<h4>Status History</h4>
-					<div className="timeline-items">
+					<div className="timeline-items-enhanced">
 						{latestStatuses.map((statusItem, index) => (
-							<div key={index} className="timeline-item">
-								<div className="timeline-marker" style={{ backgroundColor: getStatusColor(statusItem.status) }} />
-								<div className="timeline-content">
-									<div className="timeline-status">{getStatusText(statusItem.status)}</div>
-									<div className="timeline-date">
+							<div key={index} className="timeline-item-enhanced">
+								<div className="timeline-marker-enhanced" style={{ backgroundColor: getStatusColor(statusItem.status) }} />
+								<div className="timeline-content-enhanced">
+									<div className="timeline-status-enhanced">{getStatusText(statusItem.status)}</div>
+									<div className="timeline-date-enhanced">
 										{formatDate(statusItem.timestamp)} at {formatTime(statusItem.timestamp)}
 									</div>
 								</div>
@@ -606,7 +652,7 @@ export default function OrderSummary() {
 			{
 				orderSummaryData &&
 				<section className="main_cls orderSummDesk">
-					{/* Delivery Status Section - Improved UI */}
+					{/* Delivery Status Section - Enhanced UI */}
 					<div className="order_summary_card">
 						<DeliveryStatus 
 							status={orderSummaryData.orderStatus} 
@@ -615,551 +661,307 @@ export default function OrderSummary() {
 					</div>
 
 					<div className="order_summary_card">
-						<div className="left_card_inside">
-							<h3>Order ID: {orderSummaryData.orderId}</h3>
-							<span>Order Date: {dateFormatter(orderSummaryData.createdAt, "dd-MMM-yyyy")}</span>
-							{orderSummaryData?.isCallType && orderSummaryData?.isCallType === VisitTypeEnum.TELEVISIT ?
-								<div style={{ display: "flex", gap: "10px", alignItems: "center" }}><span>Order Type: Phone Order </span><span><PhoneFilled style={{ fontSize: "14px" }} /></span></div>
-								:
-								<div style={{ display: "flex", gap: "10px" }}><span>Order Type:  Visit Order </span>
-									<img src="https://mrapp.saleofast.com/images/visit.jpg" alt="visitorder" width="14" height="18" />
-								</div>
-							}
-							<span className='download_invoice hide-in-pdf' onClick={downloadInvoicePdf}>Download Invoice <DownloadOutlined /></span>
+						<div className="card-header-responsive">
+							<div className="left_card_inside">
+								<h3>Order ID: {orderSummaryData.orderId}</h3>
+								<span>Order Date: {dateFormatter(orderSummaryData.createdAt, "dd-MMM-yyyy")}</span>
+								{orderSummaryData?.isCallType && orderSummaryData?.isCallType === VisitTypeEnum.TELEVISIT ?
+									<div className="order-type">
+										<span>Order Type: Phone Order </span>
+										<PhoneFilled className="order-type-icon" />
+									</div>
+									:
+									<div className="order-type">
+										<span>Order Type: Visit Order </span>
+										<img src="https://mrapp.saleofast.com/images/visit.jpg" alt="visitorder" className="order-type-icon" />
+									</div>
+								}
+								<span className='download_invoice hide-in-pdf' onClick={downloadInvoicePdf}>
+									<DownloadOutlined />
+									Download Invoice
+								</span>
+							</div>
+							<div className="right_card_inside hide-in-pdf">
+								<ul>
+									<li>
+										<Link
+											to={`/visit-details/${orderSummaryData.storeId}/${orderSummaryData.visitId}/pictures`}
+											state={{ visitDetail: orderSummaryData.visit }}>
+											<span className="linkable_className">View Store Picture</span>
+										</Link>
+									</li>
+								</ul>
+							</div>
 						</div>
-						<div className="right_card_inside hide-in-pdf">
-							<ul>
-								<li>
-									<Link
-										to={`/visit-details/${orderSummaryData.storeId}/${orderSummaryData.visitId}/pictures`}
-										state={{ visitDetail: orderSummaryData.visit }}>
-										<span className="linkable_className">View Store Picture</span>
-									</Link>
-								</li>
-							</ul>
-						</div>
-						<h4>Order Status</h4>
-						{
-						orderSummaryData?.orderStatus === OrderStatus.ORDERSAVED ?
-						<Steps
-							current={1}
-							status="finish"
-							direction="vertical"
-							size="small"
-							items={[
-								{
-									title: 'Initiate',
-								},
-								{
-									title: 'Order Saved',
-								},
-							]}
-						/> :
-						orderSummaryData?.orderStatus === OrderStatus.CANCELLED ?
+
+						<div className="order-status-section">
+							<h4>Order Status</h4>
+							{
+							orderSummaryData?.orderStatus === OrderStatus.ORDERSAVED ?
 							<Steps
 								current={1}
-								status="error"
+								status="finish"
 								direction="vertical"
 								size="small"
 								items={[
 									{
 										title: 'Initiate',
-										description: formatDate(latestStatuses?.find(item => item?.status === OrderStatus.CANCELLED)?.timestamp),
 									},
 									{
-										title: 'Cancelled',
-										description: formatDate(latestStatuses?.find(item => item?.status === OrderStatus.CANCELLED)?.timestamp),
+										title: 'Order Saved',
 									},
 								]}
 							/> :
-							<Steps
-								direction="vertical"
-								size="small"
-								current={orderTrack(orderSummaryData?.orderStatus)}
-								items={stepItems}
-							/>
-						}
-						{(orderSummaryData?.orderStatus === OrderStatus.DELIVERED && <Button onClick={setReturnOfOrder}>Return</Button>)
-						}
-						{returnObject &&
-							<ReturnOfObjet />}
-							{orderSummaryData?.orderStatus === OrderStatus.ORDERSAVED &&<Link to={orderSummaryData?.visitId ? `/order/order-list/${orderSummaryData?.storeId}/${orderSummaryData?.visitId}/${params?.orderId}`: `/order/form/${orderSummaryData?.storeId}/${null}/${orderSummaryData?.orderId}`}> <Button style={{ background: "#4d8c4a", fontWeight: "bold", color:"white", marginLeft:"8px" }} type="primary" onClick={showLoading}>Place Saved Order</Button></Link>}
-						<h4>{orderSummaryData.products.length} items in this order 
-						<Button style={{ background: "#e3a66d", fontWeight: "bold", color:"black", marginLeft:"6px" }} type="primary" onClick={showLoading}>Details</Button>
-						</h4>
-						<table className="items_details">
-							{
-								orderSummaryData.products.map(item => {
-									return (
+							orderSummaryData?.orderStatus === OrderStatus.CANCELLED ?
+								<Steps
+									current={1}
+									status="error"
+									direction="vertical"
+									size="small"
+									items={[
+										{
+											title: 'Initiate',
+											description: formatDate(latestStatuses?.find(item => item?.status === OrderStatus.CANCELLED)?.timestamp),
+										},
+										{
+											title: 'Cancelled',
+											description: formatDate(latestStatuses?.find(item => item?.status === OrderStatus.CANCELLED)?.timestamp),
+										},
+									]}
+								/> :
+								<Steps
+									direction="vertical"
+									size="small"
+									current={orderTrack(orderSummaryData?.orderStatus)}
+									items={stepItems}
+								/>
+							}
+						</div>
+
+						<div className="action-buttons-responsive">
+							{(orderSummaryData?.orderStatus === OrderStatus.DELIVERED && 
+								<Button className="action-btn" onClick={setReturnOfOrder}>
+									Return
+								</Button>
+							)}
+							{returnObject && <ReturnOfObjet />}
+							
+							{orderSummaryData?.orderStatus === OrderStatus.ORDERSAVED &&
+								<Link to={orderSummaryData?.visitId ? `/order/order-list/${orderSummaryData?.storeId}/${orderSummaryData?.visitId}/${params?.orderId}`: `/order/form/${orderSummaryData?.storeId}/${null}/${orderSummaryData?.orderId}`}> 
+									<Button className="action-btn primary" onClick={showLoading}>
+										Place Saved Order
+									</Button>
+								</Link>
+							}
+						</div>
+
+						<div className="items-section">
+							<h4>{orderSummaryData.products.length} items in this order 
+							<Button className="details-btn" type="primary" onClick={showLoading}>
+								Details
+							</Button>
+							</h4>
+							<div className="items-table-responsive">
+								<table className="items_details">
+									<tbody>
+										{orderSummaryData.products.map((item, index) => (
+											<tr key={index}>
+												<td>
+													<p className="product-name">{item.productName}</p>
+													<div className="product-details">
+														{item.noOfCase > 0 && (
+															<span className="case-count">Case x {item.noOfCase}</span>
+														)}
+														{item.noOfPiece > 0 && (
+															<span className="piece-count">
+																Piece x {item.noOfPiece}
+															</span>
+														)}
+														{item.isFocused && (
+															<CheckCircleFilled className='orderSummaryCheckIcon' />
+														)}
+													</div>
+												</td>
+												<td>
+													<p className="product-price">₹{item.rlp}</p>
+												</td>
+											</tr>
+										))}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					{/* Bill Details Section */}
+					<div className="bill_details card-responsive">
+						<h4>Bill Details</h4>
+						<div className="table-container-responsive">
+							<table className="bill_details_table">
+								<tbody>
+									<tr>
+										<td>
+											<p className="black_color">MRP</p>
+										</td>
+										<td>
+											<p className="black_color">₹{orderSummaryData.orderAmount}</p>
+										</td>
+									</tr>
+									{orderSummaryData?.skuDiscountValue && (
 										<tr>
 											<td>
-												<p>{item.productName}</p>
-												<ul>
-													{
-														item.noOfCase > 0 &&
-														<li>Case x {item.noOfCase}</li>
-													}
-													{
-														item.noOfPiece > 0 &&
-														<li style={{ marginLeft: item.noOfCase > 0 ? '10px' : 0 }}>
-															Piece x {item.noOfPiece}
-														</li>
-
-													}
-													{
-														item.isFocused &&
-														<CheckCircleFilled
-															className='orderSummaryCheckIcon'
-														/>
-													}
-												</ul>
+												<p className="green_color">SKU Discount</p>
 											</td>
 											<td>
-												<p>₹{item.rlp}</p>
+												<p className="green_color">- <RupeeSymbol />{orderSummaryData.skuDiscountValue}</p>
 											</td>
 										</tr>
-									)
-								})
-							}
-						</table>
-					</div>
-
-					<div className="bill_details">
-						<h4>Bill Details</h4>
-						<table className="bill_details_table">
-							<tr>
-								<td>
-									<p className="black_color">MRP</p>
-								</td>
-								<td>
-									<p className="black_color">₹{orderSummaryData.orderAmount}</p>
-								</td>
-							</tr>
-							{
-								orderSummaryData?.skuDiscountValue &&
-								<tr>
-									<td>
-										<p className="green_color">SKU Discount</p>
-									</td>
-									<td>
-										<p className="green_color">- <RupeeSymbol />{orderSummaryData.skuDiscountValue}</p>
-									</td>
-								</tr>
-							}
-							{
-								orderSummaryData?.orderValueDiscountValue &&
-								<tr>
-									<td>
-										<p className="green_color">Order Value Discount</p>
-									</td>
-									<td>
-										<p className="green_color">- <RupeeSymbol />{orderSummaryData.orderValueDiscountValue}</p>
-									</td>
-								</tr>
-							}
-							{
-								orderSummaryData?.flatDiscountValue &&
-								<tr>
-									<td>
-										<p className="green_color">Flat Discount</p>
-									</td>
-									<td>
-										<p className="green_color">- <RupeeSymbol />{orderSummaryData.flatDiscountValue}</p>
-									</td>
-								</tr>
-							}
-							{
-								orderSummaryData?.visibilityDiscountValue &&
-								<tr>
-									<td>
-										<p className="green_color">Visibility Discount</p>
-									</td>
-									<td>
-										<p className="green_color">- <RupeeSymbol />{orderSummaryData.visibilityDiscountValue}</p>
-									</td>
-								</tr>
-							}
-							{
-								orderSummaryData?.specialDiscountAmount &&
-								<tr>
-									<td>
-										<p className="green_color">Special Discount</p>
-									</td>
-									<td>
-										<p className="green_color">- <RupeeSymbol />{orderSummaryData.specialDiscountAmount}</p>
-									</td>
-								</tr>
-							}
-							<tr style={{ borderBottom: "1px solid #ddd" }}>
-								<td>
-									<br />
-								</td>
-								<td>
-									<br />
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<p className="black_color">Bill Total</p>
-								</td>
-								<td>
-									<p className="black_color">₹{orderSummaryData.netAmount}</p>
-								</td>
-							</tr>
-						</table>
-					</div>
-
-					<div className="bill_details">
-						<h4>Payment Details</h4>
-						<table className="bill_details_table">
-							<tr>
-								<td>
-									<p className="black_color">Net Amount</p>
-								</td>
-								<td>
-									<p className="black_color">₹{orderSummaryData?.netAmount}</p>
-								</td>
-							</tr>
-							<tr style={{ borderBottom: "1px solid #ddd" }}>
-								<td>
-									<p className="black_color">Collected Amount</p>
-								</td>
-								<td>
-									<p className="black_color">₹{orderSummaryData?.collectedAmount}</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<p className="black_color">Total Pending Amount</p>
-								</td>
-								<td>
-									<p className="black_color">₹{(Number(orderSummaryData.netAmount) - Number(orderSummaryData?.collectedAmount))}</p>
-								</td>
-							</tr>
-						</table>
-						<div className="table-container">
-							<table className="fixed-header" style={{ marginTop: "20px" }}>
-								<thead>
-									<tr className="attendanceTh">
-										<th className="fwtNor txtC">Payment Id</th>
-										<th className="fwtNor txtC">Status</th>
-										<th className="fwtNor txtC">Mode</th>
-										<th className="fwtNor txtC">Amount</th>
-										<th className="fwtNor txtC">Invoice Reference</th>
-										<th className="fwtNor txtC">Date</th>
-										<th className="fwtNor txtC">Remarks</th>
+									)}
+									{orderSummaryData?.orderValueDiscountValue && (
+										<tr>
+											<td>
+												<p className="green_color">Order Value Discount</p>
+											</td>
+											<td>
+												<p className="green_color">- <RupeeSymbol />{orderSummaryData.orderValueDiscountValue}</p>
+											</td>
+										</tr>
+									)}
+									{orderSummaryData?.flatDiscountValue && (
+										<tr>
+											<td>
+												<p className="green_color">Flat Discount</p>
+											</td>
+											<td>
+												<p className="green_color">- <RupeeSymbol />{orderSummaryData.flatDiscountValue}</p>
+											</td>
+										</tr>
+									)}
+									{orderSummaryData?.visibilityDiscountValue && (
+										<tr>
+											<td>
+												<p className="green_color">Visibility Discount</p>
+											</td>
+											<td>
+												<p className="green_color">- <RupeeSymbol />{orderSummaryData.visibilityDiscountValue}</p>
+											</td>
+										</tr>
+									)}
+									{orderSummaryData?.specialDiscountAmount && (
+										<tr>
+											<td>
+												<p className="green_color">Special Discount</p>
+											</td>
+											<td>
+												<p className="green_color">- <RupeeSymbol />{orderSummaryData.specialDiscountAmount}</p>
+											</td>
+										</tr>
+									)}
+									<tr className="divider-row">
+										<td colSpan={2}>
+											<hr />
+										</td>
 									</tr>
-								</thead>
-								<tbody className="table-body attDetailContent">
-									{
-										(paymentRecord && paymentRecord.length > 0) ? paymentRecord.map((item: any, ind: number) => {
-											return (
-												<tr className="storeData txtC" key={ind}>
-													<td className="txtC">{item?.paymentMode === "CASH" ? item?.paymentId : item?.transactionId} </td>
-													<td className="txtC">{item?.status}</td>
-													<td className="txtC">{item?.Mode}</td>
-													<td className="txtC">{item?.Amount}</td>
-													<td className="txtC">{item?.InvoiceReference}</td>
-													<td className="txtC">{item?.Date}</td>
-													<td className="txtC">{item?.Remarks}</td>
-													<td className="txtC">{item?.paymentMode}</td>
-													<td className="txtC fw-bold">{item?.amount}</td>
-												</tr>
-											)
-										}) : isNoRecord && (
-											<tr className="storeData txtC">
-												<td colSpan={7}>No record found</td>
-											</tr>
-										)
-									}
+									<tr>
+										<td>
+											<p className="black_color bold">Bill Total</p>
+										</td>
+										<td>
+											<p className="black_color bold">₹{orderSummaryData.netAmount}</p>
+										</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
-					<div className="order_details">
-						<h4>Order Details</h4>
-						<table className="order_details_table">
-							<tr>
-								<td>
-									<p>Order Id</p>
-									<span>{orderSummaryData.orderId}</span>
-								</td>
-							</tr>
 
-							<tr>
-								<td>
-									<p>Order placed</p>
-									<span>{dateFormatter(orderSummaryData.orderDate, "ccc dd-MMM-yyyy, h:mm a")}</span>
-								</td>
-							</tr>
-						</table>
+					{/* Payment Details Section */}
+					<div className="bill_details card-responsive">
+						<h4>Payment Details</h4>
+						<div className="table-container-responsive">
+							<table className="bill_details_table">
+								<tbody>
+									<tr>
+										<td>
+											<p className="black_color">Net Amount</p>
+										</td>
+										<td>
+											<p className="black_color">₹{orderSummaryData?.netAmount}</p>
+										</td>
+									</tr>
+									<tr className="divider-row">
+										<td>
+											<p className="black_color">Collected Amount</p>
+										</td>
+										<td>
+											<p className="black_color">₹{orderSummaryData?.collectedAmount}</p>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<p className="black_color bold">Total Pending Amount</p>
+										</td>
+										<td>
+											<p className="black_color bold">₹{(Number(orderSummaryData.netAmount) - Number(orderSummaryData?.collectedAmount))}</p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						{/* Payment Records Table */}
+						<div className="payment-records-section">
+							<div className="table-container-responsive">
+								<table className="payment-records-table">
+									<thead>
+										<tr>
+											<th>Payment Id</th>
+											<th>Status</th>
+											<th>Mode</th>
+											<th>Amount</th>
+											<th>Invoice Reference</th>
+											<th>Date</th>
+											<th>Remarks</th>
+										</tr>
+									</thead>
+									<tbody>
+										{(paymentRecord && paymentRecord.length > 0) ? paymentRecord.map((item: any, ind: number) => (
+											<tr key={ind}>
+												<td>{item?.paymentMode === "CASH" ? item?.paymentId : item?.transactionId}</td>
+												<td>{item?.status}</td>
+												<td>{item?.Mode}</td>
+												<td>{item?.Amount}</td>
+												<td>{item?.InvoiceReference}</td>
+												<td>{item?.Date}</td>
+												<td>{item?.Remarks}</td>
+											</tr>
+										)) : isNoRecord && (
+											<tr>
+												<td colSpan={7}>No record found</td>
+											</tr>
+										)}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					{/* Order Details Section */}
+					<div className="order_details card-responsive">
+						<h4>Order Details</h4>
+						<div className="order-details-grid">
+							<div className="order-detail-item">
+								<p>Order Id</p>
+								<span>{orderSummaryData.orderId}</span>
+							</div>
+							<div className="order-detail-item">
+								<p>Order placed</p>
+								<span>{dateFormatter(orderSummaryData.orderDate, "ccc dd-MMM-yyyy, h:mm a")}</span>
+							</div>
+						</div>
 					</div>
 				</section>
 			}
-			 <style>
-                {`
-                .grey-background {
-                    background-color: #fafafa;
-                    font-weight: 600;
-                    color: rgba(0, 0, 0, 0.88);
-                   }
-                .table-row-total {
-                    background-color: #fafafa !important;
-                   }
-                
-                /* Improved Delivery Section Styles */
-                .delivery-section-improved {
-                    background: white;
-                    padding: 24px;
-                    border-radius: 12px;
-                    margin-bottom: 24px;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                    border: 1px solid #f0f0f0;
-                }
-                
-                .delivery-header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: flex-start;
-                    margin-bottom: 24px;
-                    flex-wrap: wrap;
-                    gap: 16px;
-                }
-                
-                .header-left h3 {
-                    margin: 0 0 12px 0;
-                    color: #1f2937;
-                    font-size: 20px;
-                    font-weight: 700;
-                }
-                
-                .current-status {
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                }
-                
-                .status-text-large {
-                    font-size: 18px;
-                    font-weight: 600;
-                    color: #1f2937;
-                }
-                
-                .status-tag {
-                    font-size: 12px;
-                    font-weight: 600;
-                    padding: 4px 8px;
-                    border-radius: 6px;
-                }
-                
-                .estimated-delivery-card {
-                    display: flex;
-                    align-items: center;
-                    background: #fff7ed;
-                    padding: 12px 16px;
-                    border-radius: 8px;
-                    border: 1px solid #fed7aa;
-                    min-width: 200px;
-                }
-                
-                .estimated-label {
-                    font-size: 12px;
-                    color: #9ca3af;
-                    font-weight: 500;
-                }
-                
-                .estimated-date {
-                    font-size: 14px;
-                    font-weight: 600;
-                    color: #1f2937;
-                }
-                
-                /* Progress Bar */
-                .progress-container {
-                    margin-bottom: 24px;
-                }
-                
-                .progress-bar {
-                    width: 100%;
-                    height: 6px;
-                    background: #f3f4f6;
-                    border-radius: 3px;
-                    margin-bottom: 32px;
-                    overflow: hidden;
-                }
-                
-                .progress-fill {
-                    height: 100%;
-                    border-radius: 3px;
-                    transition: width 0.3s ease;
-                }
-                
-                /* Steps Container */
-                .steps-container {
-                    display: grid;
-                    grid-template-columns: repeat(4, 1fr);
-                    gap: 8px;
-                    position: relative;
-                }
-                
-                .step-item {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    position: relative;
-                    text-align: center;
-                }
-                
-                .step-indicator {
-                    margin-bottom: 8px;
-                    z-index: 2;
-                }
-                
-                .step-dot {
-                    width: 32px;
-                    height: 32px;
-                    border-radius: 50%;
-                    background: white;
-                    border: 2px solid;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 12px;
-                    font-weight: 600;
-                    color: white;
-                }
-                
-                .step-item.completed .step-dot {
-                    background: #10b981;
-                    border-color: #10b981;
-                }
-                
-                .step-item.active .step-dot {
-                    color: white;
-                }
-                
-                .step-content-improved {
-                    max-width: 120px;
-                }
-                
-                .step-title-improved {
-                    font-size: 12px;
-                    font-weight: 600;
-                    color: #1f2937;
-                    margin-bottom: 4px;
-                }
-                
-                .step-date-improved {
-                    font-size: 11px;
-                    color: #6b7280;
-                    margin-bottom: 4px;
-                }
-                
-                .step-badge {
-                    background: #3b82f6;
-                    color: white;
-                    padding: 2px 6px;
-                    border-radius: 4px;
-                    font-size: 10px;
-                    font-weight: 600;
-                }
-                
-                .step-connector-improved {
-                    position: absolute;
-                    top: 16px;
-                    left: 60%;
-                    width: 100%;
-                    height: 2px;
-                    background: #e5e7eb;
-                    z-index: 1;
-                }
-                
-                .step-connector-improved.completed {
-                    background: #10b981;
-                }
-                
-                /* Status Timeline */
-                .status-timeline {
-                    border-top: 1px solid #f3f4f6;
-                    padding-top: 20px;
-                }
-                
-                .status-timeline h4 {
-                    margin: 0 0 16px 0;
-                    color: #1f2937;
-                    font-size: 16px;
-                    font-weight: 600;
-                }
-                
-                .timeline-items {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 12px;
-                }
-                
-                .timeline-item {
-                    display: flex;
-                    align-items: flex-start;
-                    gap: 12px;
-                }
-                
-                .timeline-marker {
-                    width: 8px;
-                    height: 8px;
-                    border-radius: 50%;
-                    margin-top: 6px;
-                    flex-shrink: 0;
-                }
-                
-                .timeline-content {
-                    flex: 1;
-                }
-                
-                .timeline-status {
-                    font-size: 14px;
-                    font-weight: 500;
-                    color: #1f2937;
-                    margin-bottom: 2px;
-                }
-                
-                .timeline-date {
-                    font-size: 12px;
-                    color: #6b7280;
-                }
-                
-                /* Responsive Design */
-                @media (max-width: 768px) {
-                    .delivery-header {
-                        flex-direction: column;
-                        align-items: flex-start;	
-                    }
-                    
-                    .estimated-delivery-card {
-                        width: 100%;
-                    }
-                    
-                    .steps-container {
-                        grid-template-columns: 1fr;
-                        gap: 16px;
-                    }
-                    
-                    .step-item {
-                        flex-direction: row;
-                        text-align: left;
-                        gap: 12px;
-                    }
-                    
-                    .step-content-improved {
-                        max-width: none;
-                        flex: 1;
-                    }
-                    
-                    .step-connector-improved {
-                        display: none;
-                    }
-                }
-                `}
-			</style>
 		</div>
 	)
 }

@@ -1,4 +1,4 @@
-import { ArrowLeftOutlined, PlusOutlined, TagsOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, PlusOutlined, TagsOutlined, AppstoreOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import {
     Button,
     Card,
@@ -25,6 +25,7 @@ import type { Breakpoint } from 'antd/es/_util/responsiveObserver';
 import { SearchOutlined } from "@ant-design/icons";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import moment from 'moment';
+import "../../../style/stores.css";
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -72,6 +73,19 @@ const SchemeAndDiscount = () => {
     const [form] = Form.useForm();
     const [editForm] = Form.useForm();
     const screens = useBreakpoint();
+    
+    // Load gridView preference from localStorage or default to true
+    const getDefaultGridView = () => {
+        const saved = localStorage.getItem('schemeDiscountPageGridView');
+        if (saved !== null) {
+            return saved === 'true';
+        }
+        return true; // Default to grid view
+    };
+    
+    const [gridView, setGridView] = useState(getDefaultGridView());
+    const [searchValue, setSearchValue] = useState("");
+    const [statusFilter, setStatusFilter] = useState("all");
 
     const [discountLists, setDiscountLists] = useState<DiscountListData[]>([
         {
@@ -125,6 +139,128 @@ const SchemeAndDiscount = () => {
             createdBy: 'Admin User',
             lastModifiedBy: 'Admin User'
         },
+        {
+            key: '4',
+            id: 'DL004',
+            name: 'Spring Sale 2024',
+            description: 'Spring season promotional discounts',
+            startDate: '2024-03-01',
+            endDate: '2024-05-31',
+            discountType: 'Percentage',
+            minOrderValue: 150,
+            maxDiscountAmount: 400,
+            usageLimit: 1500,
+            status: 'Active',
+            createdDate: '2024-02-15',
+            lastUpdatedDate: '2024-02-15',
+            createdBy: 'Admin User',
+            lastModifiedBy: 'Admin User'
+        },
+        {
+            key: '5',
+            id: 'DL005',
+            name: 'Bulk Purchase Discount',
+            description: 'Special discount for bulk orders',
+            startDate: '2024-01-01',
+            endDate: '2024-12-31',
+            discountType: 'Volume-based',
+            minOrderValue: 500,
+            maxDiscountAmount: 1000,
+            usageLimit: 500,
+            status: 'Active',
+            createdDate: '2023-12-20',
+            lastUpdatedDate: '2023-12-20',
+            createdBy: 'Admin User',
+            lastModifiedBy: 'Admin User'
+        },
+        {
+            key: '6',
+            id: 'DL006',
+            name: 'Flash Sale Weekend',
+            description: 'Weekend flash sale for limited time',
+            startDate: '2024-06-15',
+            endDate: '2024-06-16',
+            discountType: 'Fixed Amount',
+            minOrderValue: 100,
+            maxDiscountAmount: 200,
+            usageLimit: 300,
+            status: 'Inactive',
+            createdDate: '2024-06-10',
+            lastUpdatedDate: '2024-06-10',
+            createdBy: 'Admin User',
+            lastModifiedBy: 'Admin User'
+        },
+        {
+            key: '7',
+            id: 'DL007',
+            name: 'Loyalty Customer Reward',
+            description: 'Exclusive discount for loyal customers',
+            startDate: '2024-01-01',
+            endDate: '2024-12-31',
+            discountType: 'Percentage',
+            minOrderValue: 200,
+            maxDiscountAmount: 500,
+            usageLimit: 2000,
+            status: 'Active',
+            createdDate: '2023-12-25',
+            lastUpdatedDate: '2023-12-25',
+            createdBy: 'Admin User',
+            lastModifiedBy: 'Admin User'
+        },
+        {
+            key: '8',
+            id: 'DL008',
+            name: 'Festival Special Offer',
+            description: 'Special discounts during festival season',
+            startDate: '2024-10-01',
+            endDate: '2024-11-15',
+            discountType: 'Tiered',
+            minOrderValue: 300,
+            maxDiscountAmount: 600,
+            usageLimit: 1000,
+            status: 'Inactive',
+            createdDate: '2024-09-20',
+            lastUpdatedDate: '2024-09-20',
+            createdBy: 'Admin User',
+            lastModifiedBy: 'Admin User'
+        },
+        {
+            key: '9',
+            id: 'DL009',
+            name: 'Clearance Sale',
+            description: 'Clearance sale for old stock',
+            startDate: '2024-07-01',
+            endDate: '2024-07-31',
+            discountType: 'Fixed Amount',
+            minOrderValue: 50,
+            maxDiscountAmount: 150,
+            usageLimit: 800,
+            status: 'Expired',
+            createdDate: '2024-06-25',
+            lastUpdatedDate: '2024-06-25',
+            createdBy: 'Admin User',
+            lastModifiedBy: 'Admin User'
+        },
+        {
+            key: '10',
+            id: 'DL010',
+            name: 'Corporate Discount',
+            description: 'Special discount for corporate clients',
+            startDate: '2024-01-01',
+            endDate: '2024-12-31',
+            discountType: 'Percentage',
+            minOrderValue: 1000,
+            maxDiscountAmount: 2000,
+            usageLimit: 100,
+            status: 'Active',
+            createdDate: '2023-12-30',
+            lastUpdatedDate: '2023-12-30',
+            createdBy: 'Admin User',
+            lastModifiedBy: 'Admin User'
+        },
+    
+       
+       
     ]);
 
     const [discountItems, setDiscountItems] = useState<DiscountItemData[]>([
@@ -168,6 +304,35 @@ const SchemeAndDiscount = () => {
             lastModifiedBy: 'Admin User'
         },
     ]);
+
+    const handleGridView = () => {
+        setGridView(true);
+        localStorage.setItem('schemeDiscountPageGridView', 'true');
+    };
+    
+    const handleListView = () => {
+        setGridView(false);
+        localStorage.setItem('schemeDiscountPageGridView', 'false');
+    };
+    
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSearchValue(value);
+    };
+    
+    const filteredDiscountLists = discountLists.filter((item) => {
+        const matchesSearch = !searchValue || 
+            item.id?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.name?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.description?.toLowerCase().includes(searchValue.toLowerCase());
+        
+        const matchesStatus = statusFilter === 'all' || 
+            (statusFilter === 'active' && item.status === 'Active') ||
+            (statusFilter === 'inactive' && item.status === 'Inactive') ||
+            (statusFilter === 'archived' && item.status === 'Expired');
+        
+        return matchesSearch && matchesStatus;
+    });
 
     const handleDelete = (record: DiscountListData) => {
         // Filter out the deleted item
@@ -595,13 +760,13 @@ const SchemeAndDiscount = () => {
     };
 
     return (
-        <div style={{ backgroundColor: '#f4f6fa', minHeight: '100vh', overflowX: 'hidden' }} className='discount-page'>
+        <div  style={{ minHeight: '100vh', fontFamily: 'roboto' }}>
             {/* Header */}
             <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
                 <ArrowLeftOutlined onClick={previousPage} className="back-button" />
                 <h1 className="page-title pr-18">Scheme And Discount</h1>
             </header>
-
+ 
             {/* Content */}
             <div style={{ padding: '4px' }}>
                 {/* Top Card */}
@@ -613,7 +778,7 @@ const SchemeAndDiscount = () => {
                         backgroundColor: '#ffffff',
                     }}
                     bodyStyle={{
-                        padding: '24px',
+                        padding: '4px',
                     }}
                 >
                     <Row gutter={[16, 16]} align="middle">
@@ -667,48 +832,161 @@ const SchemeAndDiscount = () => {
                 </Card>
                 
                
-                <Row gutter={12} style={{ marginBottom: 16 }}>
-                    {/* Search Input */}
-                    <Col flex="auto">
-                        <Input
-                            prefix={<SearchOutlined style={{ color: "#B0B0B0", padding: '18px' }} />}
-                            placeholder="Search discount lists by name, ID, or description..."
-                            size="large"
-                            allowClear
-                            style={{ width: '100%' }}
-                        />
-                    </Col>
-
-                    {/* Status Filter */}
-                    <Col>
-                        <Select
-                            defaultValue="all"
-                            size="large"
-                            style={{ width: '100%', minWidth: 150, height: '50px' }}
-                            suffixIcon={<span style={{ fontSize: "12px" }}>▼</span>}
-                        >
-                            <Option value="all">All Status</Option>
-                            <Option value="active">Active</Option>
-                            <Option value="inactive">Inactive</Option>
-                            <Option value="archived">Archived</Option>
-                        </Select>
-                    </Col>
-                </Row>
-                {/* Table Section */}
-                <div style={{ marginTop: '32px' }}>
-                    <h2 style={{ fontSize: '20px', marginBottom: '16px' }}>
-                        Discount Lists ({discountLists.length})
-                    </h2>
-                    <div style={{ width: '100%', overflowX: 'auto' }}>
-                        <Table
-                            columns={columns}
-                            dataSource={discountLists}
-                            pagination={{ pageSize: 5 }}
-                            bordered
-                            scroll={{ x: screens.xs ? 800 : 'max-content' }}
-                            size="middle"
-                        />
+                <div className="search">
+                    <Input
+                        prefix={<SearchOutlined />}
+                        placeholder="Search discount lists by name, ID, or description..."
+                        value={searchValue}
+                        onChange={handleSearch}
+                        allowClear
+                    />
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                            <AppstoreOutlined style={{ fontSize: '15px' }} onClick={handleGridView} />
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', marginRight: '10px' }}>
+                            <UnorderedListOutlined style={{ fontSize: '15px' }} onClick={handleListView} />
+                        </div>
                     </div>
+                    <Select
+                        defaultValue="all"
+                        className="w-130"
+                        value={statusFilter}
+                        onChange={(value) => setStatusFilter(value)}
+                    >
+                        <Option value="all">All Status</Option>
+                        <Option value="active">Active</Option>
+                        <Option value="inactive">Inactive</Option>
+                        <Option value="archived">Expired</Option>
+                    </Select>
+                </div>
+
+                {/* Grid/List View Section */}
+                <div style={{ marginTop: '24px' }}>
+                    <h2 style={{ fontSize: '20px', marginBottom: '16px' }}>
+                        Discount Lists ({filteredDiscountLists.length})
+                    </h2>
+                    
+                    {gridView ? (
+                        <div
+                            className="content"
+                            style={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                gap: "20px",
+                                marginTop: "24px",
+                                marginBottom: "10px",
+                            }}
+                        >
+                            {filteredDiscountLists && filteredDiscountLists.length > 0 && filteredDiscountLists.map((item, index) => {
+                                const getStatusColor = (status: string) => {
+                                    switch (status) {
+                                        case "Active":
+                                            return "#2DB83D";
+                                        case "Inactive":
+                                            return "#faad14";
+                                        default:
+                                            return "#e61b23";
+                                    }
+                                };
+
+                                return (
+                                    <div key={index}>
+                                        <div
+                                            className="store-list"
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={() => handleViewClick(item)}
+                                        >
+                                            <div className="shoptitle">
+                                                <div className="fontb">{item?.name}</div>
+                                                <div
+                                                    style={{
+                                                        background: getStatusColor(item?.status),
+                                                        padding: '4px 8px',
+                                                        borderRadius: '4px',
+                                                        color: 'white',
+                                                        fontSize: '12px'
+                                                    }}
+                                                >
+                                                    {item?.status}
+                                                </div>
+                                            </div>
+                                            <div className="storeConlist">
+                                                <div>
+                                                    <div className="storeIdTxt">
+                                                        ID: {item?.id} | Type: {item?.discountType}
+                                                    </div>
+                                                    <div className="fs-13">Description: <span className="fw-bold">{item?.description}</span></div>
+                                                    <div className="fs-13">Start Date: <span className="fw-bold">{item?.startDate}</span></div>
+                                                    <div className="fs-13">End Date: <span className="fw-bold">{item?.endDate}</span></div>
+                                                    <div className="fs-13">Min Order: <span className="fw-bold">{item?.minOrderValue}</span> | Max Discount: <span className="fw-bold">{item?.maxDiscountAmount}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <table className="store-table" style={{ textDecoration: 'none', fontSize: '13px', width: '100%' }}>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredDiscountLists?.map((item, index) => {
+                                    const getStatusColor = (status: string) => {
+                                        switch (status) {
+                                            case "Active":
+                                                return "#2DB83D";
+                                            case "Inactive":
+                                                return "#faad14";
+                                            default:
+                                                return "#e61b23";
+                                        }
+                                    };
+
+                                    return (
+                                        <tr key={index}>
+                                            <td>
+                                                <a
+                                                    onClick={() => handleViewClick(item)}
+                                                    style={{ textDecoration: 'none', color: '#1890ff', cursor: 'pointer' }}
+                                                >
+                                                    {item?.id}
+                                                </a>
+                                            </td>
+                                            <td>{item?.name}</td>
+                                            <td>{item?.description}</td>
+                                            <td>{item?.startDate}</td>
+                                            <td>{item?.endDate}</td>
+                                            <td>{item?.discountType}</td>
+                                            <td>
+                                                <span
+                                                    style={{
+                                                        background: getStatusColor(item?.status),
+                                                        padding: '4px 8px',
+                                                        borderRadius: '4px',
+                                                        color: 'white',
+                                                        fontSize: '12px'
+                                                    }}
+                                                >
+                                                    {item?.status}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    )}
                 </div>
             </div>
 
@@ -724,8 +1002,8 @@ const SchemeAndDiscount = () => {
                 style={{ top: 20 }}
                 bodyStyle={{
                     maxHeight: '70vh',
-                    overflowY: 'auto',
-                    padding: '24px'
+                    padding: '24px',
+                    overflowY: 'auto'
                 }}
                 maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 getContainer={false}
@@ -858,8 +1136,8 @@ const SchemeAndDiscount = () => {
                 style={{ top: 20 }}
                 bodyStyle={{
                     maxHeight: '70vh',
-                    overflowY: 'auto',
-                    padding: '24px'
+                    padding: '24px',
+                    overflowY: 'auto'
                 }}
                 maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 getContainer={false}

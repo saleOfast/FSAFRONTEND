@@ -8,6 +8,8 @@
   justify-content: center;
   align-items: center;
   position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .storeHeader {
@@ -335,4 +337,54 @@
 .no-underline{
   text-decoration: none;
   color: black;
+}
+
+.store-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: roboto;
+}
+
+.store-table thead {
+  background-color: #b5b7e4;
+}
+
+.store-table th {
+  padding: 6px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: black;
+  font-size: 14px;
+  border: 1px solid #ddd;
+}
+
+.store-table td {
+  padding: 6px 12px;
+  text-align: left;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  background-color: white;
+}
+.store-table1 td {
+  padding: 0px 12px;
+  text-align: left;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  background-color: white;
+}
+.store-table2 td {
+  padding: 2px 12px;
+  text-align: left;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  background-color: white;
+}
+
+.store-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.store-table tbody tr:hover {
+  background-color: #f0f0f0;
 }

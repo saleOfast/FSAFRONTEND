@@ -1,4 +1,4 @@
-import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, PlusOutlined, AppstoreOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import {
     Button,
     Card,
@@ -23,6 +23,7 @@ import type { ColumnsType } from 'antd/es/table';
 import type { Breakpoint } from 'antd/es/_util/responsiveObserver';
 import { SearchOutlined } from "@ant-design/icons";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import "../style/stores.css";
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -52,6 +53,34 @@ const Sku = () => {
     const [form] = Form.useForm();
     const [editForm] = Form.useForm();
     const screens = useBreakpoint();
+    
+    // Load gridView preference from localStorage or default to true
+    const getDefaultGridView = () => {
+        const saved = localStorage.getItem('skuPageGridView');
+        if (saved !== null) {
+            return saved === 'true';
+        }
+        return true; // Default to grid view
+    };
+    
+    const [gridView, setGridView] = useState(getDefaultGridView());
+    const [searchValue, setSearchValue] = useState("");
+    const [statusFilter, setStatusFilter] = useState("all");
+    
+    const handleGridView = () => {
+        setGridView(true);
+        localStorage.setItem('skuPageGridView', 'true');
+    };
+    
+    const handleListView = () => {
+        setGridView(false);
+        localStorage.setItem('skuPageGridView', 'false');
+    };
+    
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSearchValue(value);
+    };
     const [data, setData] = useState<SKU[]>([
         {
             key: '1',
@@ -95,7 +124,105 @@ const Sku = () => {
             warehouseLocation: "WH-Bangalore-03",
             productDescription: "Sprite lemon-lime drink, 330ml can",
         },
+        {
+            key: '4',
+            skuNumber: "FAN-2L",
+            productName: "Fanta",
+            salesChannel: "Retail",
+            channelSku: "FAN-R2000",
+            barcode: "8901112223334",
+            description: "2L PET Bottle",
+            attributeColor: "Orange",
+            attributeSize: "2L",
+            stockLevel: 95,
+            warehouseLocation: "WH-Chennai-04",
+            productDescription: "Fanta orange flavored soft drink, 2L PET",
+        },
+        {
+            key: '5',
+            skuNumber: "THU-500",
+            productName: "Thums Up",
+            salesChannel: "Distributor",
+            channelSku: "THU-D500",
+            barcode: "8902223334445",
+            description: "500ml PET Bottle",
+            attributeColor: "Red",
+            attributeSize: "500ml",
+            stockLevel: 200,
+            warehouseLocation: "WH-Kolkata-05",
+            productDescription: "Thums Up strong cola drink, 500ml PET",
+        },
+        {
+            key: '6',
+            skuNumber: "LIM-250",
+            productName: "Limca",
+            salesChannel: "Retail",
+            channelSku: "LIM-R250",
+            barcode: "8903334445556",
+            description: "250ml Glass Bottle",
+            attributeColor: "Clear",
+            attributeSize: "250ml",
+            stockLevel: 175,
+            warehouseLocation: "WH-Hyderabad-06",
+            productDescription: "Limca lemon-lime drink, 250ml glass bottle",
+        },
+        {
+            key: '7',
+            skuNumber: "MAZ-750",
+            productName: "Maaza",
+            salesChannel: "Distributor",
+            channelSku: "MAZ-D750",
+            barcode: "8904445556667",
+            description: "750ml PET Bottle",
+            attributeColor: "Orange",
+            attributeSize: "750ml",
+            stockLevel: 110,
+            warehouseLocation: "WH-Pune-07",
+            productDescription: "Maaza mango fruit drink, 750ml PET",
+        },
+        {
+            key: '8',
+            skuNumber: "KIN-1L",
+            productName: "Kinley",
+            salesChannel: "Retail",
+            channelSku: "KIN-R1000",
+            barcode: "8905556667778",
+            description: "1L PET Bottle",
+            attributeColor: "Clear",
+            attributeSize: "1L",
+            stockLevel: 300,
+            warehouseLocation: "WH-Ahmedabad-08",
+            productDescription: "Kinley natural mineral water, 1L PET",
+        },
+        {
+            key: '9',
+            skuNumber: "SEV-600",
+            productName: "7UP",
+            salesChannel: "Retail",
+            channelSku: "SEV-R600",
+            barcode: "8906667778889",
+            description: "600ml PET Bottle",
+            attributeColor: "Clear",
+            attributeSize: "600ml",
+            stockLevel: 140,
+            warehouseLocation: "WH-Jaipur-09",
+            productDescription: "7UP lemon-lime carbonated drink, 600ml PET",
+        },
     ]);
+
+    const filteredData = data.filter((item) => {
+        const matchesSearch = !searchValue || 
+            item.skuNumber?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.productName?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.salesChannel?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.barcode?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.description?.toLowerCase().includes(searchValue.toLowerCase());
+        
+        // For now, all items pass status filter since SKU doesn't have status field
+        const matchesStatus = statusFilter === 'all';
+        
+        return matchesSearch && matchesStatus;
+    });
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => {
@@ -420,7 +547,7 @@ const columns: ColumnsType<SKU> = [
     };
 
     return (
-        <div style={{ backgroundColor: '#f4f6fa', minHeight: '100vh', overflowX: 'hidden' }}>
+        <div  style={{  fontFamily: 'roboto' }}>
             {/* Header */}
             <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
                 <ArrowLeftOutlined onClick={previousPage} className="back-button" />
@@ -438,7 +565,7 @@ const columns: ColumnsType<SKU> = [
                         backgroundColor: '#ffffff',
                     }}
                     bodyStyle={{
-                        padding: '24px',
+                        padding: '4px',
                     }}
                 >
                     <Row gutter={[16, 16]} align="middle">
@@ -493,49 +620,115 @@ const columns: ColumnsType<SKU> = [
                 
               
 
- <Row gutter={12} style={{ marginBottom: 16 }}>
-                    {/* Search Input */}
-                    <Col flex="auto">
-                        <Input
-                            prefix={<SearchOutlined style={{ color: "#B0B0B0", padding: '18px' }} />}
-                            placeholder="Search SKUs by name, ID, or city..."
-                            size="large"
-                            allowClear
-                            style={{ width: '100%' }}
-                        />
-                    </Col>
-
-                    {/* Status Filter */}
-                    <Col>
-                        <Select
-                            defaultValue="all"
-                            size="large"
-                            style={{ width: '100%', minWidth: 150, height: '50px' }}
-                            suffixIcon={<span style={{ fontSize: "12px" }}>▼</span>}
-                        >
-                            <Option value="all">All Status</Option>
-                            <Option value="active">Active</Option>
-                            <Option value="inactive">Inactive</Option>
-                            <Option value="archived">Archived</Option>
-                        </Select>
-                    </Col>
-                </Row>
-
-                {/* Table Section */}
-                <div style={{ marginTop: '32px' }}>
-                    <h2 style={{ fontSize: '20px', marginBottom: '16px' }}>
-                        SKUs ({data.length})
-                    </h2>
-                    <div style={{ width: '100%', overflowX: 'auto' }}>
-                        <Table
-                            columns={columns}
-                            dataSource={data}
-                            pagination={{ pageSize: 5 }}
-                            bordered
-                            scroll={{ x: screens.xs ? 800 : '100%' }}
-                            size="middle"
-                        />
+                <div className="search">
+                    <Input
+                        prefix={<SearchOutlined />}
+                        placeholder="Search SKUs by SKU Number, Product Name, Barcode, or Description..."
+                        value={searchValue}
+                        onChange={handleSearch}
+                        allowClear
+                    />
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                            <AppstoreOutlined style={{ fontSize: '15px' }} onClick={handleGridView} />
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', marginRight: '10px' }}>
+                            <UnorderedListOutlined style={{ fontSize: '15px' }} onClick={handleListView} />
+                        </div>
                     </div>
+                    <Select
+                        defaultValue="all"
+                        className="w-130"
+                        value={statusFilter}
+                        onChange={(value) => setStatusFilter(value)}
+                    >
+                        <Option value="all">All Status</Option>
+                    </Select>
+                </div>
+
+                {/* Grid/List View Section */}
+                <div style={{ marginTop: '24px' }}>
+                    <h2 style={{ fontSize: '20px', marginBottom: '16px' }}>
+                        SKUs ({filteredData.length})
+                    </h2>
+                    
+                    {gridView ? (
+                        <div
+                            className="content"
+                            style={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                gap: "20px",
+                                marginTop: "24px",
+                                marginBottom: "10px",
+                            }}
+                        >
+                            {filteredData && filteredData.length > 0 && filteredData.map((item, index) => {
+                                return (
+                                    <div key={index}>
+                                        <div
+                                            className="store-list"
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={() => handleViewClick(item)}
+                                        >
+                                            <div className="shoptitle">
+                                                <div className="fontb">{item?.productName}</div>
+                                            </div>
+                                            <div className="storeConlist">
+                                                <div>
+                                                    <div className="storeIdTxt">
+                                                        SKU: {item?.skuNumber} | Channel: {item?.salesChannel}
+                                                    </div>
+                                                    <div className="fs-13">Barcode: <span className="fw-bold">{item?.barcode}</span></div>
+                                                    <div className="fs-13">Size: <span className="fw-bold">{item?.attributeSize}</span> | Color: <span className="fw-bold">{item?.attributeColor}</span></div>
+                                                    <div className="fs-13">Stock Level: <span className="fw-bold">{item?.stockLevel}</span></div>
+                                                    <div className="fs-13">Warehouse: <span className="fw-bold">{item?.warehouseLocation}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <table className="store-table" style={{ textDecoration: 'none', fontSize: '13px', width: '100%' }}>
+                            <thead>
+                                <tr>
+                                    <th>SKU Number</th>
+                                    <th>Product Name</th>
+                                    <th>Sales Channel</th>
+                                    <th>Barcode</th>
+                                    <th>Size</th>
+                                    <th>Color</th>
+                                    <th>Stock Level</th>
+                                    <th>Warehouse</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredData?.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>
+                                                <a
+                                                    onClick={() => handleViewClick(item)}
+                                                    style={{ textDecoration: 'none', color: '#1890ff', cursor: 'pointer' }}
+                                                >
+                                                    {item?.skuNumber}
+                                                </a>
+                                            </td>
+                                            <td>{item?.productName}</td>
+                                            <td>{item?.salesChannel}</td>
+                                            <td>{item?.barcode}</td>
+                                            <td>{item?.attributeSize}</td>
+                                            <td>{item?.attributeColor}</td>
+                                            <td>{item?.stockLevel}</td>
+                                            <td>{item?.warehouseLocation}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    )}
                 </div>
             </div>
             
@@ -551,7 +744,7 @@ const columns: ColumnsType<SKU> = [
                 style={{ top: 20 }}
                 bodyStyle={{
                     maxHeight: '70vh',
-                    // overflowY: 'auto',
+                    overflowY: 'auto',
                 }}
                 maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 getContainer={false}
@@ -701,7 +894,7 @@ const columns: ColumnsType<SKU> = [
                 style={{ top: 20 }}
                 bodyStyle={{
                     maxHeight: '70vh',
-                    // overflowY: 'auto',
+                    overflowY: 'auto',
                 }}
                 maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 getContainer={false}
