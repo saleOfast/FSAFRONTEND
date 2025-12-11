@@ -700,9 +700,11 @@ const AddStore = () => {
                 showSearch
                 callback={(v: any) => setstoreTypeData(v)}
                 optionData={[
-                  { label: "Milk", value: "milk_tofu" },
-                  { label: "Tofu", value: "tofu" },
-                  { label: "Curd", value: "curd" }
+                  { label: "JK Copier", value: "JK Copier" },
+                  { label: "JK Copier Plus Anti-Microbial", value: "JK Copier Plus Anti-Microbial" },
+                  { label: "JK Copier", value: "JK Copier" },
+                  { label: "JK Finesse", value: "JK Finesse" },
+                  { label: "JK Elektra", value: "JK Elektra" }
                 ]}
                 filterOption={(inputValue: any, option: any) => {
                   return option.label.toLowerCase().includes(inputValue.toLowerCase());
@@ -770,7 +772,7 @@ const AddStore = () => {
                 callback={(v: any) => setstoreTypeData(v)}
                 optionData={[
                   { label: "Cash", value: "cash" },
-                  { label: "UPI", value: "upi" },
+                  { label: "UPI", value: "upi" }, 
                   { label: "Bank", value: "bank" }
                 ]}
                 filterOption={(inputValue: any, option: any) => {
@@ -1148,10 +1150,11 @@ const AddStore = () => {
             <Col xs={24} sm={24} md={12} lg={12}>
               <HookFormInputField
                 control={control}
-                name="bill_addressLine1"
-                label="Pincode"
-                placeholder="Enter Pincode"
-                required
+                type="text"
+                name="qualification"
+                placeholder="Enter qualification"
+                label={"Qualification"}
+              // required
               />
             </Col>
 
@@ -1178,33 +1181,7 @@ const AddStore = () => {
             label={"Owner Name"}
             required
           /> */}
-          <Row gutter={[24, 16]}>
-            <Col xs={24} sm={24} md={12} lg={12}>
-              <HookFormInputField
-                control={control}
-                type="text"
-                name="qualification"
-                placeholder="Enter qualification"
-                label={"Qualification"}
-              // required
-              />
-              {/* Add all other "Bill to" fields using names like bill_addressLine2, bill_state, etc. */}
-            </Col>
-
-            <Col xs={24} sm={24} md={12} lg={12}>
-              <HookFormInputField
-                control={control}
-                type="text"
-                name="speciality"
-                placeholder="Enter speciality"
-                label={"Speciality"}
-              // required
-              />
-
-              {/* Add all other "Ship to" fields using names like ship_addressLine2, ship_state, etc. */}
-            </Col>
-
-          </Row>
+         
           {/* <HookFormInputField
             control={control}
             type="text"
@@ -1417,8 +1394,8 @@ const AddStore = () => {
                 control={control}
                 type="text"
                 name="isPremiumStore"
-                placeholder="Premium store"
-                label={"Premium store"}
+                placeholder="Premium Customer"
+                label={"Premium Customer"}
                 optionData={premiumStoreOptionData}
                 required
                 callback={premiumHandler}
@@ -1430,8 +1407,8 @@ const AddStore = () => {
                 control={control}
                 type="text"
                 name="isActive"
-                placeholder="Store status"
-                label={"Store status"}
+                placeholder="Customer status"
+                label={"Customer status"}
                 optionData={storeStatusOptionData}
                 required
               />

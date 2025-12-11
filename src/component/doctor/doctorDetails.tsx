@@ -129,18 +129,22 @@ export default function DoctorDetails() {
 
   return (
     <div>
-     <header style={{ backgroundColor: "#070D79", display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px' }}>
-    {/* Left Arrow */}
+     {/* <header style={{ backgroundColor: "#8488BF", display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px' }}>
+
     <ArrowLeftOutlined onClick={previousPage} className="back-button" style={{ marginLeft: '25px' }} />
 
-    {/* Center Title */}
+   
     <div style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
-      <h1 className="page-title" style={{ margin: 0 }}>{'Doctor 360'}</h1>
+      <h1 className="page-title" style={{ margin: 0 }}>{'Customer'}</h1>
     </div>
 
-    {/* Placeholder for balancing layout */}
+  
     <div style={{ width: '25px', marginRight: '25px' }}></div>
-  </header>
+  </header> */}
+    <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }} >
+        <ArrowLeftOutlined onClick={previousPage} className="back-button" />
+        <h1 className="page-title pr-18">Customer</h1> 
+      </header>
   <div style={{paddingRight:'1px'}}>
       <Flex justify="space-between" align="center">
         <Breadcrumb

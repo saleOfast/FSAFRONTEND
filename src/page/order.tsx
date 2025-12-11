@@ -6,6 +6,8 @@ import {
   PlusOutlined,
   SearchOutlined,
   ShopOutlined,
+  AppstoreOutlined,
+  UnorderedListOutlined,
 } from "@ant-design/icons";
 import { Button, Input, Select, Skeleton, message } from "antd";
 import React, { useCallback, useEffect, useState, useMemo } from "react";
@@ -17,6 +19,7 @@ import { getAllOrdersListService, updateOrderTrackStatusService, createOrderServ
 import { getStoreByIdService } from "services/storeService";
 import { dateFormatter } from "utils/common";
 import "../style/order.css";
+import "../style/stores.css";
 import { DurationEnum, UserRole, VisitTypeEnum } from "enum/common";
 import previousPage from "utils/previousPage";
 import { IPagination } from "types/Common";
@@ -47,6 +50,7 @@ export default function Order() {
   let [selectedStore, setSelectedStore] = useState<any>();
   let [selectedVisitType, setSelectedVisitType] = useState<any>(null);
   const navigate = useNavigate();
+  const [gridView, setGridView] = useState(true);
 
   const dispatch = useDispatch<AppDispatch>();
   // ... (previous imports remain the same)
@@ -265,6 +269,14 @@ export default function Order() {
       .join(" ");
   };
 
+  const handleGridView = () => {
+    setGridView(true);
+  };
+
+  const handleListView = () => {
+    setGridView(false);
+  };
+
   const [toggleDelete, setToggleDelete] = useState(false);
   const [specialDiscountStatus, setSpecialDiscountStatus] = useState<any>();
   const [orderDiscountId, setOrderDiscountId] = useState<any>();
@@ -298,7 +310,7 @@ export default function Order() {
             <PlusOutlined className="plusIcon" />
           </div>
         </Link>}
-      <div className="store-v1">
+      <div>
         <header
           className="heading heading-container"
           style={{ backgroundColor: "#8488BF" }}
@@ -313,6 +325,14 @@ export default function Order() {
               placeholder="Search Order by Id, Store Name, Store Category"
               onChange={searchStore}
             />
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                <AppstoreOutlined style={{ fontSize: '15px' }} onClick={handleGridView} />
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', marginRight: '10px' }}>
+                <UnorderedListOutlined style={{ fontSize: '15px' }} onClick={handleListView} />
+              </div>
+            </div>
             <Select
               // defaultValue="all"
               className="selectFiltBtn"
@@ -341,20 +361,22 @@ export default function Order() {
               onChange={handleChange}
             />
           </div>
-          <div
-            className="content"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "20px",
-              marginTop: "24px",
-              marginBottom: "10px",
-            }}
-          >
-            {
-              orderList && orderList?.length > 0 && orderList.map((data: any, index: any) => {
+          {/* Grid/List View Section */}
+          {gridView ? (
+            <div
+              className="content"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "20px",
+                marginTop: "24px",
+                marginBottom: "10px",
+              }}
+            >
+              {
+                orderList && orderList?.length > 0 && orderList.map((data: any, index: any) => {
                 const { isCallType, orderId, store, orderDate, storeId, products, orderStatus, specialDiscountValue, specialDiscountStatus, specialDiscountComment, paymentStatus } = data;
-                console.log(store, "========store=====");
+                
                 return (
                   <div className="store-list" key={`order-${orderId}`}>
                     <div className="order-content" key={index}>
@@ -493,18 +515,80 @@ export default function Order() {
                   </div>
                 );
               })
-              // :
-              // skeleton?.map((item:any, index:any) => {
-              //   return (
-              //     <div key={index}>
-              //         <div className="store-list">
-              //         <Skeleton active />
-              //         </div>
-              //     </div>
-              //   );
-              // })
             }
-          </div>
+            </div>
+          ) : (
+            <table className="store-table3" style={{ textDecoration: 'none', fontSize: '13px', width: '100%', marginTop: '20px' }}>
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Store Name</th>
+                  <th>Store Category</th>
+                  <th>Store ID</th>
+                  <th>Order Date</th>
+                  <th>Order Status</th>
+                  <th>Payment Status</th>
+                  <th>Special Discount</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orderList && orderList.length > 0 && orderList.map((data: any, index: any) => {
+                  const { isCallType, orderId, store, orderDate, storeId, products, orderStatus, specialDiscountValue, specialDiscountStatus, specialDiscountComment, paymentStatus } = data;
+                  
+                  const getStatusColor = (status: string) => {
+                    if (status === OrderStatus.CANCELLED) return "red";
+                    if (status === OrderStatus.DELIVERED) return "green";
+                    if (status === OrderStatus.ORDERSAVED) return "#bf7b04";
+                    return "green";
+                  };
+
+                  return (
+                    <tr key={index}>
+                      <td>
+                        <Link
+                          to={`/order/order-summary/${orderId}`}
+                          style={{ textDecoration: 'none', color: '#1890ff', cursor: 'pointer' }}
+                        >
+                          {orderId}
+                        </Link>
+                      </td>
+                      <td>{store?.storeName || '-'}</td>
+                      <td>{store?.storeCat?.categoryName || '-'}</td>
+                      <td>{storeId || '-'}</td>
+                      <td>{dateFormatter(orderDate, "dd-MMM-yyyy")}</td>
+                      <td>
+                        <span style={{ color: getStatusColor(orderStatus) }}>
+                          {formatStatus(orderStatus)}
+                        </span>
+                      </td>
+                      <td>
+                        {authState?.user?.role === UserRole.RETAILER && orderStatus !== OrderStatus.CANCELLED ? (
+                          <span style={{ color: paymentStatus === PaymentStatus.PENDING ? "red" : "green" }}>
+                            {paymentStatus}
+                          </span>
+                        ) : '-'}
+                      </td>
+                      <td>
+                        {specialDiscountValue && Number(specialDiscountValue) > 0 ? (
+                          <span>{Number(specialDiscountValue)}%</span>
+                        ) : '-'}
+                      </td>
+                      <td>
+                        <Button
+                          style={{ background: "#e3a66d", fontWeight: "bold", color: "black" }}
+                          type="primary"
+                          onClick={() => handleReorder(orderId)}
+                        >
+                          Reorder
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
           {
             totalRecords > 0 && orderList.length < totalRecords &&
             <LoadMore isLoading={isLoading} onClick={handleLoadMore} />

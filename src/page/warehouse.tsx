@@ -1,4 +1,4 @@
-import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, PlusOutlined, AppstoreOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import {
     Button,
     Card,
@@ -23,6 +23,7 @@ import type { ColumnsType } from 'antd/es/table';
 import type { Breakpoint } from 'antd/es/_util/responsiveObserver';
 import { SearchOutlined } from "@ant-design/icons";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import "../style/stores.css";
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -56,6 +57,19 @@ const Warehouse = () => {
     const [form] = Form.useForm();
     const [editForm] = Form.useForm();
     const screens = useBreakpoint();
+    
+    // Load gridView preference from localStorage or default to true
+    const getDefaultGridView = () => {
+        const saved = localStorage.getItem('warehousePageGridView');
+        if (saved !== null) {
+            return saved === 'true';
+        }
+        return true; // Default to grid view
+    };
+    
+    const [gridView, setGridView] = useState(getDefaultGridView());
+    const [searchValue, setSearchValue] = useState("");
+    const [statusFilter, setStatusFilter] = useState("all");
     const [data, setData] = useState<WarehouseData[]>([
         {
             key: '1',
@@ -114,7 +128,151 @@ const Warehouse = () => {
             operationalHours: '09:00 - 19:00',
             managerContact: '(555) 456-7890'
         },
+        {
+            key: '4',
+            id: 'WH004',
+            name: 'East Coast Distribution Hub',
+            location: 'New York, NY',
+            type: 'Distribution',
+            manager: 'Michael Brown',
+            capacity: '75,000 sq ft',
+            status: 'Active',
+            address: '321 Broadway',
+            city: 'New York',
+            state: 'NY',
+            zip: '10001',
+            contactPerson: 'Michael Brown',
+            contactPhone: '(555) 111-2222',
+            email: 'michael@example.com',
+            operationalHours: '06:00 - 20:00',
+            managerContact: '(555) 111-2222'
+        },
+        {
+            key: '5',
+            id: 'WH005',
+            name: 'Midwest Storage Center',
+            location: 'Chicago, IL',
+            type: 'Storage',
+            manager: 'Jennifer Wilson',
+            capacity: '40,000 sq ft',
+            status: 'Active',
+            address: '555 Michigan Ave',
+            city: 'Chicago',
+            state: 'IL',
+            zip: '60601',
+            contactPerson: 'Jennifer Wilson',
+            contactPhone: '(555) 333-4444',
+            email: 'jennifer@example.com',
+            operationalHours: '07:00 - 19:00',
+            managerContact: '(555) 333-4444'
+        },
+        {
+            key: '6',
+            id: 'WH006',
+            name: 'Southern Regional Warehouse',
+            location: 'Houston, TX',
+            type: 'Distribution',
+            manager: 'David Martinez',
+            capacity: '60,000 sq ft',
+            status: 'Active',
+            address: '888 Main Street',
+            city: 'Houston',
+            state: 'TX',
+            zip: '77001',
+            contactPerson: 'David Martinez',
+            contactPhone: '(555) 555-6666',
+            email: 'david@example.com',
+            operationalHours: '08:00 - 18:00',
+            managerContact: '(555) 555-6666'
+        },
+        {
+            key: '7',
+            id: 'WH007',
+            name: 'Pacific Northwest Facility',
+            location: 'Seattle, WA',
+            type: 'Storage',
+            manager: 'Emily Davis',
+            capacity: '35,000 sq ft',
+            status: 'Active',
+            address: '999 Pine Street',
+            city: 'Seattle',
+            state: 'WA',
+            zip: '98101',
+            contactPerson: 'Emily Davis',
+            contactPhone: '(555) 777-8888',
+            email: 'emily@example.com',
+            operationalHours: '08:00 - 17:00',
+            managerContact: '(555) 777-8888'
+        },
+        {
+            key: '8',
+            id: 'WH008',
+            name: 'Arizona Logistics Center',
+            location: 'Phoenix, AZ',
+            type: 'Distribution',
+            manager: 'James Anderson',
+            capacity: '45,000 sq ft',
+            status: 'Inactive',
+            address: '777 Central Ave',
+            city: 'Phoenix',
+            state: 'AZ',
+            zip: '85001',
+            contactPerson: 'James Anderson',
+            contactPhone: '(555) 999-0000',
+            email: 'james@example.com',
+            operationalHours: '09:00 - 18:00',
+            managerContact: '(555) 999-0000'
+        },
+        {
+            key: '9',
+            id: 'WH009',
+            name: 'Florida Distribution Point',
+            location: 'Miami, FL',
+            type: 'Distribution',
+            manager: 'Maria Garcia',
+            capacity: '55,000 sq ft',
+            status: 'Active',
+            address: '666 Ocean Drive',
+            city: 'Miami',
+            state: 'FL',
+            zip: '33101',
+            contactPerson: 'Maria Garcia',
+            contactPhone: '(555) 222-3333',
+            email: 'maria@example.com',
+            operationalHours: '07:00 - 19:00',
+            managerContact: '(555) 222-3333'
+        },
     ]);
+
+    const handleGridView = () => {
+        setGridView(true);
+        localStorage.setItem('warehousePageGridView', 'true');
+    };
+    
+    const handleListView = () => {
+        setGridView(false);
+        localStorage.setItem('warehousePageGridView', 'false');
+    };
+    
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSearchValue(value);
+    };
+    
+    const filteredData = data.filter((item) => {
+        const matchesSearch = !searchValue || 
+            item.id?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.name?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.location?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.type?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.status?.toLowerCase().includes(searchValue.toLowerCase());
+        
+        const matchesStatus = statusFilter === 'all' || 
+            (statusFilter === 'active' && item.status === 'Active') ||
+            (statusFilter === 'inactive' && item.status === 'Inactive');
+        
+        return matchesSearch && matchesStatus;
+    });
 
     const handleDelete = (record: WarehouseData) => {
         // Filter out the deleted item
@@ -543,7 +701,7 @@ const Warehouse = () => {
     };
 
     return (
-        <div style={{ backgroundColor: '#f4f6fa', minHeight: '100vh', overflowX: 'hidden' }} className='warehouse-page'>
+        <div  style={{  fontFamily: 'roboto' }}>
             {/* Header */}
             <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
                 <ArrowLeftOutlined onClick={previousPage} className="back-button" />
@@ -561,7 +719,7 @@ const Warehouse = () => {
                         backgroundColor: '#ffffff',
                     }}
                     bodyStyle={{
-                        padding: '24px',
+                        padding: '4px',
                     }}
                 >
                     <Row gutter={[16, 16]} align="middle">
@@ -613,49 +771,155 @@ const Warehouse = () => {
                         </Col>
                     </Row>
                 </Card>
-                <Row gutter={12} style={{ marginBottom: 16 }}>
-                    {/* Search Input */}
-                    <Col flex="auto">
-                        <Input
-                            prefix={<SearchOutlined style={{ color: "#B0B0B0", padding: '18px' }} />}
-                            placeholder="Search warehouses by name, ID, or city..."
-                            size="large"
-                            allowClear
-                            style={{ width: '100%' }}
-                        />
-                    </Col>
-
-                    {/* Status Filter */}
-                    <Col>
-                        <Select
-                            defaultValue="all"
-                            size="large"
-                            style={{ width: '100%', minWidth: 150, height: '50px' }}
-                            suffixIcon={<span style={{ fontSize: "12px" }}>▼</span>}
-                        >
-                            <Option value="all">All Status</Option>
-                            <Option value="active">Active</Option>
-                            <Option value="inactive">Inactive</Option>
-                            <Option value="archived">Archived</Option>
-                        </Select>
-                    </Col>
-                </Row>
-
-                {/* Table Section */}
-                <div style={{ marginTop: '32px', overflowX: 'hidden' }}>
-                    <h2 style={{ fontSize: '20px', marginBottom: '16px' }}>
-                        Warehouses ({data.length})
-                    </h2>
-                    <div style={{ overflowX: 'auto', width: '100%' }}>
-                        <Table
-                            columns={columns}
-                            dataSource={data}
-                            pagination={{ pageSize: 5 }}
-                            bordered
-                            scroll={{ x: 'max-content' }}
-                            style={{ width: '100%' }}
-                        />
+                <div className="search">
+                    <Input
+                        prefix={<SearchOutlined />}
+                        placeholder="Search warehouses by name, ID, location, type, or status..."
+                        value={searchValue}
+                        onChange={handleSearch}
+                        allowClear
+                    />
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                            <AppstoreOutlined style={{ fontSize: '15px' }} onClick={handleGridView} />
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', marginRight: '10px' }}>
+                            <UnorderedListOutlined style={{ fontSize: '15px' }} onClick={handleListView} />
+                        </div>
                     </div>
+                    <Select
+                        defaultValue="all"
+                        className="w-130"
+                        value={statusFilter}
+                        onChange={(value) => setStatusFilter(value)}
+                    >
+                        <Option value="all">All Status</Option>
+                        <Option value="active">Active</Option>
+                        <Option value="inactive">Inactive</Option>
+                    </Select>
+                </div>
+
+                {/* Grid/List View Section */}
+                <div style={{ marginTop: '24px' }}>
+                    <h2 style={{ fontSize: '20px', marginBottom: '16px' }}>
+                        Warehouses ({filteredData.length})
+                    </h2>
+                    
+                    {gridView ? (
+                        <div
+                            className="content"
+                            style={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                gap: "20px",
+                                marginTop: "24px",
+                                marginBottom: "10px",
+                            }}
+                        >
+                            {filteredData && filteredData.length > 0 && filteredData.map((item, index) => {
+                                const getStatusColor = (status: string) => {
+                                    switch (status) {
+                                        case "Active":
+                                            return "#2DB83D";
+                                        default:
+                                            return "#e61b23";
+                                    }
+                                };
+
+                                return (
+                                    <div key={index}>
+                                        <div
+                                            className="store-list"
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={() => handleViewClick(item)}
+                                        >
+                                            <div className="shoptitle">
+                                                <div className="fontb">{item?.name}</div>
+                                                <div
+                                                    style={{
+                                                        background: getStatusColor(item?.status),
+                                                        padding: '4px 8px',
+                                                        borderRadius: '4px',
+                                                        color: 'white',
+                                                        fontSize: '12px'
+                                                    }}
+                                                >
+                                                    {item?.status}
+                                                </div>
+                                            </div>
+                                            <div className="storeConlist">
+                                                <div>
+                                                    <div className="storeIdTxt">
+                                                        ID: {item?.id} | Type: {item?.type}
+                                                    </div>
+                                                    <div className="fs-13">Location: <span className="fw-bold">{item?.location}</span></div>
+                                                    <div className="fs-13">Manager: <span className="fw-bold">{item?.manager}</span></div>
+                                                    <div className="fs-13">Capacity: <span className="fw-bold">{item?.capacity}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <table className="store-table" style={{ textDecoration: 'none', fontSize: '13px', width: '100%' }}>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Location</th>
+                                    <th>Type</th>
+                                    <th>Manager</th>
+                                    <th>Capacity</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredData?.map((item, index) => {
+                                    const getStatusColor = (status: string) => {
+                                        switch (status) {
+                                            case "Active":
+                                                return "#2DB83D";
+                                            default:
+                                                return "#e61b23";
+                                        }
+                                    };
+
+                                    return (
+                                        <tr key={index}>
+                                            <td>
+                                                <a
+                                                    onClick={() => handleViewClick(item)}
+                                                    style={{ textDecoration: 'none', color: '#1890ff', cursor: 'pointer' }}
+                                                >
+                                                    {item?.id}
+                                                </a>
+                                            </td>
+                                            <td>{item?.name}</td>
+                                            <td>{item?.location}</td>
+                                            <td>{item?.type}</td>
+                                            <td>{item?.manager}</td>
+                                            <td>{item?.capacity}</td>
+                                            <td>
+                                                <span
+                                                    style={{
+                                                        background: getStatusColor(item?.status),
+                                                        padding: '4px 8px',
+                                                        borderRadius: '4px',
+                                                        color: 'white',
+                                                        fontSize: '12px'
+                                                    }}
+                                                >
+                                                    {item?.status}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    )}
                 </div>
             </div>
             
@@ -671,9 +935,9 @@ const Warehouse = () => {
                 style={{ top: 20 }}
                 bodyStyle={{ 
                     maxHeight: '70vh', 
-                    overflowY: 'auto',
                     padding: '24px',
-                    overflowX: 'hidden'
+                    overflowX: 'hidden',
+                    overflowY: 'auto'
                 }}
                 maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 getContainer={false}
@@ -876,9 +1140,9 @@ const Warehouse = () => {
                 style={{ top: 20 }}
                 bodyStyle={{ 
                     maxHeight: '70vh', 
-                    overflowY: 'auto',
                     padding: '24px',
-                    overflowX: 'hidden'
+                    overflowX: 'hidden',
+                    overflowY: 'auto'
                 }}
                 maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 getContainer={false}

@@ -4,6 +4,7 @@ body.main_body {
     position: relative;
     padding-bottom: 70px;
 }
+
 .upper_header {
     background: var(--bg-color-p1);
     padding: 26px 0;
@@ -256,13 +257,15 @@ body.main_body {
     padding: 0;
     display: block;
 }
+
 .footerRespons ul li {
     display: inline-block;
     width: 20%;
     text-align: center;
-   
+
 
 }
+
 footer ul li a .home_icon {
     color: #ffffff;
     font-size: 38px;
@@ -433,4 +436,556 @@ footer ul li.active-store a span {
 .side_menu ul li.active a,
 .side_menu ul li.active .home_icon {
     color: var(--bg-color-p0);
+}
+
+.grey-background {
+    background-color: #fafafa;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.88);
+}
+
+.table-row-total {
+    background-color: #fafafa !important;
+}
+
+/* Enhanced Delivery Section Styles */
+.delivery-section-enhanced {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f0f0;
+}
+
+.delivery-header-enhanced {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.status-overview {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex: 1;
+    gap: 16px;
+}
+
+.status-icon-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+}
+
+.status-text-container {
+    flex: 1;
+}
+
+.status-title {
+    margin: 0 0 8px 0;
+    color: #1f2937;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.status-description {
+    margin: 0;
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.status-badge-large {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+.delivery-info-card {
+    background: linear-gradient(135deg, #fff7ed, #fed7aa);
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #fdba74;
+    min-width: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.info-card-icon {
+    color: #f59e0b;
+    font-size: 16px;
+}
+
+.estimated-date-highlight {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.delivery-today-badge {
+    background: #10b981;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Progress Tracking */
+.progress-tracking-section {
+    margin-bottom: 24px;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.progress-header h4 {
+    margin: 0;
+    color: #1f2937;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.progress-text {
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.progress-container-enhanced {
+    position: relative;
+}
+
+.progress-bar-enhanced {
+    width: 100%;
+    height: 8px;
+    background: #f3f4f6;
+    border-radius: 4px;
+    margin-bottom: 40px;
+    overflow: hidden;
+}
+
+.progress-fill-enhanced {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Steps Grid */
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    position: relative;
+}
+
+.step-item-enhanced {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.step-indicator-enhanced {
+    margin-bottom: 12px;
+    z-index: 2;
+}
+
+.step-dot-enhanced {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.step-icon-completed {
+    color: #8488BF !important;
+    font-size: 30px !important;
+}
+
+.step-item-enhanced.completed .step-dot-enhanced {
+    background: #10b981;
+    border-color: #10b981;
+}
+
+.step-item-enhanced.active .step-dot-enhanced {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+.step-content-enhanced {
+    max-width: 180px;
+}
+
+.step-title-enhanced {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.step-date-enhanced {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.step-description {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+
+.step-badge-current {
+    background: #8488BF;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* Status Timeline Enhanced */
+.status-timeline-enhanced {
+    border-top: 1px solid #f3f4f6;
+    padding-top: 20px;
+}
+
+.status-timeline-enhanced h4 {
+    margin: 0 0 16px 0;
+    color: #1f2937;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.timeline-items-enhanced {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.timeline-item-enhanced {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 12px;
+    background: #fafafa;
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+.timeline-marker-enhanced {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+.timeline-content-enhanced {
+    flex: 1;
+}
+
+.timeline-status-enhanced {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 2px;
+}
+
+.timeline-date-enhanced {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* Responsive Design for Main Components */
+.card-header-responsive {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.order-type {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.order-type-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 18px;
+}
+
+.download_invoice {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: #3b82f6;
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+.action-buttons-responsive {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+}
+
+.action-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.action-btn.primary {
+    background: #4d8c4a;
+    color: white;
+    border: none;
+}
+
+.details-btn {
+    background: #e3a66d;
+    color: black;
+    font-weight: bold;
+    margin-left: 12px;
+    border: none;
+}
+
+.items-table-responsive {
+    overflow-x: auto;
+}
+
+.items_details {
+    width: 100%;
+    min-width: 300px;
+}
+
+.product-name {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.product-details {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.case-count,
+.piece-count {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.product-price {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.card-responsive {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.table-container-responsive {
+    overflow-x: auto;
+}
+
+.bill_details_table,
+.payment-records-table {
+    width: 100%;
+    min-width: 500px;
+}
+
+.divider-row td {
+    padding: 8px 0;
+}
+
+.divider-row hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 0;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.order-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+}
+
+.order-detail-item {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+.order-detail-item p {
+    margin: 0 0 4px 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.order-detail-item span {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .delivery-header-enhanced {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .status-overview {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .status-icon-title {
+        /* flex-direction: column; */
+        text-align: center;
+        gap: 12px;
+    }
+
+    .status-title {
+        font-size: 16px;
+    }
+
+    .delivery-info-card {
+        width: 100%;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .step-item-enhanced {
+        flex-direction: row;
+        text-align: left;
+        gap: 16px;
+        align-items: flex-start;
+    }
+
+    .step-content-enhanced {
+        max-width: none;
+        flex: 1;
+    }
+
+    .card-header-responsive {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .left_card_inside,
+    .right_card_inside {
+        width: 100%;
+    }
+
+    .action-buttons-responsive {
+        justify-content: center;
+    }
+
+    .items-section h4 {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .details-btn {
+        margin-left: 0;
+    }
+
+    .order-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-records-section {
+        overflow-x: auto;
+    }
+
+    .payment-records-table {
+        min-width: 700px;
+        font-size: 12px;
+    }
+
+    .main_cls {
+        padding: 12px;
+    }
+
+    .order_summary_card {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .delivery-section-enhanced {
+        padding: 16px;
+    }
+
+    .status-title {
+        font-size: 18px;
+    }
+
+    .step-item-enhanced {
+        /* flex-direction: column; */
+        text-align: center;
+        gap: 12px;
+    }
+
+    .action-buttons-responsive {
+        flex-direction: column;
+    }
+
+    .action-btn,
+    .details-btn {
+        width: 100%;
+        justify-content: center;
+    }
 }

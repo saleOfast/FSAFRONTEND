@@ -1,15 +1,13 @@
-import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, PlusOutlined, AppstoreOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import {
     Button,
     Card,
     Col,
     Row,
-    Space,
-    Table,
     Tag,
     Grid,
     Select,
-    Input,
+    Input,                                                                                                                                                                                                                                                                                                                                                      
     Form,
     Modal,
     Descriptions,
@@ -19,10 +17,10 @@ import {
 } from 'antd';
 import React, { useState } from 'react';
 import previousPage from 'utils/previousPage';
-import type { ColumnsType } from 'antd/es/table';
 import type { Breakpoint } from 'antd/es/_util/responsiveObserver';
 import { SearchOutlined } from "@ant-design/icons";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import '../style/stores.css';
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -61,6 +59,7 @@ const Storeinfo = () => {
     const [form] = Form.useForm();
     const [editForm] = Form.useForm();
     const screens = useBreakpoint();
+    const [gridView, setGridView] = useState(true);
     const [data, setData] = useState<Store[]>([
         {
             storeId: "STR001",
@@ -86,82 +85,247 @@ const Storeinfo = () => {
             createdBy: "System Admin",
             lastModifiedBy: "Store Manager",
         },
+        {
+            storeId: "STR002",
+            storeName: "Super Store",
+            customerId: "CUST1002",
+            location: {
+                address: "456 Park Avenue",
+                city: "Delhi",
+                state: "Delhi",
+                zip: "110001",
+            },
+            contactPerson: "Priya Sharma",
+            contactPhone: "+91-9876543211",
+            email: "priya@superstore.com",
+            capacity: 750,
+            storeType: "Retail",
+            operationalHours: "8:00 AM - 9:00 PM",
+            managerName: "Rajesh Singh",
+            managerContact: "+91-9123456790",
+            status: "Active",
+            createdDate: "2025-01-05T11:00:00Z",
+            lastUpdatedDate: "2025-08-21T16:00:00Z",
+            createdBy: "System Admin",
+            lastModifiedBy: "Store Manager",
+        },
+        {
+            storeId: "STR003",
+            storeName: "Mega Mall",
+            customerId: "CUST1003",
+            location: {
+                address: "789 MG Road",
+                city: "Bangalore",
+                state: "Karnataka",
+                zip: "560001",
+            },
+            contactPerson: "Anil Kumar",
+            contactPhone: "+91-9876543212",
+            email: "anil@megamall.com",
+            capacity: 1000,
+            storeType: "Warehouse",
+            operationalHours: "7:00 AM - 11:00 PM",
+            managerName: "Suresh Reddy",
+            managerContact: "+91-9123456791",
+            status: "Active",
+            createdDate: "2025-01-10T09:30:00Z",
+            lastUpdatedDate: "2025-08-22T14:30:00Z",
+            createdBy: "System Admin",
+            lastModifiedBy: "Store Manager",
+        },
+        {
+            storeId: "STR004",
+            storeName: "City Center",
+            customerId: "CUST1004",
+            location: {
+                address: "321 Commercial Street",
+                city: "Chennai",
+                state: "Tamil Nadu",
+                zip: "600001",
+            },
+            contactPerson: "Lakshmi Iyer",
+            contactPhone: "+91-9876543213",
+            email: "lakshmi@citycenter.com",
+            capacity: 600,
+            storeType: "Retail",
+            operationalHours: "9:00 AM - 10:00 PM",
+            managerName: "Venkat Raman",
+            managerContact: "+91-9123456792",
+            status: "Active",
+            createdDate: "2025-01-15T10:00:00Z",
+            lastUpdatedDate: "2025-08-23T15:00:00Z",
+            createdBy: "System Admin",
+            lastModifiedBy: "Store Manager",
+        },
+        {
+            storeId: "STR005",
+            storeName: "Express Store",
+            customerId: "CUST1005",
+            location: {
+                address: "654 High Street",
+                city: "Pune",
+                state: "Maharashtra",
+                zip: "411001",
+            },
+            contactPerson: "Vikram Patil",
+            contactPhone: "+91-9876543214",
+            email: "vikram@expressstore.com",
+            capacity: 400,
+            storeType: "Retail",
+            operationalHours: "8:00 AM - 9:00 PM",
+            managerName: "Sandeep Desai",
+            managerContact: "+91-9123456793",
+            status: "Active",
+            createdDate: "2025-01-20T11:30:00Z",
+            lastUpdatedDate: "2025-08-24T16:30:00Z",
+            createdBy: "System Admin",
+            lastModifiedBy: "Store Manager",
+        },
+        {
+            storeId: "STR006",
+            storeName: "Prime Retail",
+            customerId: "CUST1006",
+            location: {
+                address: "987 Market Road",
+                city: "Hyderabad",
+                state: "Telangana",
+                zip: "500001",
+            },
+            contactPerson: "Kiran Reddy",
+            contactPhone: "+91-9876543215",
+            email: "kiran@primeretail.com",
+            capacity: 850,
+            storeType: "Franchise",
+            operationalHours: "9:00 AM - 10:00 PM",
+            managerName: "Ravi Kumar",
+            managerContact: "+91-9123456794",
+            status: "Active",
+            createdDate: "2025-01-25T12:00:00Z",
+            lastUpdatedDate: "2025-08-25T17:00:00Z",
+            createdBy: "System Admin",
+            lastModifiedBy: "Store Manager",
+        },
+        {
+            storeId: "STR007",
+            storeName: "Quick Mart",
+            customerId: "CUST1007",
+            location: {
+                address: "147 Station Road",
+                city: "Kolkata",
+                state: "West Bengal",
+                zip: "700001",
+            },
+            contactPerson: "Soumitra Das",
+            contactPhone: "+91-9876543216",
+            email: "soumitra@quickmart.com",
+            capacity: 350,
+            storeType: "Retail",
+            operationalHours: "7:00 AM - 10:00 PM",
+            managerName: "Amitava Banerjee",
+            managerContact: "+91-9123456795",
+            status: "Active",
+            createdDate: "2025-02-01T10:15:00Z",
+            lastUpdatedDate: "2025-08-26T15:15:00Z",
+            createdBy: "System Admin",
+            lastModifiedBy: "Store Manager",
+        },
+        {
+            storeId: "STR008",
+            storeName: "Global Store",
+            customerId: "CUST1008",
+            location: {
+                address: "258 Business Park",
+                city: "Ahmedabad",
+                state: "Gujarat",
+                zip: "380001",
+            },
+            contactPerson: "Harsh Shah",
+            contactPhone: "+91-9876543217",
+            email: "harsh@globalstore.com",
+            capacity: 900,
+            storeType: "Warehouse",
+            operationalHours: "8:00 AM - 8:00 PM",
+            managerName: "Jayesh Patel",
+            managerContact: "+91-9123456796",
+            status: "Active",
+            createdDate: "2025-02-05T09:45:00Z",
+            lastUpdatedDate: "2025-08-27T14:45:00Z",
+            createdBy: "System Admin",
+            lastModifiedBy: "Store Manager",
+        },
+        {
+            storeId: "STR009",
+            storeName: "Metro Store",
+            customerId: "CUST1009",
+            location: {
+                address: "369 Mall Road",
+                city: "Jaipur",
+                state: "Rajasthan",
+                zip: "302001",
+            },
+            contactPerson: "Arjun Meena",
+            contactPhone: "+91-9876543218",
+            email: "arjun@metrostore.com",
+            capacity: 650,
+            storeType: "Retail",
+            operationalHours: "9:00 AM - 9:00 PM",
+            managerName: "Vikram Rathore",
+            managerContact: "+91-9123456797",
+            status: "Active",
+            createdDate: "2025-02-10T11:00:00Z",
+            lastUpdatedDate: "2025-08-28T16:00:00Z",
+            createdBy: "System Admin",
+            lastModifiedBy: "Store Manager",
+        },
+        {
+            storeId: "STR010",
+            storeName: "Elite Store",
+            customerId: "CUST1010",
+            location: {
+                address: "741 Premium Plaza",
+                city: "Chandigarh",
+                state: "Punjab",
+                zip: "160001",
+            },
+            contactPerson: "Manpreet Singh",
+            contactPhone: "+91-9876543219",
+            email: "manpreet@elitestore.com",
+            capacity: 550,
+            storeType: "Franchise",
+            operationalHours: "10:00 AM - 10:00 PM",
+            managerName: "Gurpreet Kaur",
+            managerContact: "+91-9123456798",
+            status: "Active",
+            createdDate: "2025-02-15T10:30:00Z",
+            lastUpdatedDate: "2025-08-29T15:30:00Z",
+            createdBy: "System Admin",
+            lastModifiedBy: "Store Manager",
+        },
+        {
+            storeId: "STR011",
+            storeName: "Value Store",
+            customerId: "CUST1011",
+            location: {
+                address: "852 Trade Center",
+                city: "Lucknow",
+                state: "Uttar Pradesh",
+                zip: "226001",
+            },
+            contactPerson: "Amit Verma",
+            contactPhone: "+91-9876543220",
+            email: "amit@valuestore.com",
+            capacity: 700,
+            storeType: "Retail",
+            operationalHours: "8:00 AM - 9:00 PM",
+            managerName: "Rohit Tiwari",
+            managerContact: "+91-9123456799",
+            status: "Active",
+            createdDate: "2025-02-20T12:15:00Z",
+            lastUpdatedDate: "2025-08-30T17:15:00Z",
+            createdBy: "System Admin",
+            lastModifiedBy: "Store Manager",
+        },
     ]);
-
-    const columns = [
-        {
-            title: "StoreId ",
-            dataIndex: "storeId",
-            key: "storeId",
-            render: (text: string, record: Store) => (
-                <a
-                    onClick={() => handleViewClick(record)}
-                    style={{ color: '#1890ff', cursor: 'pointer' }}
-                >
-                    {text}
-                </a>
-            ),
-        },
-        {
-            title: "Store Name",
-            dataIndex: "storeName",
-            key: "storeName",
-        },
-        {
-            title: "Address",
-            dataIndex: ["location", "address"],
-            key: "address",
-        },
-        {
-            title: "City",
-            dataIndex: ["location", "city"],
-            key: "city",
-        },
-        {
-            title: "State",
-            dataIndex: ["location", "state"],
-            key: "state",
-        },
-        {
-            title: "Zip",
-            dataIndex: ["location", "zip"],
-            key: "zip",
-        },
-        {
-            title: "Contact Person",
-            dataIndex: "contactPerson",
-            key: "contactPerson",
-        },
-        {
-            title: "Contact Phone",
-            dataIndex: "contactPhone",
-            key: "contactPhone",
-        },
-        {
-            title: "Action",
-            key: "action",
-            render: (_: unknown, record: Store) => (
-                <Space size="middle">
-                    <Popconfirm
-                        title="Delete Store"
-                        description="Are you sure you want to delete this store?"
-                        onConfirm={() => handleDelete(record.storeId)}
-                        okText="Yes"
-                        cancelText="No"
-                        okType="danger"
-                    >
-                        <Button
-                            type="link"
-                            danger
-                            icon={<DeleteOutlined />}
-                            title="Delete Store"
-                        >
-                        </Button>
-                    </Popconfirm>
-                </Space>
-            ),
-        },
-    ];
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => {
@@ -313,6 +477,14 @@ const Storeinfo = () => {
         if (viewingRecord && viewingRecord.storeId === storeId) {
             handleCloseViewEditModal();
         }
+    };
+
+    const handleGridView = () => {
+        setGridView(true);
+    };
+
+    const handleListView = () => {
+        setGridView(false);
     };
 
     const renderViewContent = () => {
@@ -544,7 +716,7 @@ const Storeinfo = () => {
     };
 
     return (
-        <div style={{ backgroundColor: '#f4f6fa', minHeight: '100vh', overflowX: 'hidden' }}>
+        <div style={{ fontFamily: 'roboto' }}>
             {/* Header */}
             <header className="heading heading-container" style={{ backgroundColor: "#8488BF" }}>
                 <ArrowLeftOutlined onClick={previousPage} className="back-button" />
@@ -557,12 +729,13 @@ const Storeinfo = () => {
                 <Card
                     style={{
                         borderRadius: 12,
-                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
+                        boxShadow: 'none',
                         border: 'none',
-                        backgroundColor: '#ffffff',
+                        backgroundColor: 'transparent',
+                        marginLeft: '10px',
                     }}
                     bodyStyle={{
-                        padding: '24px',
+                        padding: '4px',
                     }}
                 >
                     <Row gutter={[16, 16]} align="middle">
@@ -616,45 +789,133 @@ const Storeinfo = () => {
                 </Card>
 
 
-                <Row gutter={12} style={{ marginBottom: 16 }}>
-                    {/* Search Input */}
-                    <Col flex="auto">
-                        <Input
-                            prefix={<SearchOutlined style={{ color: "#B0B0B0", padding: '18px' }} />}
-                            placeholder="Search Store by name, ID, or city..."
-                            size="large"
-                            allowClear
-                            style={{ width: '100%' }}
-                        />
-                    </Col>
-
-                    {/* Status Filter */}
-                    <Col>
+                <div className="search">
+                    <Input
+                        prefix={<SearchOutlined />}
+                        placeholder="Search Store by Name, Category, Id"
+                        allowClear
+                    />
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                            <AppstoreOutlined style={{ fontSize: '15px' }} onClick={handleGridView} />
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', marginRight: '10px' }}>
+                            <UnorderedListOutlined style={{ fontSize: '15px' }} onClick={handleListView} />
+                        </div>
+                    </div>
+                    <div className="filterdiv">
                         <Select
                             defaultValue="all"
-                            size="large"
-                            style={{ width: '100%', minWidth: 150, height: '50px' }}
-                            suffixIcon={<span style={{ fontSize: "12px" }}>▼</span>}
+                            className="w-130"
                         >
                             <Option value="all">All Status</Option>
                             <Option value="active">Active</Option>
                             <Option value="inactive">Inactive</Option>
                             <Option value="archived">Archived</Option>
                         </Select>
-                    </Col>
-                </Row>
-
-                {/* Table Section */}
-                <div style={{ width: '100%', overflowX: 'auto' }}>
-                    <Table<Store>
-                        columns={columns}
-                        dataSource={data}
-                        pagination={{ pageSize: 5 }}
-                        bordered
-                        scroll={{ x: 'max-content' }}
-                        style={{ width: '100%' }}
-                    />
+                    </div>
                 </div>
+
+                {/* Grid/List View Section */}
+                {gridView ? (
+                    <div
+                        className="content"
+                        style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: "20px",
+                            // marginTop: "24px",
+                            marginBottom: "10px",
+                        }}
+                    >
+                        {data && data.length > 0 && data.map((item, index) => {
+                            return (
+                                <div key={index}>
+                                    <div 
+                                        className="store-list"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => handleViewClick(item)}
+                                    >
+                                        <div className="shoptitle">
+                                            <div className="fontb">{item?.storeName}</div>
+                                        </div>
+                                        <div className="storeConlist">
+                                            <div>
+                                                <div className="storeIdTxt">
+                                                    {item?.storeType} | store ID: {item?.storeId}
+                                                </div>
+                                                <div className="flexSpace storeAddTxt">
+                                                    <span>
+                                                        {item?.location?.address}, {item?.location?.city}, {item?.location?.state}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <>
+                       
+                        <table className="store-table1" style={{ textDecoration: 'none', fontSize: '13px' }}>
+                            <thead>
+                                <tr>
+                                    <th>StoreId</th>
+                                    <th>Store Name</th>
+                                    <th>Address</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Zip</th>
+                                    <th>Contact Person</th>
+                                    <th>Contact Phone</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data?.map((item, index) => (
+                                    <tr key={index}>
+                                        <td>
+                                            <a
+                                                onClick={() => handleViewClick(item)}
+                                                style={{ textDecoration: 'none', color: '#1890ff', cursor: 'pointer' }}
+                                            >
+                                                {item?.storeId}
+                                            </a>
+                                        </td>
+                                        <td>{item?.storeName}</td>
+                                        <td>{item?.location?.address}</td>
+                                        <td>{item?.location?.city}</td>
+                                        <td>{item?.location?.state}</td>
+                                        <td>{item?.location?.zip}</td>
+                                        <td>{item?.contactPerson}</td>
+                                        <td>{item?.contactPhone}</td>
+                                        <td>
+                                            <Popconfirm
+                                                title="Delete Store"
+                                                description="Are you sure you want to delete this store?"
+                                                onConfirm={() => handleDelete(item.storeId)}
+                                                okText="Yes"
+                                                cancelText="No"
+                                                okType="danger"
+                                            >
+                                                <Button
+                                                    type="link"
+                                                    danger
+                                                    icon={<DeleteOutlined />}
+                                                    title="Delete Store"
+                                                    style={{ padding: 0 }}
+                                                >
+                                                </Button>
+                                            </Popconfirm>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </>
+                )}
 
             </div>
 
@@ -670,8 +931,8 @@ const Storeinfo = () => {
                 style={{ top: 20 }}
                 bodyStyle={{
                     maxHeight: '70vh',
-                    overflowY: 'auto',
-                    paddingRight: '8px'
+                    paddingRight: '8px',
+                    overflowY: 'auto'
                 }}
                 maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 getContainer={false}
@@ -874,8 +1135,8 @@ const Storeinfo = () => {
                 style={{ top: 20 }}
                 bodyStyle={{
                     maxHeight: '70vh',
-                    overflowY: 'auto',
-                    paddingRight: '8px'
+                    paddingRight: '8px',
+                    overflowY: 'auto'
                 }}
                 maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 getContainer={false}
