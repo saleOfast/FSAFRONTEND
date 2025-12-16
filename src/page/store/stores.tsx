@@ -52,13 +52,13 @@ function Store() {
 
   const [store_data, setStore_data] = useState<IStoreData[]>([]);
   
-  // Load gridView preference from localStorage or default to true
+  // Load gridView preference from localStorage or default to false (List view)
   const getDefaultGridView = () => {
     const saved = localStorage.getItem('storePageGridView');
     if (saved !== null) {
       return saved === 'true';
     }
-    return true; // Default to grid view
+    return false; // Default to list view
   };
   
   const [gridView, setGridView] = useState(getDefaultGridView());
@@ -68,7 +68,11 @@ function Store() {
     { 
       key: 'storeId', 
       label: 'StoreId', 
-      render: (item: IStoreData) => item?.storeId,
+      render: (item: IStoreData) => (
+        <Link to={`/stores/store-details?store_id=${item?.storeId}`} style={{ textDecoration: 'none', color: '#1890ff', cursor: 'pointer' }}>
+          {item?.storeId}
+        </Link>
+      ),
       gridRender: (item: IStoreData) => `Store ID: ${item?.storeId}`
     },
     { 

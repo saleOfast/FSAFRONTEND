@@ -50,7 +50,7 @@ export default function Order() {
   let [selectedStore, setSelectedStore] = useState<any>();
   let [selectedVisitType, setSelectedVisitType] = useState<any>(null);
   const navigate = useNavigate();
-  const [gridView, setGridView] = useState(true);
+  const [gridView, setGridView] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
   // ... (previous imports remain the same)

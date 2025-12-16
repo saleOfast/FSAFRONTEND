@@ -74,13 +74,13 @@ const SchemeAndDiscount = () => {
     const [editForm] = Form.useForm();
     const screens = useBreakpoint();
     
-    // Load gridView preference from localStorage or default to true
+    // Load gridView preference from localStorage or default to false (List view)
     const getDefaultGridView = () => {
         const saved = localStorage.getItem('schemeDiscountPageGridView');
         if (saved !== null) {
             return saved === 'true';
         }
-        return true; // Default to grid view
+        return false; // Default to list view
     };
     
     const [gridView, setGridView] = useState(getDefaultGridView());

@@ -59,7 +59,7 @@ const Storeinfo = () => {
     const [form] = Form.useForm();
     const [editForm] = Form.useForm();
     const screens = useBreakpoint();
-    const [gridView, setGridView] = useState(true);
+    const [gridView, setGridView] = useState(false);
     const [data, setData] = useState<Store[]>([
         {
             storeId: "STR001",

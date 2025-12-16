@@ -57,7 +57,7 @@ const PointOfSalesMaterial = () => {
     const [form] = Form.useForm();
     const [editForm] = Form.useForm();
     const screens = useBreakpoint();
-    const [gridView, setGridView] = useState(true);
+    const [gridView, setGridView] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
     const [data, setData] = useState<POSM[]>([
